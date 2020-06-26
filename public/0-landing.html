@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.1/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/dashmix.css">
+    <link rel="stylesheet" href="assets/css/Ntheme.css">
+    <link rel="stylesheet" href="stye.css">
+</head>
+
+<body>
+    <div id="page-container"
+        class="enable-page-overlay side-scroll page-header-fixed page-header-dark page-header-glass main-content-narrow">
+
+        <!-- Header -->
+        <header id="page-header">
+            <!-- Header Content -->
+            <div class="content-header">
+                <!-- Left Section -->
+                <div>
+                    <!-- Open Search Section -->
+                    <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                    <!-- <button type="button" class="btn btn-dual">
+                        <i class="fa fa-fw fa-search"></i> <span class="ml-1 d-none d-sm-inline-block">Search</span>
+                    </button> -->
+                    <img src="assets/media/logo.png" alt="logo">
+                    <!-- END Open Search Section -->
+                </div>
+                <!-- END Left Section -->
+
+                <!-- Right Section -->
+                <div>
+                    <!-- User Dropdown -->
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn btn-hero-primary" id="page-header-user-dropdown" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-fw fa-user d-sm-none"></i>
+                            <span class="d-none d-sm-inline-block">Sign In</span>
+                        </button>
+                    </div>
+                    <!-- END User Dropdown -->
+                </div>
+                <!-- END Right Section -->
+            </div>
+            <!-- END Header Content -->
+
+            <!-- Header Search -->
+            <div id="page-header-search" class="overlay-header bg-primary">
+                <div class="content-header">
+                    <form class="w-100" action="be_pages_generic_search.html" method="POST">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                                <button type="button" class="btn btn-primary" data-toggle="layout"
+                                    data-action="header_search_off">
+                                    <i class="fa fa-fw fa-times-circle"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="form-control border-0" placeholder="Search or hit ESC.."
+                                id="page-header-search-input" name="page-header-search-input">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END Header Search -->
+
+            <!-- Header Loader -->
+            <!-- Please check out the Loaders page under Components category to see examples of showing/hiding it -->
+            <div id="page-header-loader" class="overlay-header bg-primary-darker">
+                <div class="content-header">
+                    <div class="w-100 text-center">
+                        <i class="fa fa-fw fa-2x fa-sun fa-spin text-white"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- END Header Loader -->
+        </header>
+        <!-- END Header -->
+
+        <!-- Main Container -->
+        <main id="main-container">
+            <!-- Hero -->
+            <div class="bg-image" style="background-image: url('assets/media/photos/background.jpg');">
+                <div class="hero bg-black-50">
+                    <div class="hero-inner">
+                        <div class="content content-full text-center">
+                            <h1 class="display-4 font-w700 text-white mb-3">
+                                Unlimited movies, TV shows, and more.
+                            </h1>
+                            <h2 class="text-white-75 mb-5">Watch anywhere, anytime</h2>
+                            <button type="button" class="btn btn-hero-lg btn-rounded btn-hero-primary mr-1 mb-3">
+                                <i class="si si-rocket mr-1"></i> Join Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Hero -->
+
+        </main>
+        <!-- END Main Container -->
+
+    </div>
+</body>
+
+</html>
