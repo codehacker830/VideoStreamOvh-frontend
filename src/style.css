@@ -4,36 +4,6 @@
     background: rgb(20, 20, 20);
 }
 
-/* .slider-item.hovered {
-    z-index: 4 !important;
-    transform: translate3d(0px, 0px, 0px);
-    transition-duration: 500ms;
-    transition-delay: 0ms;
-}
-
-.bob-card-adult-video-merch{
-    visibility: hidden;
-    width: 100%;
-    height: 100%;
-    top: 0%;
-    left: 0%;
-    transition: all 500ms;
-}
-.bob-card-adult-video-merch.hovered{
-    visibility: visible;
-    width: 195%;
-    height: 195%;
-    top: -47.5%;
-    left: -47.5%;
-}
-.bob-card-adult-video-merch .bob-overlay {
-    opacity: 0 !important;
-    transition: all 200ms !important;
-}
-.bob-card-adult-video-merch.hovered .bob-overlay {
-    opacity: 1 !important;
-} */
-
 .slider-item {
     transition-duration: 500ms;
     transition-delay: 0ms;
@@ -45,4 +15,7 @@
 
 .slider-item.hovered ~ .slider-item {
     transform: translate3d(47.5%, 0, 0);
+}
+.outline-none {
+    outline: none;
 }

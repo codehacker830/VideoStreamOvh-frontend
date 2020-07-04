@@ -22,7 +22,6 @@ class SignIn extends Component {
             else this.props.history.push('/home');
         }
     }
-
     render() {
         return (
             <main id="main-container">

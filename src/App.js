@@ -71,8 +71,8 @@ class App extends Component {
                 <Route path='/pr' component={MainPages} />
 
                 <Route path='/landing' component={Landing} />
-                <Route path='/signin' component={SignIn} />
-                <Route path='/signup' component={SignUp} />
+                <Route path='/sign-in' component={SignIn} />
+                <Route path='/sign-up' component={SignUp} />
 
                 {/* email verification process */}
                 <Route path='/verification' component={EmailVerificaion} />

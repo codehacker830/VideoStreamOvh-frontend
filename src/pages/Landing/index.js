@@ -1,7 +1,33 @@
 import React, { Component } from 'react';
-import './style.css';
+import './style.scoped.css';
+import { Link } from 'react-router-dom';
 
+function CloseSvg() {
+    return (
+        <svg id="thin-x" viewBox="0 0 26 26" className="svg-icon svg-icon-thin-x svg-open" focusable="true">
+            <path 
+                d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
+            </path>
+        </svg>
+    );
+}
+function OpenSvg() {
+    return (
+        <svg id="thin-x" viewBox="0 0 26 26" className="svg-icon svg-icon-thin-x svg-closed" focusable="true">
+            <path
+                d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
+            </path>
+        </svg>
+    );
+}
 class Landing extends Component {
+    state = {
+        isOpenQ1: false,
+        isOpenQ2: false,
+        isOpenQ3: false,
+        isOpenQ4: false,
+        isOpenQ5: false        
+    }
     render() {
         return (
             <div className="basicLayout">
@@ -17,7 +43,7 @@ class Landing extends Component {
                                                 className="svg-icon svg-icon-netflix-logo" focusable="false" />
                                             <span className="screen-reader-text">VideoStream</span>
                                         </span>
-                                        <a href="/login" className="authLinks redButton" data-uia="header-login-link">Sign In</a>
+                                        <Link to="/sign-in" className="authLinks redButton" data-uia="header-login-link">Sign In</Link>
                                     </div>
                                 </div>
                                 <div className="our-story-cards" data-uia-our-story="our-story-cards">
@@ -41,10 +67,12 @@ class Landing extends Component {
                                             <div className="cta-form email-form" data-uia="email-form">
                                                 <h3 className="email-form-title">Ready to watch? Register now.</h3>
                                                 <div className="email-form-lockup">
-                                                    <div className="our-story-cta-container cta-link-wrapper"><button
-                                                        className="btn btn-red nmhp-cta nmhp-cta-extra-large btn-none btn-custom"
+                                                    <div className="our-story-cta-container cta-link-wrapper">
+                                                        <button
+                                                        className="btn btn-red nmhp-cta nmhp-cta-extra-large btn-none btn-custom outline-none"
                                                         type="submit" autoComplete="off" tabIndex="0" role="link"
-                                                        data-uia="our-story-cta-hero_fuji"><span id=""
+                                                        data-uia="our-story-cta-hero_fuji">
+                                                            <span id=""
                                                             className="cta-btn-txt" data-uia="">REGISTER NOW</span>
                                                         <span id="" className="chevron-right-arrow" data-uia="">
                                                             <svg viewBox="0 0 6 12" xmlns="http://www.w3.org/2000/svg">
@@ -157,15 +185,13 @@ class Landing extends Component {
                                                     <h1 id="" className="our-story-card-title" data-uia="faq-title">Frequently Asked Questions</h1>
                                                     <ul className="faq-list">
                                                         <li className="faq-list-item" data-uia-our-story="faq-list-item">
-                                                            <button className="faq-question">What is VideoStream?<svg id="thin-x"
-                                                                viewBox="0 0 26 26" className="svg-icon svg-icon-thin-x svg-closed"
-                                                                focusable="true">
-                                                                <path
-                                                                    d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                                                                </path>
-                                                            </svg>
+                                                            <button className="faq-question" onClick={() => this.setState({isOpenQ1: !this.state.isOpenQ1})}>What is VideoStream?
+                                                                {this.state.isOpenQ1 ? 
+                                                                <CloseSvg />
+                                                                : <OpenSvg />
+                                                                }
                                                             </button>
-                                                            <div className="faq-answer open">
+                                                            <div className={`faq-answer ${this.state.isOpenQ1 ? "open": "closed"}`}>
                                                                 <span id="" data-uia="">
                                                                     VideoStream is a streaming service that offers a wide variety of award-winning TV
                                                                     shows, movies, anime, documentaries, and more on thousands of internet-connected devices.
@@ -177,15 +203,14 @@ class Landing extends Component {
                                                                 </span>
                                                             </div>
                                                         </li>
-                                                        <li className="faq-list-item" data-uia-our-story="faq-list-item"><button
-                                                            className="faq-question">How much does VideoStream cost?<svg id="thin-x"
-                                                                viewBox="0 0 26 26" className="svg-icon svg-icon-thin-x svg-closed"
-                                                                focusable="true">
-                                                                <path
-                                                                    d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                                                                </path>
-                                                            </svg></button>
-                                                            <div className="faq-answer closed"><span id="" data-uia="">
+                                                        <li className="faq-list-item" data-uia-our-story="faq-list-item">
+                                                            <button className="faq-question" onClick={() => this.setState({isOpenQ2: !this.state.isOpenQ2})}>How much does VideoStream cost?
+                                                                {this.state.isOpenQ2 ? 
+                                                                    <CloseSvg />
+                                                                    : <OpenSvg />
+                                                                }
+                                                            </button>
+                                                            <div className={`faq-answer ${this.state.isOpenQ2 ? "open": "closed"}`}><span id="" data-uia="">
                                                                 Watch VideoStream on
                                                                 your smartphone, tablet, Smart TV, laptop, or streaming device,
                                                                 all for one fixed monthly fee. Plans range from $8.99 to $15.99
@@ -193,16 +218,14 @@ class Landing extends Component {
                                                                 </span>
                                                             </div>
                                                         </li>
-                                                        <li className="faq-list-item" data-uia-our-story="faq-list-item"><button
-                                                            className="faq-question">Where can I watch?<svg id="thin-x"
-                                                                viewBox="0 0 26 26" className="svg-icon svg-icon-thin-x svg-closed"
-                                                                focusable="true">
-                                                                <path
-                                                                    d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                                                                </path>
-                                                            </svg>
+                                                        <li className="faq-list-item" data-uia-our-story="faq-list-item">
+                                                        <button className="faq-question"  onClick={() => this.setState({isOpenQ3: !this.state.isOpenQ3})}>Where can I watch?
+                                                            {this.state.isOpenQ3 ? 
+                                                                    <CloseSvg />
+                                                                    : <OpenSvg />
+                                                                }   
                                                         </button>
-                                                            <div className="faq-answer closed">
+                                                            <div className={`faq-answer ${this.state.isOpenQ3 ? "open": "closed"}`}>
                                                                 <span id="" data-uia="">
                                                                     Watch anywhere, anytime, on an unlimited number of devices. Sign in with your
                                                                     VideoStream account to watch instantly on the web at
@@ -216,34 +239,32 @@ class Landing extends Component {
                                                                 </span>
                                                             </div>
                                                         </li>
-                                                                <li className="faq-list-item" data-uia-our-story="faq-list-item"><button
-                                                                    className="faq-question">How do I cancel?<svg id="thin-x"
-                                                                        viewBox="0 0 26 26" className="svg-icon svg-icon-thin-x svg-closed"
-                                                                        focusable="true">
-                                                                        <path
-                                                                            d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                                                                        </path>
-                                                                    </svg>
+                                                                <li className="faq-list-item" data-uia-our-story="faq-list-item">
+                                                                <button
+                                                                    className="faq-question" onClick={() => this.setState({isOpenQ4: !this.state.isOpenQ4})}>How do I cancel?
+                                                                    {this.state.isOpenQ4 ? 
+                                                                    <CloseSvg />
+                                                                    : <OpenSvg />
+                                                                    }   
                                                                 </button>
-                                                                    <div className="faq-answer closed">
+                                                                    <div className={`faq-answer ${this.state.isOpenQ4 ? "open": "closed"}`}>
                                                                         <span id="" data-uia="">VideoStream is
                                                                         flexible. There are no pesky contracts and no commitments. You
                                                                         can easily cancel your account online in two clicks. There are
                                                                         no cancellation fees – start or stop your account
                                                                         anytime.
-                                                        </span>
+                                                                        </span>
                                                                     </div>
                                                                 </li>
-                                                                <li className="faq-list-item" data-uia-our-story="faq-list-item"><button
-                                                                    className="faq-question">What can I watch on VideoStream?<svg
-                                                                        id="thin-x" viewBox="0 0 26 26"
-                                                                        className="svg-icon svg-icon-thin-x svg-closed" focusable="true">
-                                                                        <path
-                                                                            d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                                                                        </path>
-                                                                    </svg>
+                                                                <li className="faq-list-item" data-uia-our-story="faq-list-item">
+                                                                    <button
+                                                                    className="faq-question" onClick={() => this.setState({isOpenQ5: !this.state.isOpenQ5})}>What can I watch on VideoStream?
+                                                                    {this.state.isOpenQ5 ? 
+                                                                    <CloseSvg />
+                                                                    : <OpenSvg />
+                                                                    }   
                                                                 </button>
-                                                                    <div className="faq-answer closed">
+                                                                    <div className={`faq-answer ${this.state.isOpenQ5 ? "open": "closed"}`}>
                                                                         <span id="" data-uia="">
                                                                             VideoStream has an extensive library of feature films, documentaries, TV shows,
                                                                             anime, award-winning VideoStream originals, and more. Watch as much
@@ -251,33 +272,13 @@ class Landing extends Component {
                                                                         </span>
                                                                     </div>
                                                                 </li>
-                                                                <li className="faq-list-item" data-uia-our-story="faq-list-item">
-                                                                    <button
-                                                                        className="faq-question">How does the free trial work?
-                                                                    <svg id="thin-x"
-                                                                            viewBox="0 0 26 26" className="svg-icon svg-icon-thin-x svg-closed"
-                                                                            focusable="true">
-                                                                            <path
-                                                                                d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </button>
-                                                                    <div className="faq-answer closed">
-                                                                        <span id="" data-uia="">Try us free for
-                                                                        30 days! If you enjoy your VideoStream trial, do nothing and your
-                                                                        membership will automatically continue for as long as you choose
-                                                                        to remain a member. Cancel anytime before your trial ends and
-                                                                        you won’t be charged. There’s no complicated contract, no
-                                                                        cancellation fees, and no commitment. Cancel online anytime, 24 hours a day.
-                                                                        </span>
-                                                                    </div>
-                                                                </li>
-                                        </ul>
+                                                            </ul>
                                                             <div className="cta-form email-form" data-uia="email-form">
                                                                 <h3 className="email-form-title">Ready to watch? Register now.</h3>
                                                                 <div className="email-form-lockup">
-                                                                    <div className="our-story-cta-container cta-link-wrapper"><button
-                                                                        className="btn btn-red nmhp-cta nmhp-cta-extra-large btn-none btn-custom"
+                                                                    <div className="our-story-cta-container cta-link-wrapper">
+                                                                        <button
+                                                                        className="btn btn-red nmhp-cta nmhp-cta-extra-large btn-none btn-custom outline-none"
                                                                         type="submit" autoComplete="off" tabIndex="0" role="link"
                                                                         data-uia="our-story-cta-faq">
                                                                         <span id="" className="cta-btn-txt" data-uia="">REGISTER NOW</span>
