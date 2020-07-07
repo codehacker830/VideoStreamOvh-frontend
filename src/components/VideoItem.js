@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { openJawBone } from '../actions';
 
-class SlideItem extends Component {
+class VideoItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,15 +27,11 @@ class SlideItem extends Component {
                     <div id={`title-card-1-${index}`} className={`slider-refocus title-card${isMyJawOpen? " is-jaw-open" : ""}${isDimmed? " is-dimmed" : ""}`}>
                         <div className="ptrack-content" 
                             data-tracking-uuid="231ff267-f389-4563-bca0-7ac9ed6c5b36">
-                            <Link to="/watch/80178943?tctx=1%2C0%2C%2C%2C%2C" 
-                                role="link" 
-                                aria-label="Boss Baby: At Work Again" 
-                                tabIndex="0" 
-                                aria-hidden="false" 
-                                className="slider-refocus" >
+                            <div className="slider-refocus" >
                                 <div className="boxart-size-16x9 boxart-container" >
                                     <img className="boxart-image boxart-image-in-padded-container" 
-                                        src="https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABVTcxT_w_vntQYza42sfArnI446G7VRoSlAdDGbDJf3MQc58zP__VV7vRLHK2axwYb4iHd2tgHEZD1SWqz8GcMfLTXDWQWRUIBdQ6F3OB7eMKRxHN3r0NuJ_x7PD.jpg?r=e46" 
+                                        src="https://via.placeholder.com/341x192"
+                                        // src="https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABVTcxT_w_vntQYza42sfArnI446G7VRoSlAdDGbDJf3MQc58zP__VV7vRLHK2axwYb4iHd2tgHEZD1SWqz8GcMfLTXDWQWRUIBdQ6F3OB7eMKRxHN3r0NuJ_x7PD.jpg?r=e46" 
                                         alt="" />
                                     <div className="fallback-text-container">
                                         <p className="fallback-text">
@@ -52,7 +48,7 @@ class SlideItem extends Component {
                                         </svg>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                             {/* item focus begin if jawBone opened*/}
                             {
                                 isFocusBorderShow ? 
@@ -226,4 +222,4 @@ class SlideItem extends Component {
 }
 const mapStateToProps = ({ video }) => ({ isJawOpen: video.isJawOpen, videoId: video.videoId });
 const mapDispatchToProps = { openJawBone };
-export default connect(mapStateToProps, mapDispatchToProps)(SlideItem);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoItem);

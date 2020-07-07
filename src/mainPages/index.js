@@ -9,6 +9,7 @@ import { getCartList, } from "../actions";
 import Error404 from '../pages/Error404';
 import { history } from '../store';
 import './style.css';
+import MemberFooter from '../components/MemberFooter';
 
 class MainPages extends React.Component {
     componentDidMount() {
@@ -41,6 +42,7 @@ class MainPages extends React.Component {
                                     {/* <Route exact path={`${match.url}/playmovie/:videoId`} component={PlayMovie} /> */}
                                     <Route component={Error404} />
                                 </Switch>
+                                <MemberFooter />
                             </div >
                         </div >
                     </div >

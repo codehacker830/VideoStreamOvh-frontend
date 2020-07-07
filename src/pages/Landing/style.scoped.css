@@ -4788,7 +4788,7 @@ img {
     border-bottom: 8px solid #222;
     padding: 50px 5%;
     margin-bottom: 0;
-    background: 0 0;
+    background: 0 0 black;
     color: #fff;
 }
 
