@@ -12,21 +12,21 @@ class VideoItem extends Component {
     }
     render() {
         const { isHover } = this.state;
-        const { index, isJawOpen, videoId } = this.props;
+        const { _id, isJawOpen, videoId } = this.props;
 
         console.log(" this.props : ", this.props);
 
-        const isFocusBorderShow = videoId === index;
-        const isMyJawOpen = isJawOpen && (videoId === index);
-        const isDimmed = isJawOpen && (videoId !== index);
+        const isFocusBorderShow = videoId === _id;
+        const isMyJawOpen = isJawOpen && (videoId === _id);
+        const isDimmed = isJawOpen && (videoId !== _id);
 
         return (
-            <div className={`slider-item slider-item-${index}${isHover? " hovered" : ""}`} 
-            onMouseEnter={() => this.setState({ isHover: true })} >
+            <div className={`slider-item slider-item-${_id}${isHover? " hovered" : ""}`} 
+                onMouseEnter={() => this.setState({ isHover: true })} >
                 <div className="title-card-container">
-                    <div id={`title-card-1-${index}`} className={`slider-refocus title-card${isMyJawOpen? " is-jaw-open" : ""}${isDimmed? " is-dimmed" : ""}`}>
-                        <div className="ptrack-content" 
-                            data-tracking-uuid="231ff267-f389-4563-bca0-7ac9ed6c5b36">
+                    <div className={`slider-refocus title-card${isMyJawOpen? " is-jaw-open" : ""}${isDimmed? " is-dimmed" : ""}`}>
+
+                        <div className="ptrack-content" data-tracking-uuid="231ff267-f389-4563-bca0-7ac9ed6c5b36">
                             <div className="slider-refocus" >
                                 <div className="boxart-size-16x9 boxart-container" >
                                     <img className="boxart-image boxart-image-in-padded-container" 
@@ -49,17 +49,15 @@ class VideoItem extends Component {
                                     </div>
                                 </div>
                             </div>
-                            {/* item focus begin if jawBone opened*/}
                             {
                                 isFocusBorderShow ? 
-                                <div className="title-card-jawbone-focus" style={{opacity: "1", transitionDuration: "300ms"}}>
+                                <div className="title-card-jawbone-focus" style={{ opacity: "1", transitionDuration: "300ms" }}>
                                     <div className="title-card-focus-ring"></div>
                                 </div>
                                 : null
                             }
-                            
-                            {/* item focus end if jawBone opened */}
                         </div>
+
                         {/* bob container begin */}
                         <div className="bob-container">
                             <span>
@@ -73,7 +71,8 @@ class VideoItem extends Component {
                                                     data-tracking-uuid="39d5e7fc-1a70-4e3d-a051-4435aa90566b">
                                                     <div className="image-rotator-image "
                                                         style={{
-                                                            backgroundImage: 'url("https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABQJ7jCZRl3JMnxahry1kUWbt50xWcfA9-qcL2vdt66SfVmsZx3TbLya9QgtQVnLBgjTovSI6Jz88s9pfWxUNMRLM6HpF.webp?r=c22")',
+                                                            backgroundImage: 'url("https://via.placeholder.com/720x394")',
+                                                            // backgroundImage: 'url("https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABQJ7jCZRl3JMnxahry1kUWbt50xWcfA9-qcL2vdt66SfVmsZx3TbLya9QgtQVnLBgjTovSI6Jz88s9pfWxUNMRLM6HpF.webp?r=c22")',
                                                             zIndex: "2",
                                                             opacity: "1",
                                                             transitionDuration: "750ms"
@@ -92,11 +91,11 @@ class VideoItem extends Component {
                                                     background: "transparent",
                                                     outline: "none"
                                                 }}
-                                                onClick={() => {console.log("~~ index ~~", index); this.props.openJawBone(index);}} >
+                                                onClick={() => {console.log("~~ _id ~~", _id); this.props.openJawBone(_id);}} >
                                                     <img src="/assets/media/icons/chevron-down.svg" 
                                                         style={{ height: "75%" }}
                                                         alt=""
-                                                        />
+                                                    />
                                             </button>
                                             <div className="bob-overview-wrapper">
                                                 <div className="bob-overview">

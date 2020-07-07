@@ -161,11 +161,11 @@ class Home extends Component {
                                 </span>
                                 
                                 {/* my list */}
-                                <SlideRow list={cartList}/>
+                                <SlideRow rowId={1} />
                                 {/* most popular */}
-                                <SlideRow />
+                                {/* <SlideRow /> */}
                                 {/* keep watching */}
-                                <SlideRow />
+                                {/* <SlideRow /> */}
 
                             </React.Fragment>
                         }
