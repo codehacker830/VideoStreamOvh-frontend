@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import VideoItem from './VideoItem';
 import { connect } from 'react-redux';
 import LoadingRow from './LoadingRow';
 import { closeJawBone } from '../actions';
+import { v4 as uuidv4 } from 'uuid';
 
 class SlideRow extends Component {
     constructor(props) {
@@ -55,11 +57,10 @@ class SlideRow extends Component {
         const slideProps = {
             style: { transform: `translate3d(${this.state.distance}px, 0, 0)` }
         };
-        const { isJawOpen, rowId, closeJawBone } = this.props;
-        console.log(" this.props of SlideRow : ", this.props);
+        const { r_id, isJawOpen, closeJawBone, rowId } = this.props;
         const { viewed, totalInViewport, distance, totalInList, isLoading } = this.state;
 
-        const isMyJawOpen = isJawOpen;
+        const isMyJawOpen = isJawOpen && (r_id === rowId);
         const hasPrev = distance < 0;
         const hasNext = (viewed + totalInViewport) < totalInList;
         if (!isLoading) {
@@ -94,12 +95,12 @@ class SlideRow extends Component {
                                     </ul>
                                     <div className="sliderMask showPeek">
                                         <div className="sliderContent row-with-x-columns" {...slideProps} ref={this.sliderWrapperRef}>
-                                            <VideoItem rowId={rowId} _id={1} />
-                                            <VideoItem rowId={rowId} _id={2} />
-                                            <VideoItem rowId={rowId} _id={3} />
-                                            <VideoItem rowId={rowId} _id={4} />
-                                            <VideoItem rowId={rowId} _id={5} />
-                                            <VideoItem rowId={rowId} _id={6} />
+                                            <VideoItem r_id={r_id} v_id={1} />
+                                            <VideoItem r_id={r_id} v_id={2} />
+                                            <VideoItem r_id={r_id} v_id={3} />
+                                            <VideoItem r_id={r_id} v_id={4} />
+                                            <VideoItem r_id={r_id} v_id={5} />
+                                            <VideoItem r_id={r_id} v_id={6} />
                                         </div>
                                     </div>
                                     {
@@ -342,10 +343,12 @@ class SlideRow extends Component {
         }
     }
 }
-
+SlideRow.propTypes = {
+    r_id: PropTypes.number
+};
 const mapStateToProps = ({ video }) => {
-    const { isJawOpen } = video;
-    return { isJawOpen };
+    const { isJawOpen, rowId } = video;
+    return { isJawOpen, rowId };
 };
 const mapDispatchToProps = { closeJawBone };
 export default connect(mapStateToProps, mapDispatchToProps)(SlideRow);

@@ -7,6 +7,7 @@ import LoadingRow from '../../components/LoadingRow';
 import SlideRow from '../../components/SlideRow';
 import AddListIcon from '../../components/icons/AddListIcon';
 import CheckedIcon from '../../components/icons/CheckedIcon';
+import { uniqueId } from 'lodash';
 
 class Home extends Component {
     _isMounted = false;
@@ -42,6 +43,7 @@ class Home extends Component {
         this.setState({ isJawOpen: isOpen });
     }
     render() {
+        console.log(" uniqueId = ", uniqueId());
         const { isLoading, cartList } =  this.state;
         const { isJawOpen } = this.props;
         const result = this.props.searchTitleResult || [];
@@ -69,6 +71,7 @@ class Home extends Component {
                                                         <div className="hero-image-wrapper">
                                                             <img
                                                                 className="hero static-image image-layer"
+                                                                // src="https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABQXHzRQO-Ao-tjt-0gozMee4B-Z9Co4nKYFYf2xAzjrfNIccSo1pbd9QYB4-0FCcbTv2t6i3_eMplXQJz-QLJvuX7K-j.webp?r=1a5"
                                                                 src="https://via.placeholder.com/1280x720?text=1280x720"
                                                                 alt="" />
                                                             <div className="trailer-vignette vignette-layer"></div>
@@ -161,12 +164,11 @@ class Home extends Component {
                                 </span>
                                 
                                 {/* my list */}
-                                <SlideRow rowId={1} />
+                                <SlideRow r_id={1} />
                                 {/* most popular */}
-                                {/* <SlideRow /> */}
+                                <SlideRow r_id={2}/>
                                 {/* keep watching */}
-                                {/* <SlideRow /> */}
-
+                                <SlideRow r_id={3}/>
                             </React.Fragment>
                         }
                     </div >

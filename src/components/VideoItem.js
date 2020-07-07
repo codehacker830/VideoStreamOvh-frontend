@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { openJawBone } from '../actions';
+import Video from '../reducers/Video';
 
 class VideoItem extends Component {
     constructor(props) {
@@ -12,16 +14,14 @@ class VideoItem extends Component {
     }
     render() {
         const { isHover } = this.state;
-        const { _id, isJawOpen, videoId } = this.props;
+        const { r_id, v_id, isJawOpen, rowId, videoId } = this.props;
+        console.log("*** VideoItem props ***", this.props);
 
-        console.log(" this.props : ", this.props);
-
-        const isFocusBorderShow = videoId === _id;
-        const isMyJawOpen = isJawOpen && (videoId === _id);
-        const isDimmed = isJawOpen && (videoId !== _id);
+        const isMyJawOpen = isJawOpen && r_id === rowId && v_id === videoId;
+        const isDimmed = (isJawOpen && v_id !== videoId) || r_id !== rowId;
 
         return (
-            <div className={`slider-item slider-item-${_id}${isHover? " hovered" : ""}`} 
+            <div className={`slider-item slider-item-${v_id}${isHover? " hovered" : ""}`} 
                 onMouseEnter={() => this.setState({ isHover: true })} >
                 <div className="title-card-container">
                     <div className={`slider-refocus title-card${isMyJawOpen? " is-jaw-open" : ""}${isDimmed? " is-dimmed" : ""}`}>
@@ -50,7 +50,7 @@ class VideoItem extends Component {
                                 </div>
                             </div>
                             {
-                                isFocusBorderShow ? 
+                                isMyJawOpen ? 
                                 <div className="title-card-jawbone-focus" style={{ opacity: "1", transitionDuration: "300ms" }}>
                                     <div className="title-card-focus-ring"></div>
                                 </div>
@@ -91,7 +91,7 @@ class VideoItem extends Component {
                                                     background: "transparent",
                                                     outline: "none"
                                                 }}
-                                                onClick={() => {console.log("~~ _id ~~", _id); this.props.openJawBone(_id);}} >
+                                                onClick={() => {console.log("~~ v_id ~~", v_id); this.props.openJawBone(v_id, r_id);}} >
                                                     <img src="/assets/media/icons/chevron-down.svg" 
                                                         style={{ height: "75%" }}
                                                         alt=""
@@ -219,6 +219,15 @@ class VideoItem extends Component {
         );
     }
 }
-const mapStateToProps = ({ video }) => ({ isJawOpen: video.isJawOpen, videoId: video.videoId });
+
+VideoItem.propTypes = {
+    r_id: PropTypes.number,
+    v_id: PropTypes.number
+};
+
+const mapStateToProps = ({ video }) => {
+    const { isJawOpen, rowId, videoId } = video;
+    return  { isJawOpen, rowId, videoId }
+};
 const mapDispatchToProps = { openJawBone };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoItem);

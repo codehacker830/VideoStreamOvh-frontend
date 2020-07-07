@@ -9,11 +9,12 @@ import {
 } from "../constants/ActionTypes";
 import axios from '../util/Api';
 
-export const openJawBone = (id) => {
+export const openJawBone = (videoId, rowId) => {
     return {
       type: JAWBONE_HANDLE,
       payload: true,
-      videoId: id
+      videoId: videoId,
+      rowId: rowId
     }
   };
   

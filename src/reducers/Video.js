@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     categoryList: [],
     isJawOpen: false,
     videoId: null,
+    rowId: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -19,7 +20,8 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isJawOpen: action.payload,
-                videoId: action.videoId
+                videoId: action.videoId,
+                rowId: action.rowId
             };
         case SEARCH_TITLE:
             return {
