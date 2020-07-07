@@ -4,10 +4,28 @@ import {
     FETCH_SUCCESS,
     SEARCH_TITLE,
     CART_LIST,
-    CATEGORY_LIST
+    CATEGORY_LIST,
+    JAWBONE_HANDLE
 } from "../constants/ActionTypes";
 import axios from '../util/Api';
 
+export const openJawBone = (id) => {
+    return {
+      type: JAWBONE_HANDLE,
+      payload: true,
+      videoId: id
+    }
+  };
+  
+  export const closeJawBone = () => {
+    return {
+      type: JAWBONE_HANDLE,
+      payload: false,
+      videoId: null
+    }
+  };
+
+  
 export const searchByTitle = ({ title }) => {
     return (dispatch) => {
         dispatch({ type: FETCH_START });

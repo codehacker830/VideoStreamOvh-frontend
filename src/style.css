@@ -9,13 +9,26 @@
     transition-delay: 0ms;
 }
 
+.sliderContent {
+    transition: transform 750ms ease 100ms;
+}
+
 .sliderContent:hover .slider-item {
     transform: translate3d(-47.5%, 0, 0);
 }
 
-.slider-item.hovered ~ .slider-item {
+.slider-item.hovered~.slider-item {
     transform: translate3d(47.5%, 0, 0);
 }
+
 .outline-none {
     outline: none;
+}
+
+.invisible {
+    visibility: hidden !important;
+}
+
+.visible {
+    visibility: visible !important;
 }

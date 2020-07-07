@@ -1,7 +1,38 @@
 import React, { Component } from 'react';
 import './style.scoped.css';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { userSignIn } from '../../actions';
 
 class SignIn extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: "",
+            isChecked: false
+        };
+    }
+    onInputHandle = (ev) => {
+        const name = ev.target.name;
+        console.log(" NAME : ", name);
+        if (name === "email") {
+            this.setState({ email: ev.target.value });
+        }
+        if (name === "password") {
+            this.setState({ password: ev.target.value });
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        console.error(" next props : ", nextProps);
+        if (nextProps.authUser) {
+            const { email_verified_at } = nextProps.authUser;
+            console.error(" next props email_verified_at : ", email_verified_at);
+
+            if (email_verified_at === null) this.props.history.push('/verification');
+            else this.props.history.push('/pr');
+        }
+    }
     render() {
         return (
             <div className="login-wrapper hybrid-login-wrapper">
@@ -12,10 +43,10 @@ class SignIn extends Component {
                         alt="" />
                 </div>
                 <div className="nfHeader login-header signupBasicHeader">
-                    <a href="/" className="svg-nfLogo signupBasicHeader" data-uia="netflix-header-svg-logo">
+                    <Link to="/" className="svg-nfLogo signupBasicHeader" data-uia="netflix-header-svg-logo">
                         <img className="svg-icon svg-icon-netflix-logo" src="/assets/media/logo.svg" alt="" />
                         <span className="screen-reader-text">VideoStream</span>
-                    </a>
+                    </Link>
                 </div>
                 <div className="login-body">
                     <div>
@@ -30,109 +61,72 @@ class SignIn extends Component {
                             data-uia="login-page-container">
                             <div className="hybrid-login-form-main">
                                 <h1>Sign In</h1>
-                                <form method="post" className="login-form" action>
+                                <div className="login-form">
                                     <div data-uia="login-field+container"
                                         className="nfInput nfEmailPhoneInput login-input login-input-email">
                                         <div className="nfInputPlacement">
-                                            <div className="nfEmailPhoneControls"><label className="input_id">
-                                                <input type="text"
-                                                    data-uia="login-field" name="userLoginId" className="nfTextField"
-                                                    id="id_userLoginId" defaultValue tabIndex={0} autoComplete="email"
-                                                    dir />
-                                                <label htmlFor="id_userLoginId" className="placeLabel">Email or phone number</label></label>
-                                                <div data-uia="phone-country-selector+container"
-                                                    className="ui-select-wrapper country-select"><a
-                                                        data-uia="phone-country-selector+target" href="#"
-                                                        className="ui-select-wrapper-link">
-                                                        <div className="ui-select-current"
-                                                            placeholder="{&quot;current_selected_country&quot;:&quot;US&quot;}">
-                                                            <span className="country-select-flag nf-flag nf-flag-us" /><span
-                                                                className="country-select-code">+
-                                                    {/* */}1</span></div>
-                                                    </a>
-                                                </div>
+                                            <div className="nfEmailPhoneControls">
+                                                <label className="input_id">
+                                                    <input type="text" data-uia="login-field" name="email" className="nfTextField"
+                                                        id="id_userLoginId" tabIndex={0} autoComplete="email"
+                                                        value={this.state.email}
+                                                        onChange={(ev) => this.onInputHandle(ev)}
+                                                        placeholder="Email address"
+                                                    />
+                                                    {/* <label htmlFor="id_userLoginId" className="placeLabel">Email address</label> */}
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-uia="password-field+container"
-                                        className="nfInput nfPasswordInput login-input login-input-password">
+                                    <div data-uia="password-field+container" className="nfInput nfPasswordInput login-input login-input-password">
                                         <div className="nfInputPlacement">
-                                            <div className="nfPasswordControls"><label className="input_id"><input type="password"
-                                                data-uia="password-field" name="password" className="nfTextField"
-                                                id="id_password" defaultValue tabIndex={0} autoComplete="password"
-                                                dir /><label htmlFor="id_password"
-                                                    className="placeLabel">Password</label></label><button
-                                                        data-uia="password-visibility-toggle" id="id_password_toggle" type="button"
-                                                        className="nfPasswordToggle" title="Show Password">SHOW</button></div>
+                                            <div className="nfPasswordControls">
+                                                <label className="input_id">
+                                                    <input type="password"
+                                                        data-uia="password-field"
+                                                        name="password" className="nfTextField"
+                                                        id="id_password" tabIndex={0} autoComplete="password"
+                                                        value={this.state.password}
+                                                        onChange={(ev) => { this.setState({ password: ev.target.value }) }}
+                                                        placeholder="Password"
+                                                    />
+                                                    {/* <label htmlFor="id_password" className="placeLabel">Password</label> */}
+                                                </label>
+                                                <button data-uia="password-visibility-toggle" id="id_password_toggle" type="button"
+                                                    className="nfPasswordToggle" title="Show Password">SHOW
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <button className="btn login-button btn-submit btn-small outline-none w-100" type="submit" autoComplete="off" tabIndex={0} data-uia="login-submit-button">Sign In
+                                    <button className="btn login-button btn-submit btn-small outline-none w-100" tabIndex={0} data-uia="login-submit-button"
+                                        onClick={(ev) => {
+                                            ev.preventDefault();
+                                            this.props.userSignIn({ email: this.state.email, password: this.state.password });
+                                        }}>Sign In
                                     </button>
                                     <div className="hybrid-login-form-help">
                                         <div className="ui-binary-input login-remember-me">
-                                            <input type="checkbox" className
-                                                name="rememberMe" id="bxid_rememberMe_true" defaultValue="true" tabIndex={0}
-                                                data-uia="rememberMe" defaultChecked />
+                                            <input type="checkbox" name="rememberMe" id="bxid_rememberMe_true" checked={this.state.isChecked} tabIndex={0}
+                                                data-uia="rememberMe" onChange={() => { this.setState({ isChecked: !this.state.isChecked }) }} />
                                             <label htmlFor="bxid_rememberMe_true" data-uia="label+rememberMe">
                                                 <span className="login-remember-me-label-text">Remember me</span>
                                             </label>
-                                            <div className="helper" />
                                         </div>
-                                    </div>
-                                    <input type="hidden" name="flow" defaultValue="websiteSignUp" />
-                                    <input type="hidden" name="mode" defaultValue="login" />
-                                    <input type="hidden" name="action" defaultValue="loginAction" />
-                                    <input type="hidden" name="withFields" defaultValue="rememberMe,nextPage,userLoginId,password,countryCode,countryIsoCode,recaptchaResponseToken,recaptchaError,recaptchaResponseTime" /><input
-                                        type="hidden" name="authURL"
-                                        defaultValue="1593786596016.Lcy1SV96FKkunkaCjGScVC2+MYc=" />
-                                    <input type="hidden" name="nextPage" defaultValue />
-                                    <input type="hidden" name="showPassword" defaultValue />
-                                    <input type="hidden" name="countryCode" defaultValue={+1} />
-                                    <input type="hidden" name="countryIsoCode" defaultValue="US" />
-                                </form>
-                            </div>
-                            <div className="hybrid-login-form-other">
-                                <form method="post" className="login-form" action>
-                                    <div className="facebookForm regOption">
-                                        <div className="fb-minimal">
-                                            <hr />
-                                            <button className="btn minimal-login btn-submit btn-small" type="submit"
-                                                autoComplete="off" tabIndex={0} data-uia>
-                                                <div className="fb-login" data-uia="fb-login">
-                                                    <img className="icon-facebook" src="https://assets.nflxext.com/ffe/siteui/login/images/FB-f-Logo__blue_57.png" alt="" />
-                                                    <span className="fbBtnText">Login with Facebook</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="flow" defaultValue="websiteSignUp" />
-                                    <input type="hidden" name="mode" defaultValue="login" />
-                                    <input type="hidden" name="action" defaultValue="facebookLoginAction" />
-                                    <input type="hidden" name="withFields" defaultValue="rememberMe,nextPage,accessToken" />
-                                    <input type="hidden" name="authURL" defaultValue="1593786596016.Lcy1SV96FKkunkaCjGScVC2+MYc=" />
-                                    <input type="hidden" name="nextPage" defaultValue />
-                                    <input type="hidden" name="showPassword" defaultValue />
-                                    <input type="hidden" name="countryCode" defaultValue={+1} />
-                                    <input type="hidden" name="countryIsoCode" defaultValue="US" />
-                                    <input type="hidden" name="accessToken" defaultValue />
-                                </form>
-                                <div className="login-signup-now" data-uia="login-signup-now">New to VideoStream? <a className=" "
-                                    target="_self" href="/">Sign up now</a>.</div>
-                                <div className="recaptcha-terms-of-use" data-uia="recaptcha-terms-of-use">
-                                    <p>
-                                        <span>This page is protected by Google reCAPTCHA to ensure you're not a bot.</span>&nbsp;
-                                        <button className="recaptcha-terms-of-use--link-button"
-                                            data-uia="recaptcha-learn-more-button">Learn more.</button>
-                                    </p>
-                                    <div className="recaptcha-terms-of-use--disclosure" data-uia="recaptcha-disclosure">
-                                        <span id data-uia="recaptcha-disclosure-text">The information collected by Google reCAPTCHA is subject to the Google
-                                            <a href="https://policies.google.com/privacy" data-uia="recaptcha-privacy-link">Privacy Policy</a> and
-                                            <a href="https://policies.google.com/terms" data-uia="recaptcha-tos-link">Terms of Service</a>, and is used for providing, maintaining, and improving the reCAPTCHA
-                                                service and for general security purposes (it is not used for personalized advertising
-                                                by Google).
-                                        </span>
                                     </div>
                                 </div>
+                            </div>
+                            <div className="hybrid-login-form-other">
+                                <div className="login-signup-now" data-uia="login-signup-now">New to VideoStream?
+                                    <Link to="/sign-up">Sign up now</Link>.
+                                </div>
+                                <div className="recaptcha-terms-of-use" style={{ marginBottom: "120px"}} data-uia="recaptcha-terms-of-use">
+                                    <p>
+                                        <span>Did you forget password?</span>
+                                        &nbsp;
+                                        <Link to="/password-reset-email" className="recaptcha-terms-of-use--link-button" data-uia="recaptcha-learn-more-button">Forgot password.</Link>
+                                    </p>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -140,32 +134,28 @@ class SignIn extends Component {
                 <div className="site-footer-wrapper login-footer">
                     <div className="footer-divider" />
                     <div className="site-footer">
-                        <p className="footer-top">Questions? Call <a className="footer-top-a"
-                            href="tel:1-844-505-2993">1-844-505-2993</a>
+                        <p className="footer-top">Questions? Call
+                        <a className="footer-top-a" href="tel:1-844-505-2993">x-xxx-xxx-xxxx</a>
                         </p>
                         <ul className="footer-links structural">
-                            <li className="footer-link-item" placeholder="footer_responsive_link_gift_card_terms_item"><a
-                                className="footer-link" data-uia="footer-link" href="/giftterms"
-                                placeholder="footer_responsive_link_gift_card_terms"><span id
-                                    data-uia="data-uia-footer-label">Gift Card Terms</span></a></li>
-                            <li className="footer-link-item" placeholder="footer_responsive_link_terms_item"><a
-                                className="footer-link" data-uia="footer-link" href="https://help.netflix.com/legal/termsofuse"
-                                placeholder="footer_responsive_link_terms"><span id data-uia="data-uia-footer-label">Terms of
-                            Use</span></a></li>
-                            <li className="footer-link-item" placeholder="footer_responsive_link_privacy_item"><a
-                                className="footer-link" data-uia="footer-link" href="https://help.netflix.com/legal/privacy"
-                                placeholder="footer_responsive_link_privacy"><span id data-uia="data-uia-footer-label">Privacy
-                            Statement</span></a></li>
+                            <li className="footer-link-item" placeholder="footer_responsive_link_gift_card_terms_item">
+                                <Link className="footer-link" data-uia="footer-link" to="/faq"
+                                    placeholder="footer_responsive_link_gift_card_terms">
+                                    <span data-uia="data-uia-footer-label">FAQ</span>
+                                </Link>
+                            </li>
+                            <li className="footer-link-item" placeholder="footer_responsive_link_terms_item">
+                                <Link className="footer-link" data-uia="footer-link" to="/terms-of-use"
+                                    placeholder="footer_responsive_link_terms">
+                                    <span data-uia="data-uia-footer-label">Terms of Use</span>
+                                </Link>
+                            </li>
                         </ul>
                         <div className="lang-selection-container" id="lang-switcher">
-                            <div data-uia="language-picker+container" className="ui-select-wrapper"><label
-                                htmlFor="undefined-select" className="ui-label no-display"><span
-                                    className="ui-label-text" /></label>
-                                <div className="select-arrow medium prefix globe"><select data-uia="language-picker"
-                                    className="ui-select medium" id="undefined-select" tabIndex={0} placeholder="lang-switcher">
-                                    <option selected value="/login" data-language="en" data-country="US">English</option>
-                                    <option value="/us-es/login" data-language="es" data-country="US">Español</option>
-                                </select></div>
+                            <div data-uia="language-picker+container" className="ui-select-wrapper">
+                                <label htmlFor="undefined-select" className="ui-label no-display">
+                                    <span className="ui-label-text" />
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -174,5 +164,11 @@ class SignIn extends Component {
         );
     }
 }
+const mapStateToProps = ({ auth, commonData }) => {
+    const { authUser } = auth;
+    const { status, loading, error, message } = commonData;
+    return { authUser, status, loading, error, message }
+};
 
-export default SignIn;
+const mapDispatchToProps = { userSignIn };
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

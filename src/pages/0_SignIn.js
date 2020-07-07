@@ -86,7 +86,7 @@ class SignIn extends Component {
                                                     <i className="fa fa-exclamation-triangle text-muted mr-1"></i> Forgot password
                                                 </Link>
                                                 <Link className="btn btn-sm btn-light d-block d-lg-inline-block mb-1"
-                                                    to="/signup">
+                                                    to="/sign-up">
                                                     <i className="fa fa-plus text-muted mr-1"></i> Create Account
                                                 </Link>
                                             </p>

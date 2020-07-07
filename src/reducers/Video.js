@@ -1,26 +1,35 @@
 import {
     SEARCH_TITLE,
     CART_LIST,
-    CATEGORY_LIST
+    CATEGORY_LIST,
+    JAWBONE_HANDLE
 } from '../constants/ActionTypes';
 
 const INITIAL_STATE = {
     searchTitleResult: [],
     cartList: [],
-    categoryList: []
+    categoryList: [],
+    isJawOpen: false,
+    videoId: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case JAWBONE_HANDLE:
+            return {
+                ...state,
+                isJawOpen: action.payload,
+                videoId: action.videoId
+            };
         case SEARCH_TITLE:
             return {
                 ...state,
-                searchTitleResult : action.payload
+                searchTitleResult: action.payload
             };
         case CART_LIST:
             return {
                 ...state,
-                cartList : action.payload
+                cartList: action.payload
             }
         case CATEGORY_LIST:
             return {

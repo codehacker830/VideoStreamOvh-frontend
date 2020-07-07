@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class LolomoLoading extends Component {
+export default class LoadingRow extends Component {
     render() {
         return (
             <React.Fragment>
@@ -33,7 +33,6 @@ export default class LolomoLoading extends Component {
                     </div>
                 </div>
             </React.Fragment>
-
         );
     }
 }

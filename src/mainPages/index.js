@@ -4,10 +4,11 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import Home from './Home';
 import MyList from './MyList';
-import PlayMovie from './PlayMovie';
+// import PlayMovie from './PlayMovie';
 import { getCartList, } from "../actions";
 import Error404 from '../pages/Error404';
 import { history } from '../store';
+import './style.css';
 
 class MainPages extends React.Component {
     componentDidMount() {
@@ -29,14 +30,21 @@ class MainPages extends React.Component {
         console.log("___ location ___", location);
         return (
             <React.Fragment>
-                {/* <Header /> */}
-                <Switch>
-                    <Route exact path={`${match.url}`} component={Home} />
-                    <Route path={`${match.url}/list`} component={MyList} />
-                    {/* <Route path={`${match.url}/browse`} component={} /> */}
-                    <Route exact path={`${match.url}/playmovie/:videoId`} component={PlayMovie} />
-                    <Route component={Error404} />
-                </Switch>
+                <div className="netflix-sans-font-loaded">
+                    <div dir="ltr" className="">
+                        <div>
+                            <div className="bd kidsPage" lang="en-EN" data-uia="container-kids">
+                                <Header />
+                                <Switch>
+                                    <Route exact path={`${match.url}`} component={Home} />
+                                    <Route path={`${match.url}/my-list`} component={MyList} />
+                                    {/* <Route exact path={`${match.url}/playmovie/:videoId`} component={PlayMovie} /> */}
+                                    <Route component={Error404} />
+                                </Switch>
+                            </div >
+                        </div >
+                    </div >
+                </div >
             </React.Fragment>
 
         );

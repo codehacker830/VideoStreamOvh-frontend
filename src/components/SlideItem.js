@@ -3,26 +3,26 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { openJawBone } from '../actions';
 
-class SliderItem extends Component {
-    state = {
-        isHover: false,
-        isJawOpen: false
-    };
+class SlideItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isHover: false
+        };
+    }
     render() {
         const { isHover } = this.state;
-        console.log(" this.props : ", this.props);
         const { index, isJawOpen, videoId } = this.props;
+
+        console.log(" this.props : ", this.props);
 
         const isFocusBorderShow = videoId === index;
         const isMyJawOpen = isJawOpen && (videoId === index);
         const isDimmed = isJawOpen && (videoId !== index);
+
         return (
             <div className={`slider-item slider-item-${index}${isHover? " hovered" : ""}`} 
-            onMouseEnter={() => {
-                console.log("------------------- hover effect called");
-                this.setState({ isHover: true })
-            }} 
-            >
+            onMouseEnter={() => this.setState({ isHover: true })} >
                 <div className="title-card-container">
                     <div id={`title-card-1-${index}`} className={`slider-refocus title-card${isMyJawOpen? " is-jaw-open" : ""}${isDimmed? " is-dimmed" : ""}`}>
                         <div className="ptrack-content" 
@@ -33,7 +33,7 @@ class SliderItem extends Component {
                                 tabIndex="0" 
                                 aria-hidden="false" 
                                 className="slider-refocus" >
-                                <div className="boxart-size-16x9 boxart-container">
+                                <div className="boxart-size-16x9 boxart-container" >
                                     <img className="boxart-image boxart-image-in-padded-container" 
                                         src="https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABVTcxT_w_vntQYza42sfArnI446G7VRoSlAdDGbDJf3MQc58zP__VV7vRLHK2axwYb4iHd2tgHEZD1SWqz8GcMfLTXDWQWRUIBdQ6F3OB7eMKRxHN3r0NuJ_x7PD.jpg?r=e46" 
                                         alt="" />
@@ -58,24 +58,6 @@ class SliderItem extends Component {
                                 isFocusBorderShow ? 
                                 <div className="title-card-jawbone-focus" style={{opacity: "1", transitionDuration: "300ms"}}>
                                     <div className="title-card-focus-ring"></div>
-                                    {/* <Link 
-                                        data-uia="play-button" 
-                                        role="link" 
-                                        aria-label="Go on" 
-                                        className="title-card-play-toolkit playLink" 
-                                        href="/watch/80221639?trackId=14170132&amp;tctx=1%2C1%2C65826837-a7f4-406f-a17f-74beaf684a2e-327516955%2C1c3e45e9-b6ec-492f-a729-50bcfed971d9_68896064X6XX1592938183794%2C1c3e45e9-b6ec-492f-a729-50bcfed971d9_ROOT%2C"
-                                        >
-                                        <button className="button-primary large iconOnly ltr-ublg01" type="button">
-                                            <div className="icon ltr-1e4713l">
-                                                <div className="large ltr-sar853" role="presentation">
-                                                    <svg viewBox="0 0 24 24">
-                                                        <path d="M6 4l15 8-15 8z" fill="currentColor">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </button>
-                                    </Link> */}
                                 </div>
                                 : null
                             }
@@ -87,17 +69,7 @@ class SliderItem extends Component {
                             <span>
                                 {/* hovered bob card */}
                                 <div className={`bob-card bob-card-adult-video-merch${isHover? " hovered" : ""}`}
-                                    style={{
-                                        // transform: "scale(0.99999)", 
-                                        // visibility: "visible", 
-                                        // width: "195%", 
-                                        // height: "195%", 
-                                        // top: "-47.5%", 
-                                        // left: "-47.5%", 
-                                        // transitionDuration: "500ms"
-                                    }}
-                                    onMouseLeave={() => this.setState({ isHover: false })}
-                                    >
+                                    onMouseLeave={() => this.setState({ isHover: false })} >
                                     <div>
                                         <div className="bob-background image-rotator">
                                             <span>
@@ -124,8 +96,7 @@ class SliderItem extends Component {
                                                     background: "transparent",
                                                     outline: "none"
                                                 }}
-                                                onClick={() => {console.log("~~ index ~~", index); this.props.openJawBone(index);}}
-                                                >
+                                                onClick={() => {console.log("~~ index ~~", index); this.props.openJawBone(index);}} >
                                                     <img src="/assets/media/icons/chevron-down.svg" 
                                                         style={{ height: "75%" }}
                                                         alt=""
@@ -216,15 +187,14 @@ class SliderItem extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="ptrack-content"
-                                                    data-tracking-uuid="b84c2b3d-ec46-4881-a56d-d4de4798405a">
+                                                    <div className="ptrack-content" data-tracking-uuid="b84c2b3d-ec46-4881-a56d-d4de4798405a">
                                                         <div className="nf-svg-button-wrapper mylist-button" data-uia="myListButton">
                                                             <div role="link" tabIndex="0" className="nf-svg-button simpleround">
                                                                 <img 
-                                                                // src="/assets/media/icons/plus.svg"
-                                                                src="/assets/media/icons/check.svg"
-                                                                className="action-icon-style"
-                                                                alt="" />
+                                                                    src="/assets/media/icons/check.svg"
+                                                                    className="action-icon-style"
+                                                                    alt="" />
+                                                                    
                                                             </div>
                                                             <span className="nf-svg-button-tooltip" role="status"
                                                                 aria-live="assertive">Remove from My List
@@ -254,6 +224,6 @@ class SliderItem extends Component {
         );
     }
 }
-const mapStateToProps = ({ lolomo }) => ({ isJawOpen: lolomo.isJawOpen, videoId: lolomo.videoId });
+const mapStateToProps = ({ video }) => ({ isJawOpen: video.isJawOpen, videoId: video.videoId });
 const mapDispatchToProps = { openJawBone };
-export default connect(mapStateToProps, mapDispatchToProps)(SliderItem);
+export default connect(mapStateToProps, mapDispatchToProps)(SlideItem);

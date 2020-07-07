@@ -322,13 +322,6 @@ class Landing extends Component {
                                                                             <span id="" data-uia="data-uia-footer-label">Terms of Use</span>
                                                                         </a>
                                                                     </li>
-                                                                    <li className="footer-link-item"
-                                                                        placeholder="footer_responsive_link_contact_us_item">
-                                                                        <a className="footer-link" data-uia="footer-link" href=""
-                                                                            placeholder="footer_responsive_link_contact_us">
-                                                                            <span id="" data-uia="data-uia-footer-label">Contact Us</span>
-                                                                        </a>
-                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
