@@ -1,7 +1,7 @@
 import React from 'react'
 
-export const PlayIcon = (props) => {
-    return(
+export const PlayIcon = () => {
+    return (
         <svg viewBox="0 0 24 24">
             <path d="M6 4l15 8-15 8z"
                 fill="currentColor">
