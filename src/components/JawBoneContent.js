@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { closeJawBone } from '../actions';
+import { closeJawBone, addToCart, removeFromCart } from '../actions';
 import PropTypes from 'prop-types';
 import axios from '../util/Api';
+import { isInvoledAtCart } from '../util';
+import AddListIcon from './icons/AddListIcon';
+import CheckedIcon from './icons/CheckedIcon';
+import PlayIcon from './icons/PlayIcon';
 
 class JawBoneContent extends Component {
     _isMounted = false;
@@ -10,6 +14,7 @@ class JawBoneContent extends Component {
         super(props);
         this.state = {
             isLoading: false,
+            id: null,
             title: "",
             jawbone_title_logo: "",
             views: null,
@@ -32,10 +37,10 @@ class JawBoneContent extends Component {
             console.log(" this.props.v_id :", id);
             axios.get(`/video/${id}`).then(({ data }) => {
                 console.log(" data tt :", data);
-                const { title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = data.video;
+                const { id, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = data.video;
                 this.setState({
                     isLoading: false,
-                    title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price
+                    id, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price
                 });
             });
         }
@@ -45,16 +50,22 @@ class JawBoneContent extends Component {
         const id = nextProps.v_id;
         axios.get(`/video/${id}`).then(({ data }) => {
             console.log(" data tt :", data);
-            const { title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = data.video;
+            const { id, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = data.video;
             this.setState({
                 isLoading: false,
-                title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price
+                id, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price
             });
         });
     }
     render() {
-        const { isLoading, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = this.state;
+        const { id, isLoading, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = this.state;
+        const { cartList } = this.props;
         const progress_completed = (watched_time || 0) / duration * 100;
+
+        const isUpVoted = vote === "up" ? true : false;
+        const isDownVoted = vote === "down" ? true : false;
+        const isVoted = isUpVoted || isDownVoted;
+        const isCarted = isInvoledAtCart(cartList, id);
         return (
             <span className={`jawBoneContent${isLoading ? "" : " open"}`}>
                 <span className="jawBoneOpenContainer">
@@ -139,8 +150,8 @@ class JawBoneContent extends Component {
                                                                     </span>
                                                                     <span className="duration">
                                                                         <font className="v-align-inherit">
-                                                                            <font className="v-align-inherit">1 hr</font>
-                                                                            <font className="v-align-inherit">57 min.</font>
+                                                                            <font className="v-align-inherit">{Math.floor(duration / 60)} hr </font>
+                                                                            <font className="v-align-inherit">{duration % 60} min.</font>
                                                                         </font>
                                                                     </span>
                                                                 </div>
@@ -165,7 +176,6 @@ class JawBoneContent extends Component {
                                                                     </font>
                                                                 </div>
                                                                 <div className="jawbone-actions">
-
                                                                     <a trackid="14170209" data-uia="play-button"
                                                                         aria-label="Go on" className=" playLink"
                                                                         href="/watch/80221639?trackId=14170209&amp;tctx=0%2C0%2C72e921ec-757c-4f56-ae52-54d5292973c7-750046517%2C1c3e45e9-b6ec-492f-a729-50bcfed971d9_68896064X6XX1592938183794%2C1c3e45e9-b6ec-492f-a729-50bcfed971d9_ROOT%2C"><button
@@ -174,11 +184,7 @@ class JawBoneContent extends Component {
                                                                             <div className="icon ltr-1e4713l">
                                                                                 <div className="medium ltr-sar853"
                                                                                     role="presentation">
-                                                                                    <svg viewBox="0 0 24 24">
-                                                                                        <path d="M6 4l15 8-15 8z"
-                                                                                            fill="currentColor">
-                                                                                        </path>
-                                                                                    </svg>
+                                                                                    <PlayIcon />
                                                                                 </div>
                                                                             </div>
                                                                             <div className="ltr-1i33xgl"
@@ -187,63 +193,94 @@ class JawBoneContent extends Component {
                                                                             <span className="ltr-18i00qw">
                                                                                 <font className="v-align-inherit">
                                                                                     <font className="v-align-inherit">
-                                                                                        GO ON
+                                                                                        PLAY ON
                                                                                     </font>
                                                                                 </font>
                                                                             </span>
-                                                                        </button></a>
+                                                                        </button>
+                                                                    </a>
                                                                     <div className="ptrack-content"
                                                                         data-tracking-uuid="16208b20-1a3d-4251-870e-213f36db0a5c">
-                                                                        <button aria-label="Remove from My List"
-                                                                            className="button-secondary opacity-60 medium hasLabel ltr-17tayzw"
-                                                                            data-uia="add-to-my-list-added" type="button">
+                                                                        <button className="button-secondary opacity-60 medium hasLabel ltr-17tayzw"
+                                                                            data-uia="add-to-my-list-added" type="button"
+                                                                            onClick={
+                                                                                isCarted ?
+                                                                                    () => this.props.removeFromCart(id)
+                                                                                    : () => this.props.addToCart(id)
+                                                                            }>
                                                                             <div className="icon ltr-1e4713l">
                                                                                 <div className="medium ltr-sar853"
                                                                                     role="presentation">
-                                                                                    <svg viewBox="0 0 24 24">
-                                                                                        <path fill="currentColor"
-                                                                                            d="M3.707 12.293l-1.414 1.414L8 19.414 21.707 5.707l-1.414-1.414L8 16.586z">
-                                                                                        </path>
-                                                                                    </svg>
+                                                                                    {
+                                                                                        isCarted ? <CheckedIcon />
+                                                                                        : <AddListIcon />
+                                                                                    }
                                                                                 </div>
                                                                             </div>
                                                                             <div className="ltr-1i33xgl"
                                                                                 style={{ width: "calc(0.72rem)" }}>
-                                                                            </div><span className="ltr-18i00qw">
+                                                                            </div>
+                                                                            <span className="ltr-18i00qw">
                                                                                 <font className="v-align-inherit">
-                                                                                    <font className="v-align-inherit">
-                                                                                        List
-                                                                                                    </font>
+                                                                                    <font className="v-align-inherit">List</font>
                                                                                 </font>
                                                                             </span>
                                                                         </button>
                                                                     </div>
                                                                     <span className="thumbs-container">
-                                                                        <div className="thumbs-component thumbs thumbs-horizontal animated unrated updated"
+                                                                        {/* <div className="thumbs-component thumbs thumbs-horizontal animated unrated updated" */}
+                                                                        <div className={`thumbs-component thumbs thumbs-horizontal animated${isVoted ? " rated" + (isUpVoted ? " rated-up" : " rated-down") : " unrated"}`}
                                                                             data-uia="thumbs-container">
                                                                             <div className="nf-svg-button-wrapper thumb-container thumb-up-container "
                                                                                 data-uia="">
-                                                                                <div data-rating="2" tabIndex="0"
-                                                                                    className="nf-svg-button clicked simpleround"
-                                                                                    aria-label="Artı puan ver">
-                                                                                    <svg data-rating="2"
-                                                                                        className="svg-icon svg-icon-thumb-up"
-                                                                                        focusable="true">
-                                                                                        <use filter="" xlinkHref="#thumb-up"></use>
-                                                                                    </svg>
+                                                                                <div role="button"
+                                                                                    tabIndex="0"
+                                                                                    className="nf-svg-button simpleround"
+                                                                                    onClick={() => {
+                                                                                        if (isVoted) {
+                                                                                            // this.props.removeVote(id);
+                                                                                            axios.get(`/removevote/${id}`).then(res => {
+                                                                                                this.setState({ vote: null });
+                                                                                            });
+                                                                                        } else {
+                                                                                            // this.props.upVote(id);
+                                                                                            axios.get(`/upvote/${id}`).then(res => {
+                                                                                                this.setState({ vote: "up" });
+                                                                                            });
+                                                                                        }
+                                                                                    }}
+                                                                                >
+                                                                                    <img
+                                                                                        src={`/assets/media/icons/${isUpVoted ? "like-filled.svg" : "like.svg"}`}
+                                                                                        className="action-icon-style"
+                                                                                        alt="" />
                                                                                 </div>
+
                                                                             </div>
                                                                             <div className="nf-svg-button-wrapper thumb-container thumb-down-container "
                                                                                 data-uia="">
-                                                                                <div data-rating="1" tabIndex="0"
+                                                                                <div role="button"
+                                                                                    tabIndex="0"
                                                                                     className="nf-svg-button simpleround"
-                                                                                    aria-label="Give a negative score">
-                                                                                    <svg data-rating="1"
-                                                                                        className="svg-icon svg-icon-thumb-down"
-                                                                                        focusable="true">
-                                                                                        <use filter="" xlinkHref="#thumb-down">
-                                                                                        </use>
-                                                                                    </svg>
+                                                                                    onClick={() => {
+                                                                                        if (isVoted) {
+                                                                                            // this.props.removeVote(id);
+                                                                                            axios.get(`/removevote/${id}`).then(res => {
+                                                                                                this.setState({ vote: null });
+                                                                                            });
+
+                                                                                        } else {
+                                                                                            // this.props.downVote(id);
+                                                                                            axios.get(`/downvote/${id}`).then(res => {
+                                                                                                this.setState({ vote: "down" });
+                                                                                            });
+                                                                                        }
+                                                                                    }}
+                                                                                >
+                                                                                    <img
+                                                                                        src={`/assets/media/icons/${isDownVoted ? "dislike-filled.svg" : "dislike.svg"}`}
+                                                                                        className="action-icon-style"
+                                                                                        alt="" />
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -273,7 +310,10 @@ class JawBoneContent extends Component {
 JawBoneContent.propTypes = {
     v_id: PropTypes.number
 };
-const mapStateToProps = ({ }) => ({});
-const mapDispatchToProps = { closeJawBone };
+const mapStateToProps = ({ video }) => {
+    const { cartList } = video;
+    return { cartList };
+};
+const mapDispatchToProps = { closeJawBone, addToCart, removeFromCart };
 
 export default connect(mapStateToProps, mapDispatchToProps)(JawBoneContent);

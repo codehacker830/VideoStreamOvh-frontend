@@ -8,8 +8,8 @@ import MyList from './MyList';
 import { getCartList, } from "../actions";
 import Error404 from '../pages/Error404';
 import { history } from '../store';
-import './style.css';
 import MemberFooter from '../components/MemberFooter';
+import './style.css';
 
 class MainPages extends React.Component {
     componentDidMount() {

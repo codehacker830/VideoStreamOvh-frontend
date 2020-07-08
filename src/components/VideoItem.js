@@ -27,8 +27,8 @@ class VideoItem extends Component {
     render() {
         const { isHover, vote } = this.state;
         const { r_id, c_id, data, isJawOpen, rowId, colId, cartList } = this.props;
-        const { id, title, boxart_image, bob_background, duration, category, watched_time } = data;
-        // const { vote, title_logo, jawbone_title_logo, description, price, ptrack_content_image, rating, views, source } = data;
+        const { id, title, boxart_image, bob_background, duration, category, watched_time, rating} = data;
+        // const { vote, title_logo, jawbone_title_logo, description, price, ptrack_content_image, views, source } = data;
         const progress_completed = watched_time / duration * 100;
 
         console.log("*** VideoItem props ***", this.props);
@@ -149,9 +149,9 @@ class VideoItem extends Component {
                                                     <div className="bob-metadata-wrapper">
                                                         <div className="meta video-meta video-meta--bob-overview">
                                                             <span className="maturity-rating ">
-                                                                <span className="maturity-number">PG</span>
+                                                                <span className="maturity-number">{rating} Rating</span>
                                                             </span>
-                                                            <span className="duration">{duration}</span>
+                                                            <span className="duration">{duration} min</span>
                                                         </div>
                                                     </div>
                                                     <div className="bob-overview-evidence-wrapper">
@@ -175,7 +175,7 @@ class VideoItem extends Component {
                                                     {/* <!-- use this for hidden thumb --> */}
                                                     {/* <div className="thumbs-component thumbs thumbs-vertical animated rated rated-up" data-uia="thumbs-container"> */}
                                                     {/* <div className="thumbs-component thumbs thumbs-vertical animated rated rated-down" data-uia="thumbs-container"> */}
-                                                    <div className={`thumbs-component thumbs thumbs-vertical animated${isVoted ? " rated" + (isUpVoted ? " rated-up" : " rated-down") : ""}`} data-uia="thumbs-container">
+                                                    <div className={`thumbs-component thumbs thumbs-vertical animated${isVoted ? " rated" + (isUpVoted ? " rated-up" : " rated-down") : " unrated"}`} data-uia="thumbs-container">
                                                         <div className="nf-svg-button-wrapper thumb-container thumb-up-container" data-uia="">
                                                             <div role="button" 
                                                                 tabIndex="0" 
@@ -195,8 +195,6 @@ class VideoItem extends Component {
                                                                 }}
                                                                 >
                                                                 <img
-                                                                    // src="/assets/media/icons/like.svg"
-                                                                    // src="/assets/media/icons/like-filled.svg"
                                                                     src={`/assets/media/icons/${isUpVoted ? "like-filled.svg" : "like.svg"}`}
                                                                     className="action-icon-style"
                                                                     alt="" />
@@ -222,8 +220,6 @@ class VideoItem extends Component {
                                                                 }}
                                                                 >
                                                                 <img
-                                                                    // src="/assets/media/icons/dislike.svg"
-                                                                    // src="/assets/media/icons/dislike-filled.svg"
                                                                     src={`/assets/media/icons/${isDownVoted ? "dislike-filled.svg" : "dislike.svg"}`}
                                                                     className="action-icon-style"
                                                                     alt="" />
