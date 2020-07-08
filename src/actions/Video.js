@@ -11,12 +11,13 @@ import {
 } from "../constants/ActionTypes";
 import axios from '../util/Api';
 
-export const openJawBone = (videoId, rowId) => {
+export const openJawBone = (rowId, colId, videoId) => {
     return {
         type: JAWBONE_HANDLE,
         payload: true,
-        videoId: videoId,
-        rowId: rowId
+        colId: colId,
+        rowId: rowId,
+        videoId: videoId
     }
 };
 
@@ -24,6 +25,8 @@ export const closeJawBone = () => {
     return {
         type: JAWBONE_HANDLE,
         payload: false,
+        colId: null,
+        rowId: null,
         videoId: null
     }
 };

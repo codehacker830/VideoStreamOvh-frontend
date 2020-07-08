@@ -23,24 +23,24 @@ class VideoItem extends Component {
                 this.setState({ vote: video.vote });
             });
         }
-    }, 600);
+    }, 500);
     render() {
         const { isHover, vote } = this.state;
-        const { r_id, v_id, data, isJawOpen, rowId, videoId, cartList } = this.props;
+        const { r_id, c_id, data, isJawOpen, rowId, colId, cartList } = this.props;
         const { id, title, boxart_image, bob_background, duration, category, watched_time } = data;
         // const { vote, title_logo, jawbone_title_logo, description, price, ptrack_content_image, rating, views, source } = data;
         const progress_completed = watched_time / duration * 100;
 
         console.log("*** VideoItem props ***", this.props);
 
-        const isMyJawOpen = isJawOpen && r_id === rowId && v_id === videoId;
-        const isDimmed = (isJawOpen && v_id !== videoId) || r_id !== rowId;
+        const isMyJawOpen = isJawOpen && r_id === rowId && c_id === colId;
+        const isDimmed = (isJawOpen && c_id !== colId) || r_id !== rowId;
         const isCarted = isInvoledAtCart(cartList, id);
         const isUpVoted = vote === "up" ? true : false;
         const isDownVoted = vote === "down" ? true : false;
         const isVoted = isUpVoted || isDownVoted;
         return (
-            <div className={`slider-item slider-item-${v_id}${isHover ? " hovered" : ""}`}
+            <div className={`slider-item slider-item-${c_id}${isHover ? " hovered" : ""}`}
                 onMouseEnter={() => {
                     this.setState({ isHover: true });
                     this.delayedRequest(id);
@@ -112,7 +112,7 @@ class VideoItem extends Component {
                                                     background: "transparent",
                                                     outline: "none"
                                                 }}
-                                                onClick={() => { console.log("~~ v_id ~~", v_id); this.props.openJawBone(v_id, r_id); }} >
+                                                onClick={() => { console.log("~~ c_id ~~", c_id); this.props.openJawBone(r_id, c_id, id); }} >
                                                 <img src="/assets/media/icons/chevron-down.svg"
                                                     style={{ height: "75%" }}
                                                     alt=""
@@ -287,13 +287,13 @@ class VideoItem extends Component {
 
 VideoItem.propTypes = {
     r_id: PropTypes.number,
-    v_id: PropTypes.number,
+    c_id: PropTypes.number,
     data: PropTypes.object
 };
 
 const mapStateToProps = ({ video }) => {
-    const { cartList, isJawOpen, rowId, videoId } = video;
-    return { cartList, isJawOpen, rowId, videoId }
+    const { cartList, isJawOpen, rowId, colId } = video;
+    return { cartList, isJawOpen, rowId, colId }
 };
 const mapDispatchToProps = { addToCart, removeFromCart, openJawBone, removeVote, upVote, downVote };
 export default connect(mapStateToProps, mapDispatchToProps)(VideoItem);
