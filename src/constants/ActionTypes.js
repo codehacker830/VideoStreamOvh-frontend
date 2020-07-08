@@ -12,6 +12,9 @@ export const USER_TOKEN_SET = 'user_token_set';
 
 export const SEARCH_TITLE = 'search_title';
 export const CART_LIST = 'cart_list';
+export const TRENDING_VIDEOS = 'trending_videos';
+export const WATCHING_VIDEOS = 'watching_videos';
+
 export const CATEGORY_LIST = 'category_list';
 
 export const JAWBONE_HANDLE = 'jawbone_handle';

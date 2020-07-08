@@ -32,7 +32,7 @@ class VideoTile extends Component {
             <div className="col-md-6 col-xl-3">
                 {/* <!-- Story #9 --> */}
                 <div className="block block-rounded bg-image img-hover-zoom img-hover-zoom--basic">
-                    <img src={`${cover}`} alt="Video image" />
+                    <img src={`${cover}`} alt="video" />
                     <div className="block-content">
                         <div className="mb-4 d-sm-flex justify-content-sm-between align-items-sm-center">
                             <p>
@@ -76,7 +76,6 @@ class VideoTile extends Component {
 }
 const mapStateToProps = ({ video }) => {
     const { cartList } = video;
-    console.log(" Cart List : ", cartList);
     return { cartList };
 };
 const mapDispatchToProps = {

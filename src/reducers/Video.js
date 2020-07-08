@@ -1,6 +1,8 @@
 import {
     SEARCH_TITLE,
     CART_LIST,
+    TRENDING_VIDEOS,
+    WATCHING_VIDEOS,
     CATEGORY_LIST,
     JAWBONE_HANDLE
 } from '../constants/ActionTypes';
@@ -8,6 +10,9 @@ import {
 const INITIAL_STATE = {
     searchTitleResult: [],
     cartList: [],
+    trendingVideos: [],
+    watchingVideos: [],
+
     categoryList: [],
     isJawOpen: false,
     videoId: null,
@@ -32,6 +37,16 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 cartList: action.payload
+            }
+        case TRENDING_VIDEOS:
+            return {
+                ...state,
+                trendingVideos: action.payload
+            }
+        case WATCHING_VIDEOS:
+            return {
+                ...state,
+                watchingVideos: action.payload
             }
         case CATEGORY_LIST:
             return {

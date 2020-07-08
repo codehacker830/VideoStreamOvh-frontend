@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from '../../util/Api';
-import { searchByTitle } from "../../actions";
+import { searchByTitle, fetchedCartList, fetchedTrendingVideos, fetchedWatchingVideos } from "../../actions";
 import { Link } from 'react-router-dom';
 import LoadingRow from '../../components/LoadingRow';
 import SlideRow from '../../components/SlideRow';
@@ -14,8 +14,9 @@ class Home extends Component {
     constructor() {
         super();
         this.state = {
-            trendingVideos: [],
             cartList: [],
+            trendingVideos: [],
+            watchingVideos: [],
             searchKey: "",
             isLoading: false,
             isJawOpen: true
@@ -25,15 +26,20 @@ class Home extends Component {
         this._isMounted = true;
         if (this._isMounted) {
             this.setState({ isLoading: true });
-            const promise1 = axios.get('/cart')
+            const promise1 = axios.get('/cart');
             const promise2 = axios.get('/state/trending');
+            const promise3 = axios.get('/watching');
+            Promise.all([promise1, promise2, promise3]).then((values) => {
+                console.log("$$$$$$ api response : ", values);
 
-            Promise.all([promise1, promise2]).then((values) => {
-                console.log("VVVVVVVVVVVVVVValuessssss", values);
+                this.props.fetchedCartList(values["0"].data.list);
+                this.props.fetchedTrendingVideos(values["1"].data.videos);
+                this.props.fetchedWatchingVideos(values["2"].data.videos);
+
                 this.setState({
                     isLoading: false,
-                    cartList: values["0"].data.list,
                     trendingVideos: values["1"].data.videos,
+                    watchingVideos: values["2"].data.videos,
                 });
             })
         }
@@ -44,14 +50,15 @@ class Home extends Component {
     }
     render() {
         console.log(" uniqueId = ", uniqueId());
-        const { isLoading, cartList } =  this.state;
+        const { isLoading} = this.state;
+        const { cartList, trendingVideos, watchingVideos } = this.props;
         const { isJawOpen } = this.props;
         const result = this.props.searchTitleResult || [];
         return (
             <React.Fragment>
                 <div className="mainView" role="main">
                     <div className={`lolomo is-fullbleed${isJawOpen ? " has-open-jaw" : ""}`}>
-                        { isLoading ? <LoadingRow /> : 
+                        {isLoading ? <LoadingRow /> :
                             <React.Fragment>
                                 <h1 className="visually-hidden">
                                     <span className="v-align-inherit">
@@ -148,7 +155,7 @@ class Home extends Component {
                                                                                 <span className="v-align-inherit">
                                                                                     <span className="v-align-inherit">
                                                                                         List
-                                                                                                </span>
+                                                                                    </span>
                                                                                 </span>
                                                                             </span>
                                                                         </button>
@@ -162,13 +169,26 @@ class Home extends Component {
                                         </div>
                                     </div>
                                 </span>
-                                
+
                                 {/* my list */}
-                                <SlideRow r_id={1} />
+                                {
+                                    cartList && cartList.length ?
+                                        <SlideRow r_id={1} title="List" data={cartList} />
+                                        : null
+                                }
+
                                 {/* most popular */}
-                                <SlideRow r_id={2}/>
+                                {
+                                    trendingVideos && trendingVideos.length ?
+                                        <SlideRow r_id={2} title="Most popular" data={trendingVideos} />
+                                        : null
+                                }
                                 {/* keep watching */}
-                                <SlideRow r_id={3}/>
+                                {
+                                    watchingVideos && watchingVideos.length ?
+                                        <SlideRow r_id={3} title="Keep watching..." data={watchingVideos} />
+                                        : null
+                                }
                             </React.Fragment>
                         }
                     </div >
@@ -178,8 +198,8 @@ class Home extends Component {
     }
 }
 const mapStateToProps = ({ video }) => {
-    const { searchTitleResult, isJawOpen } = video;
-    return { searchTitleResult, isJawOpen };
+    const { searchTitleResult, isJawOpen, cartList, trendingVideos, watchingVideos } = video;
+    return { searchTitleResult, isJawOpen, cartList, trendingVideos, watchingVideos };
 }
-const mapDispatchToProps = { searchByTitle };
+const mapDispatchToProps = { searchByTitle, fetchedCartList, fetchedTrendingVideos, fetchedWatchingVideos };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

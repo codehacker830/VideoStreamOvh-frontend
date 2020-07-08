@@ -12,7 +12,6 @@ class SlideRow extends Component {
         super(props);
         this.state = {
             isLoading: false,
-            totalInList: 6,
             distance: 0,
             viewed: 0,
             totalInViewport: 0,
@@ -57,9 +56,9 @@ class SlideRow extends Component {
         const slideProps = {
             style: { transform: `translate3d(${this.state.distance}px, 0, 0)` }
         };
-        const { r_id, isJawOpen, closeJawBone, rowId } = this.props;
-        const { viewed, totalInViewport, distance, totalInList, isLoading } = this.state;
-
+        const { r_id, title, data, isJawOpen, rowId } = this.props;
+        const { viewed, totalInViewport, distance, isLoading } = this.state;
+        const totalInList = data.length;
         const isMyJawOpen = isJawOpen && (r_id === rowId);
         const hasPrev = distance < 0;
         const hasNext = (viewed + totalInViewport) < totalInList;
@@ -68,10 +67,10 @@ class SlideRow extends Component {
             const eArr = new Array(totalPages).fill("");
             const currentPage = totalInViewport !== 0 ? Math.ceil(viewed / totalInViewport) : 1;
             return (
-                <div className={`lolomoRow lolomoRow_title_card${isMyJawOpen ? " jawBoneOpen" : ""}`} datalistcontext="queue">
+                <div className={`lolomoRow lolomoRow_title_card${isMyJawOpen ? " jawBoneOpen" : ""}`}>
                     <h2 className="rowTitle">
                         <span className="v-align-inherit">
-                            <span className="v-align-inherit">List</span>
+                        <span className="v-align-inherit">{title}</span>
                         </span>
                     </h2>
                     <div className="rowContainer rowContainer_title_card" id="row-1">
@@ -88,19 +87,18 @@ class SlideRow extends Component {
 
                                     <ul className="pagination-indicator">
                                         {
-                                            eArr.map((item, index) => {
+                                            eArr.map((it, index) => {
                                                 return <li key={index} className={`${index === currentPage ? "active" : ""}`}></li>;
                                             })
                                         }
                                     </ul>
                                     <div className="sliderMask showPeek">
                                         <div className="sliderContent row-with-x-columns" {...slideProps} ref={this.sliderWrapperRef}>
-                                            <VideoItem r_id={r_id} v_id={1} />
-                                            <VideoItem r_id={r_id} v_id={2} />
-                                            <VideoItem r_id={r_id} v_id={3} />
-                                            <VideoItem r_id={r_id} v_id={4} />
-                                            <VideoItem r_id={r_id} v_id={5} />
-                                            <VideoItem r_id={r_id} v_id={6} />
+                                            {
+                                                data.map((dt, index) => {
+                                                    return <VideoItem key={index} r_id={r_id} v_id={index} data={dt}/>
+                                                })
+                                            }
                                         </div>
                                     </div>
                                     {
@@ -124,8 +122,8 @@ class SlideRow extends Component {
                                                         <div className="jawBoneBackground image-rotator">
                                                             <span>
                                                                 <div className="ptrack-content"
-                                                                    data-tracking-uuid="c0575717-7146-4114-8126-eea61ec41d10">
-                                                                    <div className="image-rotator-image "
+                                                                    data-tracking-uuid="">
+                                                                    <div className="image-rotator-image"
                                                                         style={{
                                                                             backgroundImage: 'url("https://via.placeholder.com/848x477")',
                                                                             // backgroundImage: 'url("https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABUBoG58JRFOyWZfw3959g9CrQHS53_p0nC-pCFTx1HrtKYuzhh2cG1gefo3ckVyYVRY69emm0xVO5Hna_FUytHTJRqN9.webp?r=853")',
@@ -323,7 +321,7 @@ class SlideRow extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <button className="close-button icon-close" tabIndex="0" aria-label="Close" onClick={closeJawBone}>
+                                                    <button className="close-button icon-close" tabIndex="0" aria-label="Close" onClick={this.props.closeJawBone}>
                                                     </button>
                                                 </div>
                                             </div>
@@ -344,7 +342,9 @@ class SlideRow extends Component {
     }
 }
 SlideRow.propTypes = {
-    r_id: PropTypes.number
+    r_id: PropTypes.number,
+    title: PropTypes.string,
+    data: PropTypes.array
 };
 const mapStateToProps = ({ video }) => {
     const { isJawOpen, rowId } = video;
