@@ -385,7 +385,7 @@ class Watch extends Component {
                                                                             style={{ left: '98.59%' }}>
                                                                             <div className="tp-text">1:15:20</div>
                                                                         </div>
-                                                                        <div aria-label="Arama zaman çubuğu" aria-valuemax={4585}
+                                                                        <div aria-label="Search time bar" aria-valuemax={4585}
                                                                             aria-valuemin={0} aria-valuenow={206}
                                                                             aria-valuetext="3:26 / 1:16:25" className="scrubber-head"
                                                                             tabIndex={0} style={{ left: '4.51%' }} />
@@ -400,7 +400,7 @@ class Watch extends Component {
 
                                                         {/* Here is play and pause button  */}
                                                         <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-nfplayerPlay"
-                                                            tabIndex={0} aria-label="play" onClick={this.onSwitchPlayAndPause}>
+                                                            tabIndex={0} aria-label="Play" onClick={this.onSwitchPlayAndPause}>
                                                             {
                                                                 playing ?
                                                                     <svg
@@ -447,19 +447,19 @@ class Watch extends Component {
                                                                     </button>
                                                                     : <button
                                                                         className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeLow"
-                                                                        tabIndex={0} aria-label="Ses">
+                                                                        tabIndex={0} aria-label="Volume">
                                                                         <svg className="svg-icon svg-icon-volumeLow" focusable="false"><use filter xlinkHref="#volumeLow" /></svg>
                                                                     </button>
                                                             }
 
                                                             {/* <button
                                                                 className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMedium"
-                                                                tabIndex={0} aria-label="Ses">
+                                                                tabIndex={0} aria-label="Volume">
                                                                 <svg className="svg-icon svg-icon-volumeMedium" focusable="false"><use filter xlinkHref="#volumeMedium" /></svg>
                                                             </button>
                                                             <button
                                                                 className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMax"
-                                                                tabIndex={0} aria-label="Max">
+                                                                tabIndex={0} aria-label="Volume">
                                                                 <svg className="svg-icon svg-icon-volumeMax" focusable="false"><use filter xlinkHref="#volumeMax" /></svg>
                                                             </button> */}
 
@@ -490,11 +490,11 @@ class Watch extends Component {
                                                             {/* Here is active/inactive Report issue button */}
                                                             {/* <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-nfplayerReportAProblem"
                                                                 tabIndex={0}
-                                                                aria-label="Report the execution issue to Netflix.">
+                                                                aria-label="Report the execution issue to VideoStream.">
                                                             </button> */}
                                                             <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-nfplayerReportAProblem PlayerControls--control-element--active"
                                                                 tabIndex={0}
-                                                                aria-label="Report the execution issue to Netflix.">
+                                                                aria-label="Report the execution issue to VideoStream.">
                                                                 <svg
                                                                     className="svg-icon svg-icon-nfplayerReportAProblem" focusable="false">
                                                                     <use filter xlinkHref="#nfplayerReportAProblem" />
@@ -514,7 +514,7 @@ class Watch extends Component {
 
                                                         {/* Here is full screen button */}
                                                         <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-nfplayerFullscreen"
-                                                            tabIndex={0} aria-label="Tam ekran">
+                                                            tabIndex={0} aria-label="Fullscreen">
                                                             <svg className="svg-icon svg-icon-nfplayerFullscreen" focusable="false">
                                                                 <use filter xlinkHref="#nfplayerFullscreen" />
                                                             </svg>
