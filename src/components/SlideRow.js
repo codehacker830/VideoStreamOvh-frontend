@@ -5,7 +5,6 @@ import VideoItem from './VideoItem';
 import { connect } from 'react-redux';
 import LoadingRow from './LoadingRow';
 import { closeJawBone } from '../actions';
-import { v4 as uuidv4 } from 'uuid';
 import JawBoneContent from './JawBoneContent';
 
 class SlideRow extends Component {

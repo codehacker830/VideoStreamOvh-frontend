@@ -4,12 +4,12 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import Home from './Home';
 import MyList from './MyList';
-// import PlayMovie from './PlayMovie';
 import { getCartList, } from "../actions";
 import Error404 from '../pages/Error404';
 import { history } from '../store';
 import MemberFooter from '../components/MemberFooter';
 import './style.css';
+import Watch from './Watch';
 
 class MainPages extends React.Component {
     componentDidMount() {
@@ -39,7 +39,7 @@ class MainPages extends React.Component {
                                 <Switch>
                                     <Route exact path={`${match.url}`} component={Home} />
                                     <Route path={`${match.url}/my-list`} component={MyList} />
-                                    {/* <Route exact path={`${match.url}/playmovie/:videoId`} component={PlayMovie} /> */}
+                                    <Route exact path={`${match.url}/watch/:videoId`} component={Watch} />
                                     <Route component={Error404} />
                                 </Switch>
                                 <MemberFooter />

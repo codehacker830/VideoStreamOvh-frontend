@@ -1,3 +1,3 @@
 {
-  "plugins": ["babel-plugin-react-scoped-css"]
+  "plugins": [ "babel-plugin-react-scoped-css", "react-hot-loader/babel" ]
 }
