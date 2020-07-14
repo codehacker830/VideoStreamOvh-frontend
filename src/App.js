@@ -51,8 +51,8 @@ class App extends Component {
     }
     render() {
         const { match, location, token, authUser, initURL } = this.props;
-        console.error("~~~~~~~~~~~ this.props.token in store ~~~~~~~~~~~", token);
-        console.error("~~~~~~~~~~~ this.props.authUser in store ~~~~~~~~~~~", authUser);
+        // console.error("~~~~~~~~~~~ this.props.token in store ~~~~~~~~~~~", token);
+        // console.error("~~~~~~~~~~~ this.props.authUser in store ~~~~~~~~~~~", authUser);
         if (location.pathname === '/') {
             if (token === null) {
                 console.error("++++++++++ TOKEN IS NULL SO REDIRET TO -> /landing +++++++++++");
@@ -61,7 +61,8 @@ class App extends Component {
             else if (initURL === '' || initURL === '/' || initURL === '/sign-in') {
                 console.error("++++++++++ TOKEN EXIST AND INITURL IS EMPLY SO REDIRET TO -> /pr/ +++++++++++");
                 return (<Redirect to={'/pr/'} />);
-            } else {
+            } 
+            else if (initURL !== '' || initURL !== '/' || initURL !== '/sign-in') {
                 console.error("++++++++++ TOKEN & INITURL EXIST SO REDIRET TO -> initURL  +++++++++++");
                 return (<Redirect to={initURL} />);
             }
