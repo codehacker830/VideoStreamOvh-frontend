@@ -19,7 +19,6 @@ class MainPages extends React.Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        console.error("________  nextProps ", nextProps);
         if (nextProps.authUser) {
             const { email_verified_at } = nextProps.authUser;
             if (email_verified_at === null) this.props.history.push('/verification');
@@ -53,7 +52,8 @@ class MainPages extends React.Component {
     }
 }
 const mapStateToProps = ({ auth }) => {
-    return { authUser: auth.authUser };
+    const { authUser } = auth;
+    return { authUser };
 };
 const mapDispatchToProps = { getCartList };
 export default connect(mapStateToProps, mapDispatchToProps)(MainPages);

@@ -23,7 +23,7 @@ const RestrictedRoute = ({ component: Component, token, ...rest }) => {
             {...rest}
             render={props =>
                 token ?
-                    <Component {...props} /> 
+                    <Component {...props} />
                     : <Redirect
                         to={{
                             pathname: '/landing',
@@ -51,17 +51,18 @@ class App extends Component {
     }
     render() {
         const { match, location, token, authUser, initURL } = this.props;
-        console.log("~~~~~~~~~~~ this.props.token in store ~~~~~~~~~~~", token);
-        console.log("~~~~~~~~~~~ this.props.authUser in store ~~~~~~~~~~~", authUser);
+        console.error("~~~~~~~~~~~ this.props.token in store ~~~~~~~~~~~", token);
+        console.error("~~~~~~~~~~~ this.props.authUser in store ~~~~~~~~~~~", authUser);
         if (location.pathname === '/') {
             if (token === null) {
+                console.error("++++++++++ TOKEN IS NULL SO REDIRET TO -> /landing +++++++++++");
                 return (<Redirect to={'/landing'} />);
             }
-            else if (authUser && authUser.email_verified_at === null) {
-                return (<Redirect to={'/verification'} />);
-            } else if (initURL === '' || initURL === '/' || initURL === '/sign-in') {
+            else if (initURL === '' || initURL === '/' || initURL === '/sign-in') {
+                console.error("++++++++++ TOKEN EXIST AND INITURL IS EMPLY SO REDIRET TO -> /pr/ +++++++++++");
                 return (<Redirect to={'/pr/'} />);
             } else {
+                console.error("++++++++++ TOKEN & INITURL EXIST SO REDIRET TO -> initURL  +++++++++++");
                 return (<Redirect to={initURL} />);
             }
         }

@@ -51,14 +51,14 @@ class Watch extends Component {
         if (this._isMounted) {
             // if(this.props.location.state === null) this.props.history.push("/pr");
             // else {
-                axios.get(`/watched-time/${videoId}`).then(({ data }) => {
-                    const { watched_time } = data;
-                    console.log(" watched data ---- : ", data);
-                    this.watched_time = watched_time;
-                    this.setState({
-                        isLoading: false,
-                    });
+            axios.get(`/watched-time/${videoId}`).then(({ data }) => {
+                const { watched_time } = data;
+                console.log(" watched data ---- : ", data);
+                this.watched_time = watched_time;
+                this.setState({
+                    isLoading: false,
                 });
+            });
             // }
         }
     }
@@ -194,17 +194,20 @@ class Watch extends Component {
         this.player = player;
     }
     componentWillUnmount() {
-        window.removeEventListener('mousemove', () => {});
+        window.removeEventListener('mousemove', () => { });
     }
     render() {
         const {
             isLoading, isActive, NotificationShow, ppToggleShow, isForward,
             isVolumePopupActive, isTrickPlayVisible, isReportAProblemPopup,
-            playedSeconds, duration, playing, volume, played, loaded } = this.state;
+            playedSeconds, duration, playing, volume, played, loaded
+        } = this.state;
         const { videoId } = this.props.match.params;
         const data = this.props.location.state;
-        console.log(" **************** data : ", data);
-        if( videoId == null || data === null) return (<Redirect to="/pr" />);
+        console.log(" **************** Watch page videoId from location ************ ", data);
+        console.log(" **************** Watch page data from location ************ ", data);
+
+        if (typeof data === "undefined") return (<Redirect to="/pr" />);
 
         const { title, views, rating, description } = data;
         const url = data.source || 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
@@ -538,7 +541,7 @@ class Watch extends Component {
                                                         </div>
 
                                                         <div className="PlayerControls--control-element text-control video-title">
-                                                            <h4 className="ellipsize-text">{ title }</h4>
+                                                            <h4 className="ellipsize-text">{title}</h4>
                                                         </div>
 
                                                         {/* Here is active/inactive Report container */}
