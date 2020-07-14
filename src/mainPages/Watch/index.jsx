@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
 import Preloading from './Preloading';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import screenfull from 'screenfull';
 import { findDOMNode } from 'react-dom';
 import SvgDefs from '../../components/icons/SvgDefs';
@@ -16,11 +16,9 @@ class Watch extends Component {
         this.prevVolume = null;
         this.watched_time = 0;
 
-        const { videoId } = this.props.match.params;
-        const { state } = this.props.location;
         this.state = {
-            videoId: videoId,
-            data: state,
+            // videoId: videoId,
+            // data: state,
 
             isLoading: false,
             isActive: true,
@@ -47,23 +45,22 @@ class Watch extends Component {
         this.player = React.createRef();
     }
     componentDidMount() {
-        const { videoId } = this.state;
         this._isMounted = true;
+        const { videoId } = this.props.match.params;
         this.setState({ isLoading: true });
         if (this._isMounted) {
-            axios.get(`/watched-time/${videoId}`).then(({ data }) => {
-                const { watched_time } = data;
-                console.log(" watched data ---- : ", data);
-                this.watched_time = watched_time;
-                this.setState({
-                    isLoading: false,
+            // if(this.props.location.state === null) this.props.history.push("/pr");
+            // else {
+                axios.get(`/watched-time/${videoId}`).then(({ data }) => {
+                    const { watched_time } = data;
+                    console.log(" watched data ---- : ", data);
+                    this.watched_time = watched_time;
+                    this.setState({
+                        isLoading: false,
+                    });
                 });
-            });
+            // }
         }
-
-    }
-    componentDidUpdate() {
-
     }
     onSwitchPlayAndPause = () => {
         this.setState({
@@ -119,7 +116,8 @@ class Watch extends Component {
     }
     handleEnded = () => {
         // console.log('onEnded')
-        const { videoId, duration } = this.state;
+        const { duration } = this.state;
+        const { videoId } = this.props.match.params;
         axios.post("/progress-update", {
             video_id: videoId,
             watched_time: duration,
@@ -134,7 +132,8 @@ class Watch extends Component {
     }
     handleProgress = state => {
         console.log('onProgress', state);
-        const { videoId, playedSeconds } = this.state;
+        const { playedSeconds } = this.state;
+        const { videoId } = this.props.match.params;
         axios.post("/progress-update", {
             video_id: videoId,
             watched_time: playedSeconds,
@@ -152,7 +151,7 @@ class Watch extends Component {
     }
     handleDuration = duration => {
         console.log('onDuration', duration);
-        const { videoId } = this.state;
+        const { videoId } = this.props.match.params;
         axios.post("/video-duration", {
             video_id: videoId,
             duration
@@ -199,10 +198,15 @@ class Watch extends Component {
     }
     render() {
         const {
-            data,
             isLoading, isActive, NotificationShow, ppToggleShow, isForward,
             isVolumePopupActive, isTrickPlayVisible, isReportAProblemPopup,
             playedSeconds, duration, playing, volume, played, loaded } = this.state;
+        const { videoId } = this.props.match.params;
+        const data = this.props.location.state;
+        console.log(" **************** data : ", data);
+        if( videoId == null || data === null) return (<Redirect to="/pr" />);
+
+        const { title, views, rating, description } = data;
         const url = data.source || 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
         const isDimmed = !playing && !isActive;
         const remaining_time = duration - playedSeconds;
@@ -310,13 +314,13 @@ class Watch extends Component {
                                                     <div>
                                                         <div className="evidence-overlay nfa-z-idx-1 nfa-pos-abs nfa-d-flex nfa-w-100 nfa-h-100 nfa-flx-dir-col nfa-bs-bb nfa-jc-center">
                                                             <h4 className="nfa-fs-1-6-em nfa-fw-normal nfa-c-gray-80 nfa-m-0 nfa-pb-02-em">Now watching</h4>
-                                                            <h2 className="nfa-fs-4-8-em nfa-m-0">Batman: Mask of the Phantasm</h2>
+                                                            <h2 className="nfa-fs-4-8-em nfa-m-0">{title}</h2>
                                                             <h3 className="nfa-fs-2-em nfa-m-0 nfa-pt-02-em nfa-pb-1em nfa-pb-05-em nfa-fw-normal nfa-d-flex">
-                                                                <span>1993</span>
-                                                                <span className="nfa-pl-1-em nfa-pr-1-em">PG</span>
-                                                                <span>1 hr 16 min</span>
+                                                                <span>{views}</span>
+                                                                <span className="nfa-pl-1-em nfa-pr-1-em">{rating}</span>
+                                                                <span>{Math.floor(duration / 3600)} hr {Math.floor(duration % 3600 / 60)} min</span>
                                                             </h3>
-                                                            <p className="nfa-fs-1-6-em nfa-c-gray-80 nfa-m-0 nfa-w-60">Batman investigates a mysterious masked vigilante targeting Gotham City's most notorious mobsters as his haunted past and violent present collide.</p>
+                                                            <p className="nfa-fs-1-6-em nfa-c-gray-80 nfa-m-0 nfa-w-60">{description}</p>
                                                             <p className="nfa-as-end nfa-fs-1-6-em nfa-c-gray-80 nfa-m-0 nfa-pos-abs nfa-bot-10 nfa-right-10">Paused</p>
                                                         </div>
                                                     </div>
@@ -534,7 +538,7 @@ class Watch extends Component {
                                                         </div>
 
                                                         <div className="PlayerControls--control-element text-control video-title">
-                                                            <h4 className="ellipsize-text">Batman: Mask of the Phantasm</h4>
+                                                            <h4 className="ellipsize-text">{ title }</h4>
                                                         </div>
 
                                                         {/* Here is active/inactive Report container */}

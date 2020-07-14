@@ -51,24 +51,25 @@ class App extends Component {
     }
     render() {
         const { match, location, token, authUser, initURL } = this.props;
-        // if (location.pathname === '/') {
-        //     if (token === null) {
-        //         return (<Redirect to={'/landing'} />);
-        //     }
-        //     else if (authUser && authUser.email_verified_at === null) {
-        //         return (<Redirect to={'/landing'} />);
-        //     // } else if (initURL === '' || initURL === '/' || initURL === '/signin') {
-        //     //     return (<Redirect to={'/home'} />);
-        //     } else {
-        //         return (<Redirect to={initURL} />);
-        //     }
-        // }
-
+        console.log("~~~~~~~~~~~ this.props.token in store ~~~~~~~~~~~", token);
+        console.log("~~~~~~~~~~~ this.props.authUser in store ~~~~~~~~~~~", authUser);
+        if (location.pathname === '/') {
+            if (token === null) {
+                return (<Redirect to={'/landing'} />);
+            }
+            else if (authUser && authUser.email_verified_at === null) {
+                return (<Redirect to={'/verification'} />);
+            } else if (initURL === '' || initURL === '/' || initURL === '/sign-in') {
+                return (<Redirect to={'/pr/'} />);
+            } else {
+                return (<Redirect to={initURL} />);
+            }
+        }
         return (
             <Switch>
                 <Redirect exact path="/" to="/landing" />
-                {/* <RestrictedRoute path='/pr' token={token} component={MainPages} /> */}
-                <Route path='/pr' component={MainPages} />
+                <RestrictedRoute path='/pr' token={token} component={MainPages} />
+                {/* <Route path='/pr' component={MainPages} /> */}
 
                 <Route path='/landing' component={Landing} />
                 <Route path='/sign-in' component={SignIn} />
