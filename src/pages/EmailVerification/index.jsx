@@ -55,6 +55,17 @@ class EmailVerification extends Component {
                                         Resend Verification Link
                                     </button>
                                 </div>
+                                {
+                                    this.props.loading ?
+                                        
+                                    <p style={{ fontSize: "16px", color: 'gray' }}>Sending email ...</p>
+                                        :
+                                        (
+                                            this.props.status ?
+                                            <p style={{ fontSize: "16px", color: 'gray' }}>{this.props.message}</p>
+                                                : <p style={{ fontSize: "16px", color: 'gray' }}>{this.props.error}</p>
+                                        )
+                                }
                             </div>
                             <div className="hybrid-login-form-other">
                                 <div className="login-signup-now" data-uia="login-signup-now">Already have account?
