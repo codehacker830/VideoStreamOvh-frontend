@@ -21,8 +21,8 @@ export const userSignUp = ({ name, email, password }) => {
     return (dispatch) => {
         dispatch({ type: FETCH_START });
         axios.post('/register', {
-            email: email,
             name: name,
+            email: email,
             password: password
         }
         ).then(({ data }) => {

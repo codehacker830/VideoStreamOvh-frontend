@@ -244,7 +244,7 @@ class VideoItem extends Component {
 
                                                             </div>
                                                             <span className="nf-svg-button-tooltip" role="status"
-                                                                aria-live="assertive">Remove from My List
+                                                                aria-live="assertive">{isCarted ? "Remove from" : "Add to"} My List
                                                             </span>
                                                         </div>
                                                     </div>

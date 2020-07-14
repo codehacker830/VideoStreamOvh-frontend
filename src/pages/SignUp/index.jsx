@@ -2,27 +2,20 @@ import React, { Component } from 'react';
 import './style.scoped.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { userSignIn } from '../../actions';
+import { userSignUp } from '../../actions';
 
-class SignIn extends Component {
+class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: "",
             email: "",
             password: "",
+            passwordConfirm: "",
             isChecked: false
         };
     }
-    onInputHandle = (ev) => {
-        const name = ev.target.name;
-        console.log(" NAME : ", name);
-        if (name === "email") {
-            this.setState({ email: ev.target.value });
-        }
-        if (name === "password") {
-            this.setState({ password: ev.target.value });
-        }
-    }
+
     componentWillReceiveProps(nextProps) {
         console.error(" next props : ", nextProps);
         if (nextProps.authUser) {
@@ -34,6 +27,7 @@ class SignIn extends Component {
         }
     }
     render() {
+        console.log(" this.state !!!" , this.state);
         return (
             <div className="login-wrapper hybrid-login-wrapper">
                 <div className="login-wrapper-background">
@@ -62,6 +56,22 @@ class SignIn extends Component {
                             <div className="hybrid-login-form-main">
                                 <h1>Sign In</h1>
                                 <div className="login-form">
+                                    <div className="nfInput nfEmailPhoneInput login-input login-input-email">
+                                        <div className="nfInputPlacement">
+                                            <div className="nfEmailPhoneControls">
+                                                <label className="input_id">
+                                                    <input type="text"
+                                                        name="name"
+                                                        className="nfTextField"
+                                                        tabIndex={0}
+                                                        value={this.state.name}
+                                                        onChange={(ev) => this.setState({ name: ev.target.value })}
+                                                        placeholder="Name"
+                                                    />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div data-uia="login-field+container"
                                         className="nfInput nfEmailPhoneInput login-input login-input-email">
                                         <div className="nfInputPlacement">
@@ -70,7 +80,7 @@ class SignIn extends Component {
                                                     <input type="text" data-uia="login-field" name="email" className="nfTextField"
                                                         id="id_userLoginId" tabIndex={0} autoComplete="email"
                                                         value={this.state.email}
-                                                        onChange={(ev) => this.onInputHandle(ev)}
+                                                        onChange={(ev) => this.setState({ email: ev.target.value })}
                                                         placeholder="Email address"
                                                     />
                                                     {/* <label htmlFor="id_userLoginId" className="placeLabel">Email address</label> */}
@@ -98,11 +108,42 @@ class SignIn extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="nfInput nfPasswordInput login-input login-input-password">
+                                        <div className="nfInputPlacement">
+                                            <div className="nfPasswordControls">
+                                                <label className="input_id">
+                                                    <input type="password"
+                                                        data-uia="password-field"
+                                                        name="password" className="nfTextField"
+                                                        id="id_password"
+                                                        tabIndex={0}
+                                                        value={this.state.passwordConfirm}
+                                                        onChange={(ev) => this.setState({ passwordConfirm: ev.target.value })}
+                                                        placeholder="Confirm password"
+                                                    />
+                                                    {/* <label htmlFor="id_password" className="placeLabel">Password</label> */}
+                                                </label>
+                                                <button data-uia="password-visibility-toggle" id="id_password_toggle" type="button"
+                                                    className="nfPasswordToggle" title="Show Password">SHOW
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                     <button className="btn login-button btn-submit btn-small outline-none w-100" tabIndex={0} data-uia="login-submit-button"
                                         onClick={(ev) => {
                                             ev.preventDefault();
-                                            this.props.userSignIn({ email: this.state.email, password: this.state.password });
-                                        }}>Sign In
+                                            if (this.state.password === this.state.passwordConfirm) {
+                                                this.props.userSignUp({
+                                                    name: this.state.email,
+                                                    email: this.state.email,
+                                                    password: this.state.password
+                                                });
+                                            } else {
+                                                alert("Please check your password again !");
+                                            }
+                                        }}>Sign Up
                                     </button>
                                     <div className="hybrid-login-form-help">
                                         <div className="ui-binary-input login-remember-me">
@@ -116,15 +157,10 @@ class SignIn extends Component {
                                 </div>
                             </div>
                             <div className="hybrid-login-form-other">
-                                <div className="login-signup-now" data-uia="login-signup-now">New to VideoStream?
-                                    <Link to="/sign-up">Sign up now</Link>.
+                                <div className="login-signup-now" data-uia="login-signup-now">Already have account?
+                                    <Link to="/sign-in">Sign in</Link>.
                                 </div>
-                                <div className="recaptcha-terms-of-use" style={{ marginBottom: "120px"}} data-uia="recaptcha-terms-of-use">
-                                    <p>
-                                        <span>Did you forget password?</span>
-                                        &nbsp;
-                                        <Link to="/password-reset-email" className="recaptcha-terms-of-use--link-button" data-uia="recaptcha-learn-more-button">Forgot password.</Link>
-                                    </p>
+                                <div className="recaptcha-terms-of-use" style={{ marginBottom: "90px" }} data-uia="recaptcha-terms-of-use">
                                 </div>
 
                             </div>
@@ -170,5 +206,5 @@ const mapStateToProps = ({ auth, commonData }) => {
     return { authUser, status, loading, error, message }
 };
 
-const mapDispatchToProps = { userSignIn };
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+const mapDispatchToProps = { userSignUp };
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

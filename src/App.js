@@ -5,9 +5,9 @@ import axios from './util/Api';
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Error404 from './pages/Error404';
-import EmailVerificaion from './pages/EmailVerificaion';
-import ResetPasswordEmail from './pages/ResetPasswordEmail';
-import ResetPasswordForm from './pages/ResetPasswordForm';
+import ForgotPassword from './pages/ForgotPassword';
+// import ResetPasswordForm from './pages/ResetPasswordForm';
+import EmailVerification from './pages/EmailVerification';
 import MainPages from './mainPages';
 import {
     setInitUrl,
@@ -75,12 +75,12 @@ class App extends Component {
                 <Route path='/sign-up' component={SignUp} />
 
                 {/* email verification process */}
-                <Route path='/verification' component={EmailVerificaion} />
+                <Route path='/verification' component={EmailVerification} />
                 <Route path='/verify/:token' component={VerifiedShow} />
 
                 {/* password reset process */}
-                <Route path='/password-reset-email' component={ResetPasswordEmail} />
-                <Route path='/password-reset-form/:token' component={ResetPasswordForm} />
+                <Route path='/forgot-password' component={ForgotPassword} />
+                {/* <Route path='/password-reset-form/:token' component={ResetPasswordForm} /> */}
 
                 <Route component={Error404} />
             </Switch>

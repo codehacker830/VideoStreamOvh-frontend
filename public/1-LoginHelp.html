@@ -60,23 +60,6 @@
                 <div class="login-content">
                     <div data-uia="password-reset-wrapper">
                         <h1 data-uia="password-reset-header">Forgot Email/Password</h1>
-                        <p data-uia="password-reset-subheader">How would you like to reset your password?</p>
-                        <div class="reset-choice-container" data-uia="reset-choice-container">
-                            <div class="ui-binary-input"><input type="radio" class="reset-password-choice"
-                                    name="resetPasswordChoice" id="bxid_resetPasswordChoice_email" value="email"
-                                    tabindex="0" data-uia="resetPasswordChoice" checked=""><label
-                                    for="bxid_resetPasswordChoice_email"
-                                    data-uia="label+resetPasswordChoice">Email</label>
-                                <div class="helper"></div>
-                            </div>
-                            <div class="ui-binary-input"><input type="radio" class="reset-password-choice"
-                                    name="resetPasswordChoice" id="bxid_resetPasswordChoice_text" value="text"
-                                    tabindex="0" data-uia="resetPasswordChoice"><label
-                                    for="bxid_resetPasswordChoice_text" data-uia="label+resetPasswordChoice">Text
-                                    Message (SMS)</label>
-                                <div class="helper"></div>
-                            </div>
-                        </div>
                         <div>
                             <p>We will send you an email with instructions on how to reset your password.</p>
                             <div class="contact-input-wrapper"><label
@@ -85,10 +68,9 @@
                                         type="email" data-uia="forgot_password_input" class="ui-text-input"
                                         name="forgot_password_input" id="forgot_password_input" value=""
                                         placeholder="name@example.com" tabindex="0"></label></div>
-                        </div><button class="btn forgot-password-action-button btn-blue btn-large" type="button"
-                            autocomplete="off" tabindex="0" data-uia="action_forgot_password">Email Me</button><a
-                            data-uia="action_forgot_password_mop" href="#" class="forgot-password-mop-link">I don't
-                            remember my email or phone.</a>
+                        </div>
+                        <button class="btn forgot-password-action-button btn-blue btn-large" type="button"
+                            autocomplete="off" tabindex="0" data-uia="action_forgot_password">Email Me</button>
                     </div>
                 </div>
             </div>
@@ -112,20 +94,6 @@
                                 placeholder="footer_responsive_link_privacy"><span id=""
                                     data-uia="data-uia-footer-label">Privacy Statement</span></a></li>
                     </ul>
-                    <div class="lang-selection-container" id="lang-switcher">
-                        <div data-uia="language-picker+container" class="ui-select-wrapper"><label
-                                for="undefined-select" class="ui-label no-display"><span
-                                    class="ui-label-text"></span></label>
-                            <div class="select-arrow medium prefix globe"><select data-uia="language-picker"
-                                    class="ui-select medium" id="undefined-select" tabindex="0"
-                                    placeholder="lang-switcher">
-                                    <option selected="" value="/LoginHelp" data-language="en" data-country="US">English
-                                    </option>
-                                    <option value="/us-es/LoginHelp" data-language="es" data-country="US">Español
-                                    </option>
-                                </select></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
