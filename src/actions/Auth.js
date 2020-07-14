@@ -33,32 +33,31 @@ export const userSignUp = ({ name, email, password }) => {
             dispatch({ type: USER_TOKEN_SET, payload: data.token });
             dispatch({ type: USER_DATA, payload: data.user });
         }).catch(err => {
-            console.error("userSignUp error.status : ", err);
-            console.error("userSignUp error.message : ", err.response.data.error);
-            dispatch({ type: FETCH_ERROR, payload: err.response.data.error });
+            console.error("xxx userSignUp Request ERROR xxx", err);
+            dispatch({ type: FETCH_ERROR, payload: "Error during user registeration in request" });
         });
     }
 };
 
 export const userSignIn = ({ email, password }) => {
     return (dispatch) => {
-        console.error("___ sigin in email ___", email);
-        console.error("___ sigin in password ___", password);
         dispatch({ type: FETCH_START });
+        dispatch({ type: USER_TOKEN_SET, payload: null });
+        dispatch({ type: USER_DATA, payload: null });
         axios.post('/login', {
             email: email,
             password: password,
         }
         ).then(({ data }) => {
-            console.log("userSignIn: ", data);
+            console.error(" ___ USER SIGN IN RESEPONSE ___ ", data);
             localStorage.setItem("token", JSON.stringify(data.token));
             axios.defaults.headers.common['Authorization'] = "Bearer " + data.token;
             dispatch({ type: FETCH_SUCCESS });
             dispatch({ type: USER_TOKEN_SET, payload: data.token });
-
+            dispatch({ type: USER_DATA, payload: data.user });
         }).catch(err => {
-            console.error("Error****:", err.response.data.error);
-            dispatch({ type: FETCH_ERROR, payload: err.response.data.error });
+            console.error("xxx userSignIn Request ERROR xxx", err);
+            dispatch({ type: FETCH_ERROR, payload: "Error during user sign in request" });
         });
     }
 };
@@ -73,9 +72,9 @@ export const getUser = () => {
             dispatch({ type: USER_DATA, payload: data.user });
 
         }).catch(err => {
-            dispatch({ type: FETCH_ERROR, payload: err.response.data.error });
+            console.error("xxx getUser Request ERROR xxx", err);
+            dispatch({ type: FETCH_ERROR, payload: "Error during get me request with token" });
             dispatch({ type: SIGNOUT_USER_SUCCESS });
-            console.log("Error****:", err.response);
         });
     }
 };
@@ -90,8 +89,8 @@ export const userSignOut = () => {
             localStorage.removeItem("token");
             dispatch({ type: SIGNOUT_USER_SUCCESS });
         }).catch(err => {
-            console.log("Error****:", err.message);
-            dispatch({ type: FETCH_ERROR, payload: err.response.data.error });
+            console.error("xxx userSignOut Request ERROR xxx", err);
+            dispatch({ type: FETCH_ERROR, payload: "Error during user sign out request" });
         });
     }
 };
@@ -105,8 +104,8 @@ export const resendEmail = () => {
                 dispatch({ type: FETCH_SUCCESS, payload: data.message });
             })
             .catch(err => {
-                console.error(" resend email api error : ", err);
-                dispatch({ type: FETCH_ERROR, payload: err.response.data.error });
+                console.error("xxx resendEmail Request ERROR xxx", err);
+                dispatch({ type: FETCH_ERROR, payload: "Error during request to resend email" });
             });
     }
 }

@@ -15,7 +15,6 @@ class SignIn extends Component {
     }
     onInputHandle = (ev) => {
         const name = ev.target.name;
-        console.log(" NAME : ", name);
         if (name === "email") {
             this.setState({ email: ev.target.value });
         }
@@ -24,12 +23,10 @@ class SignIn extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        console.error(" next props : ", nextProps);
+        console.error(" ___ next props in SignIn page ___ ", nextProps);
         if (nextProps.authUser) {
             const { email_verified_at } = nextProps.authUser;
-            console.error(" next props email_verified_at : ", email_verified_at);
-
-            if (email_verified_at === null) this.props.history.push('/verification');
+            if (!email_verified_at) this.props.history.push('/verification');
             else this.props.history.push('/pr');
         }
     }
