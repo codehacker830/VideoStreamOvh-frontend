@@ -49,7 +49,7 @@ export const userSignIn = ({ email, password }) => {
             password: password,
         }
         ).then(({ data }) => {
-            console.error(" ___ USER SIGN IN RESEPONSE ___ ", data);
+            console.log(" ___ userSignIn RESPONSE ___ ", data);
             localStorage.setItem("token", JSON.stringify(data.token));
             axios.defaults.headers.common['Authorization'] = "Bearer " + data.token;
             dispatch({ type: FETCH_SUCCESS });
@@ -67,7 +67,7 @@ export const getUser = () => {
         dispatch({ type: FETCH_START });
         axios.get('/me',
         ).then(({ data }) => {
-            console.log("userSignIn: ", data);
+            console.log(" ___ getUser RESPONSE ___ ", data);
             dispatch({ type: FETCH_SUCCESS });
             dispatch({ type: USER_DATA, payload: data.user });
 
@@ -85,8 +85,8 @@ export const userSignOut = () => {
         dispatch({ type: FETCH_START });
         axios.get('/logout',
         ).then(({ data }) => {
-            dispatch({ type: FETCH_SUCCESS });
             localStorage.removeItem("token");
+            dispatch({ type: FETCH_SUCCESS });
             dispatch({ type: SIGNOUT_USER_SUCCESS });
         }).catch(err => {
             console.error("xxx userSignOut Request ERROR xxx", err);

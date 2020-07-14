@@ -2,14 +2,13 @@ import React from 'react';
 import Header from '../components/Header';
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
+import { getCartList, } from "../actions";
 import Home from './Home';
 import MyList from './MyList';
-import { getCartList, } from "../actions";
-import Error404 from '../pages/Error404';
-import { history } from '../store';
+import Watch from './Watch';
+import MainPage404 from '../mainPages/ManPage404';
 import MemberFooter from '../components/MemberFooter';
 import './style.css';
-import Watch from './Watch';
 
 class MainPages extends React.Component {
     componentDidMount() {
@@ -38,8 +37,8 @@ class MainPages extends React.Component {
                                 <Switch>
                                     <Route exact path={`${match.url}`} component={Home} />
                                     <Route path={`${match.url}/my-list`} component={MyList} />
-                                    <Route exact path={`${match.url}/watch/:videoId`} component={Watch} />
-                                    <Route component={Error404} />
+                                    <Route path={`${match.url}/watch/:videoId`} component={Watch} />
+                                    <Route component={MainPage404} />
                                 </Switch>
                                 <MemberFooter />
                             </div >

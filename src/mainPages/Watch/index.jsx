@@ -248,7 +248,7 @@ class Watch extends Component {
                                                     muted={muted}
                                                     pip={true}
                                                     // progressInterval={1000}
-                                                    onReady={() => console.log(" I am on Ready !!!!!!!")}
+                                                    onReady={() => console.log("Video player is ready !!!")}
                                                     onStart={() => {
                                                         console.log('onStart');
                                                         this.player.seekTo(this.watched_time || 0, "seconds");
@@ -261,8 +261,10 @@ class Watch extends Component {
                                                     onError={e => console.log('onError', e)}
                                                     onProgress={this.handleProgress}
                                                     onDuration={this.handleDuration}
-                                                    onEnablePIP={(e) => { console.log(" Picture in Picture ", e); }}
+                                                    onEnablePIP={(e) => { console.log(" Picture in Picture enabled - ", e); }}
                                                 />
+
+                                                {/* Here is for text showing on the top right of screnn while playing video */}
                                                 {/* <div className="player-timedtext" style={{ display: 'none', direction: 'ltr' }} /> */}
                                             </div>
                                         </div>
