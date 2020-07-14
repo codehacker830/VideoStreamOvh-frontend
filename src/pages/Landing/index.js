@@ -310,7 +310,11 @@ class Landing extends Component {
                                         <div className="site-footer-wrapper centered dark">
                                             <div className="footer-divider"></div>
                                             <div className="site-footer">
-                                                <p className="footer-top">Questions? Call
+                                                <p className="footer-top"
+                                                    style={{
+                                                        fontSize: "14px"
+                                                    }}
+                                                >Questions? Call
                                                 <a className="footer-top-a" href="tel:x-xxx-xxx-xxxx">x-xxx-xxx-xxxx</a></p>
                                                 <ul className="footer-links structural">
                                                     <li className="footer-link-item"
