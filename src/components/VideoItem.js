@@ -17,8 +17,8 @@ class VideoItem extends Component {
         };
     }
     delayedRequest = debounce((id) => {
-        if(this.state.isHover) {
-            axios.get(`/video/${id}`).then(({data}) => {
+        if (this.state.isHover) {
+            axios.get(`/video/${id}`).then(({ data }) => {
                 const { video } = data;
                 this.setState({ vote: video.vote });
             });
@@ -27,7 +27,7 @@ class VideoItem extends Component {
     render() {
         const { isHover, vote } = this.state;
         const { r_id, c_id, data, isJawOpen, rowId, colId, cartList } = this.props;
-        const { id, title, boxart_image, bob_background, duration, category, watched_time, rating} = data;
+        const { id, title, boxart_image, bob_background, duration, category, watched_time, rating } = data;
         // const { vote, title_logo, jawbone_title_logo, description, price, ptrack_content_image, views, source } = data;
         const progress_completed = watched_time / duration * 100;
 
@@ -127,7 +127,11 @@ class VideoItem extends Component {
                                                                 role="link"
                                                                 aria-label="Oynat"
                                                                 className=" playLink"
-                                                                to="/watch/81002747?trackId=14170132&amp;tctx=1%2C0%2Cb1a1da53-722e-4ed0-82ce-16885ec032c1-807384801%2C9351f9bd-b83c-4459-9d9f-facfacd29308_9258365X6XX1592971556077%2C9351f9bd-b83c-4459-9d9f-facfacd29308_ROOT%2C"><button
+                                                                to={{
+                                                                    pathname: `/pr/watch/${id}`,
+                                                                    state: data
+                                                                }}>
+                                                                <button
                                                                     className="button-primary medium iconOnly ltr-ublg01"
                                                                     type="button">
                                                                     <div className="icon ltr-1e4713l">
@@ -151,7 +155,7 @@ class VideoItem extends Component {
                                                             <span className="maturity-rating ">
                                                                 <span className="maturity-number">{rating} Rating</span>
                                                             </span>
-                                                            <span className="duration">{duration} min</span>
+                                                            <span className="duration">{ Math.floor(duration/60) } min</span>
                                                         </div>
                                                     </div>
                                                     <div className="bob-overview-evidence-wrapper">
@@ -177,11 +181,11 @@ class VideoItem extends Component {
                                                     {/* <div className="thumbs-component thumbs thumbs-vertical animated rated rated-down" data-uia="thumbs-container"> */}
                                                     <div className={`thumbs-component thumbs thumbs-vertical animated${isVoted ? " rated" + (isUpVoted ? " rated-up" : " rated-down") : " unrated"}`} data-uia="thumbs-container">
                                                         <div className="nf-svg-button-wrapper thumb-container thumb-up-container" data-uia="">
-                                                            <div role="button" 
-                                                                tabIndex="0" 
+                                                            <div role="button"
+                                                                tabIndex="0"
                                                                 className="nf-svg-button simpleround"
                                                                 onClick={() => {
-                                                                    if(isVoted) {
+                                                                    if (isVoted) {
                                                                         // this.props.removeVote(id);
                                                                         axios.get(`/removevote/${id}`).then(res => {
                                                                             this.setState({ vote: null });
@@ -193,7 +197,7 @@ class VideoItem extends Component {
                                                                         });
                                                                     }
                                                                 }}
-                                                                >
+                                                            >
                                                                 <img
                                                                     src={`/assets/media/icons/${isUpVoted ? "like-filled.svg" : "like.svg"}`}
                                                                     className="action-icon-style"
@@ -201,16 +205,16 @@ class VideoItem extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="nf-svg-button-wrapper thumb-container thumb-down-container" data-uia="">
-                                                            <div role="button" 
-                                                                tabIndex="0" 
+                                                            <div role="button"
+                                                                tabIndex="0"
                                                                 className="nf-svg-button simpleround"
                                                                 onClick={() => {
-                                                                    if(isVoted) {
+                                                                    if (isVoted) {
                                                                         // this.props.removeVote(id);
                                                                         axios.get(`/removevote/${id}`).then(res => {
                                                                             this.setState({ vote: null });
                                                                         });
-                                                                        
+
                                                                     } else {
                                                                         // this.props.downVote(id);
                                                                         axios.get(`/downvote/${id}`).then(res => {
@@ -218,9 +222,8 @@ class VideoItem extends Component {
                                                                         });
                                                                     }
                                                                 }}
-                                                                >
-                                                                <img
-                                                                    src={`/assets/media/icons/${isDownVoted ? "dislike-filled.svg" : "dislike.svg"}`}
+                                                            >
+                                                                <img src={`/assets/media/icons/${isDownVoted ? "dislike-filled.svg" : "dislike.svg"}`}
                                                                     className="action-icon-style"
                                                                     alt="" />
                                                             </div>
@@ -235,10 +238,7 @@ class VideoItem extends Component {
                                                                         () => this.props.removeFromCart(id)
                                                                         : () => this.props.addToCart(id)
                                                                 }>
-                                                                <img
-                                                                    // src="/assets/media/icons/check.svg"
-                                                                    // src="/assets/media/icons/plus.svg"
-                                                                    src={`/assets/media/icons/${isCarted ? "check.svg" : "plus.svg"}`}
+                                                                <img src={`/assets/media/icons/${isCarted ? "check.svg" : "plus.svg"}`}
                                                                     className="action-icon-style"
                                                                     alt="" />
 

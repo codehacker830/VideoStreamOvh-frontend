@@ -6,14 +6,24 @@ import screenfull from 'screenfull';
 import { findDOMNode } from 'react-dom';
 import SvgDefs from '../../components/icons/SvgDefs';
 import { flatMap } from 'lodash';
+import axios from '../../util/Api';
 
 class Watch extends Component {
     constructor(props) {
         super(props);
+        this._isMounted = false;
         this.timeout = null;
+        this.prevVolume = null;
+        this.watched_time = 0;
+
+        const { videoId } = this.props.match.params;
+        const { state } = this.props.location;
         this.state = {
+            videoId: videoId,
+            data: state,
+
             isLoading: false,
-            isActive: false,
+            isActive: true,
             NotificationShow: false,
             ppToggleShow: true,
             isForward: false,
@@ -26,7 +36,7 @@ class Watch extends Component {
             playedSeconds: 0,
             duration: 0,
             loop: false,
-            playing: false,
+            playing: true,
             volume: 0.35,
             muted: false,
 
@@ -36,8 +46,26 @@ class Watch extends Component {
         };
         this.player = React.createRef();
     }
+    componentDidMount() {
+        const { videoId } = this.state;
+        this._isMounted = true;
+        this.setState({ isLoading: true });
+        if (this._isMounted) {
+            axios.get(`/watched-time/${videoId}`).then(({ data }) => {
+                const { watched_time } = data;
+                console.log(" watched data ---- : ", data);
+                this.watched_time = watched_time;
+                this.setState({
+                    isLoading: false,
+                });
+            });
+        }
+
+    }
+    componentDidUpdate() {
+
+    }
     onSwitchPlayAndPause = () => {
-        console.log(" onSwitchPlayAndPause &&&&&&&&&&&&&&&&");
         this.setState({
             NotificationShow: true,
             ppToggleShow: true,
@@ -48,16 +76,23 @@ class Watch extends Component {
         }, 500)
     }
     onClickBack = () => {
+        if (this.state.duration !== 0 && this.state.playedSeconds > 10) {
+            this.player.seekTo(this.state.playedSeconds - 10, "seconds");
+        }
         this.setState({
             NotificationShow: true,
             ppToggleShow: false,
             isForward: false
         });
+
         setTimeout(() => {
             this.setState({ NotificationShow: false });
         }, 500)
     }
     onClickForward = () => {
+        if (this.state.duration !== 0 && this.state.playedSeconds < (this.state.duration - 10)) {
+            this.player.seekTo(this.state.playedSeconds + 10, "seconds");
+        }
         this.setState({
             NotificationShow: true,
             ppToggleShow: false,
@@ -67,72 +102,111 @@ class Watch extends Component {
             this.setState({ NotificationShow: false });
         }, 500)
     }
+    onClickVolumeButton = () => {
+        if (this.state.volume !== 0) {
+            this.prevVolume = this.state.volume;
+            this.setState({ volume: 0 });
+        }
+        else this.setState({ volume: this.prevVolume });
+    }
     handlePlay = () => {
-        console.log('onPlay')
+        // console.log('onPlay')
         this.setState({ playing: true })
     }
     handlePause = () => {
-        console.log('onPause')
+        // console.log('onPause')
         this.setState({ playing: false })
     }
     handleEnded = () => {
-        console.log('onEnded')
+        // console.log('onEnded')
+        const { videoId, duration } = this.state;
+        axios.post("/progress-update", {
+            video_id: videoId,
+            watched_time: duration,
+        })
+            .then((res) => {
+                console.log(" Watching ended update success !!! : ", res);
+            })
+            .catch((err) => {
+                console.error(" Watching ended api error !!", err);
+            });
         this.setState({ playing: this.state.loop })
     }
     handleProgress = state => {
-        console.log('onProgress', state)
+        console.log('onProgress', state);
+        const { videoId, playedSeconds } = this.state;
+        axios.post("/progress-update", {
+            video_id: videoId,
+            watched_time: playedSeconds,
+        })
+            .then((res) => {
+                console.log(" Watching progress update success !!! : ", res);
+            })
+            .catch((err) => {
+                console.error(" Watching video api error !!", err);
+            });
         // We only want to update time slider if we are not currently seeking
         if (!this.state.seeking) {
-            this.setState(state)
+            this.setState(state);
         }
     }
     handleDuration = duration => {
-        console.log('onDuration', duration)
+        console.log('onDuration', duration);
+        const { videoId } = this.state;
+        axios.post("/video-duration", {
+            video_id: videoId,
+            duration
+        }).then((res) => {
+            console.log(res);
+        });
         this.setState({ duration })
     }
     handleClickFullscreen = () => {
         screenfull.request(findDOMNode(this.player))
     }
+
+
     handleSeekMouseDown = e => {
         this.setState({ seeking: true })
     }
     handleSeekChange = e => {
-        console.log(" ---- handleSeekChange --- e.target : ", e.target);
-        console.log(" ---- handleSeekChange --- e.target.value : ", e.target.value);
-
         this.setState({ played: parseFloat(e.target.value) })
     }
     handleSeekMouseUp = e => {
         this.setState({ seeking: false })
-        console.log(" ---- handleSeekMouseUp --- e.target : ", e.target);
-        console.log(" ---- handleSeekMouseUp --- e.target.value : ", e.target.value);
         this.player.seekTo(parseFloat(e.target.value));
+    }
+
+    handleVolumeChange = e => {
+        this.setState({ volume: parseFloat(e.target.value) });
     }
 
     onMouseMoveCapture = (e) => {
         e.preventDefault();
         this.setState({ isActive: true });
         (() => {
-          clearTimeout(this.timeout);
-          this.timeout = setTimeout(() => {
-            if(this.state.isActive) this.setState({ isActive: false})
-          }, 5000);
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+                if (this.state.isActive) this.setState({ isActive: false })
+            }, 8000);
         })();
-
     }
     ref = player => {
         this.player = player;
     }
+    componentWillUnmount() {
+        window.removeEventListener('mousemove', () => {});
+    }
     render() {
-        const url = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
         const {
+            data,
             isLoading, isActive, NotificationShow, ppToggleShow, isForward,
             isVolumePopupActive, isTrickPlayVisible, isReportAProblemPopup,
-            playedSeconds, duration, playing, volume, muted, played, loaded } = this.state;
+            playedSeconds, duration, playing, volume, played, loaded } = this.state;
+        const url = data.source || 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
         const isDimmed = !playing && !isActive;
         const remaining_time = duration - playedSeconds;
-
-        console.log(" this.state >>> ", this.state);
+        const muted = volume === 0;
         return (
             <div className="nf-kb-nav-wrapper">
                 <div className="sizing-wrapper"
@@ -143,9 +217,9 @@ class Watch extends Component {
                     <div className="nfp AkiraPlayer">
                         {
                             isLoading ?
-                                <Preloading />
+                                <Preloading cover={`${this.props.location.state && this.props.location.state.cover}`} />
                                 :
-                                    <div className="nfp nf-player-container notranslate NFPlayer originalsBackgroundAutoplayTrailer" tabIndex={0}>
+                                <div className="nfp nf-player-container notranslate NFPlayer originalsBackgroundAutoplayTrailer" tabIndex={0}>
                                     {/* <div className="nfp nf-player-container notranslate active NFPlayer originalsBackgroundAutoplayTrailer" tabIndex={0}> */}
                                     {/* <div className="nfp nf-player-container notranslate inactive NFPlayer originalsBackgroundAutoplayTrailer" tabIndex={0}> */}
 
@@ -165,9 +239,13 @@ class Watch extends Component {
                                                     controls={false}
                                                     volume={volume}
                                                     muted={muted}
+                                                    pip={true}
                                                     // progressInterval={1000}
-                                                    onReady={() => console.log('onReady')}
-                                                    onStart={() => console.log('onStart')}
+                                                    onReady={() => console.log(" I am on Ready !!!!!!!")}
+                                                    onStart={() => {
+                                                        console.log('onStart');
+                                                        this.player.seekTo(this.watched_time || 0, "seconds");
+                                                    }}
                                                     onPlay={this.handlePlay}
                                                     onPause={this.handlePause}
                                                     onBuffer={() => console.log('onBuffer')}
@@ -176,6 +254,7 @@ class Watch extends Component {
                                                     onError={e => console.log('onError', e)}
                                                     onProgress={this.handleProgress}
                                                     onDuration={this.handleDuration}
+                                                    onEnablePIP={(e) => { console.log(" Picture in Picture ", e); }}
                                                 />
                                                 {/* <div className="player-timedtext" style={{ display: 'none', direction: 'ltr' }} /> */}
                                             </div>
@@ -245,9 +324,9 @@ class Watch extends Component {
                                             }
 
                                             {/* Here is hitzone of full screen which enable user click to switch play and pause */}
-                                            <div className="controls-full-hit-zone" 
+                                            <div className="controls-full-hit-zone"
                                                 onClick={this.onSwitchPlayAndPause}
-                                                >
+                                            >
                                                 {/* <div className="center-controls" /> */}
                                                 <div className="center-controls active" />
                                             </div>
@@ -276,6 +355,7 @@ class Watch extends Component {
                                                                     <div className="scrubber-bar">
                                                                         <div className="track">
                                                                             <input
+                                                                                type="range"
                                                                                 style={{
                                                                                     position: "absolute",
                                                                                     width: "100%",
@@ -285,7 +365,6 @@ class Watch extends Component {
                                                                                 }}
                                                                                 onMouseEnter={() => this.setState({ isTrickPlayVisible: true })}
                                                                                 onMouseLeave={() => this.setState({ isTrickPlayVisible: false })}
-                                                                                type='range'
                                                                                 min={0}
                                                                                 max={0.999999}
                                                                                 step='any'
@@ -322,7 +401,6 @@ class Watch extends Component {
 
                                                     {/* Here is button control group */}
                                                     <div className="PlayerControlsNeo__button-control-row">
-
                                                         {/* Here is play and pause button  */}
                                                         <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-nfplayerPlay"
                                                             tabIndex={0} aria-label="Play" onClick={this.onSwitchPlayAndPause}>
@@ -340,10 +418,11 @@ class Watch extends Component {
                                                             }
 
                                                         </button>
-
                                                         {/* Here i s back button */}
                                                         <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-nfplayerBackTen"
-                                                            tabIndex={0} aria-label="Back 10 Seconds" onClick={this.onClickBack}>
+                                                            tabIndex={0}
+                                                            aria-label="Back 10 Seconds"
+                                                            onClick={this.onClickBack}>
                                                             <svg
                                                                 className="svg-icon svg-icon-nfplayerBackTen" focusable="false">
                                                                 <use filter xlinkHref="#nfplayerBackTen" />
@@ -352,38 +431,65 @@ class Watch extends Component {
 
                                                         {/* Here is forward button  */}
                                                         <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-nfplayerFastForward"
-                                                            tabIndex={0} aria-label="Forward 10 Seconds" onClick={this.onClickForward}>
+                                                            tabIndex={0}
+                                                            aria-label="Forward 10 Seconds"
+                                                            onClick={this.onClickForward}>
                                                             <svg className="svg-icon svg-icon-nfplayerFastForward" focusable="false">
                                                                 <use filter xlinkHref="#nfplayerFastForward" />
                                                             </svg>
                                                         </button>
 
-                                                        {/* Here is volume container          */}
+                                                        {/* Here is volume container */}
                                                         <div className="touchable PlayerControls--control-element nfp-popup-control"
                                                             data-uia="volume-container"
                                                             onMouseEnter={() => this.setState({ isVolumePopupActive: true })}
-                                                            onMouseLeave={() => this.setState({ isVolumePopupActive: false })}
-                                                        >
+                                                            onMouseLeave={() => this.setState({ isVolumePopupActive: false })}>
                                                             {
                                                                 muted ?
                                                                     <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMuted"
-                                                                        tabIndex={0} aria-label="Muted">
+                                                                        tabIndex={0}
+                                                                        aria-label="Muted"
+                                                                        onClick={this.onClickVolumeButton}
+                                                                    >
                                                                         <svg className="svg-icon svg-icon-volumeMuted" focusable="false">
                                                                             <use filter xlinkHref="#volumeMuted" /></svg>
                                                                     </button>
-                                                                    : <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeLow"
-                                                                        tabIndex={0} aria-label="Volume"
-                                                                    >
-                                                                        <svg className="svg-icon svg-icon-volumeLow" focusable="false"><use filter xlinkHref="#volumeLow" /></svg>
-                                                                    </button>
+                                                                    : (
+                                                                        volume * 100 < 33 ?
+                                                                            <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeLow"
+                                                                                tabIndex={0}
+                                                                                aria-label="Volume"
+                                                                                onClick={this.onClickVolumeButton}
+                                                                            >
+                                                                                <svg className="svg-icon svg-icon-volumeLow" focusable="false"><use filter xlinkHref="#volumeLow" /></svg>
+                                                                            </button>
+                                                                            :
+                                                                            (
+                                                                                volume * 100 < 66 ?
+                                                                                    <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMedium"
+                                                                                        tabIndex={0}
+                                                                                        aria-label="Volume"
+                                                                                        onClick={this.onClickVolumeButton}
+                                                                                    >
+                                                                                        <svg className="svg-icon svg-icon-volumeMedium" focusable="false"><use filter xlinkHref="#volumeMedium" /></svg>
+                                                                                    </button>
+                                                                                    :
+                                                                                    <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMax"
+                                                                                        tabIndex={0}
+                                                                                        aria-label="Volume"
+                                                                                        onClick={this.onClickVolumeButton}
+                                                                                    >
+                                                                                        <svg className="svg-icon svg-icon-volumeMax" focusable="false"><use filter xlinkHref="#volumeMax" /></svg>
+                                                                                    </button>
+
+                                                                            )
+                                                                    )
                                                             }
-                                                            {/* <button
-                                                                className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMedium"
+                                                            {/* <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMedium"
                                                                 tabIndex={0} aria-label="Volume">
                                                                 <svg className="svg-icon svg-icon-volumeMedium" focusable="false"><use filter xlinkHref="#volumeMedium" /></svg>
                                                             </button>
-                                                            <button
-                                                                className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMax"
+                                                            <button className="touchable PlayerControls--control-element nfp-button-control default-control-button button-volumeMax"
                                                                 tabIndex={0} aria-label="Volume">
                                                                 <svg className="svg-icon svg-icon-volumeMax" focusable="false"><use filter xlinkHref="#volumeMax" /></svg>
                                                             </button> */}
@@ -396,6 +502,24 @@ class Watch extends Component {
                                                                         <div className="popup-content volume-controller">
                                                                             <div className="slider-container">
                                                                                 <div className="slider-bar-container">
+                                                                                    <input type="range"
+                                                                                        style={{
+                                                                                            position: "absolute",
+                                                                                            writingMode: 'bt-lr', /* IE */
+                                                                                            WebkitAppearance: 'slider-vertical', /* webkit */
+                                                                                            width: "100%",
+                                                                                            height: "120%",
+                                                                                            zIndex: "1",
+                                                                                            top: "-8px",
+                                                                                            opacity: "0"
+                                                                                        }}
+                                                                                        min={0}
+                                                                                        max={1}
+                                                                                        step='any'
+                                                                                        value={volume}
+                                                                                        onChange={this.handleVolumeChange}
+                                                                                    />
+
                                                                                     <div className="slider-bar-percentage" style={{ height: `${volume * 100}%` }}></div>
                                                                                     <div className="scrubber-target" style={{ bottom: `${volume * 100}%` }}>
                                                                                         <div className="scrubber-head" tabIndex={0}>

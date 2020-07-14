@@ -4,7 +4,7 @@ export default class Preloading extends Component {
     render() {
         return (
             <div className="player-loading">
-                <div className="player-loading-background-image player-loading-background-image-loaded" style={{ backgroundImage: 'url("https://via.placeholder.com/1920x1080")' }}>
+                <div className="player-loading-background-image player-loading-background-image-loaded" style={{ backgroundImage: `url(${ this.props.cover ? this.props.cover : "https://via.placeholder.com/1920x1080" })` }}>
                     {/* <div className="player-loading-background-image player-loading-background-image-loaded" style={{ backgroundImage: 'url("https://via.placeholder.com/1280x720")' }}> */}
                 </div>
                 <div className="gradient" />

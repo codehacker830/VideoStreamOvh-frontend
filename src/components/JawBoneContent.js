@@ -7,6 +7,7 @@ import { isInvoledAtCart } from '../util';
 import AddListIcon from './icons/AddListIcon';
 import CheckedIcon from './icons/CheckedIcon';
 import PlayIcon from './icons/PlayIcon';
+import { Link } from 'react-router-dom';
 
 class JawBoneContent extends Component {
     _isMounted = false;
@@ -36,10 +37,11 @@ class JawBoneContent extends Component {
             const id = this.props.v_id;
             console.log(" this.props.v_id :", id);
             axios.get(`/video/${id}`).then(({ data }) => {
-                console.log(" data tt :", data);
+                console.log(" data tt :", data.video);
                 const { id, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = data.video;
                 this.setState({
                     isLoading: false,
+                    data: data.video,
                     id, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price
                 });
             });
@@ -49,18 +51,22 @@ class JawBoneContent extends Component {
         this.setState({ isLoading: true });
         const id = nextProps.v_id;
         axios.get(`/video/${id}`).then(({ data }) => {
-            console.log(" data tt :", data);
+            console.log(" data tt :", data.video);
             const { id, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = data.video;
             this.setState({
                 isLoading: false,
+                data: data.video,
                 id, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price
             });
         });
     }
     render() {
-        const { id, isLoading, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = this.state;
+        const { data, id, isLoading, title, jawbone_title_logo, views, rating, watched_time, duration, description, vote, ptrack_content_image, source, price } = this.state;
         const { cartList } = this.props;
         const progress_completed = (watched_time || 0) / duration * 100;
+
+        console.log(" duration ---", duration);
+        console.log(" watched_time ---", watched_time);
 
         const isUpVoted = vote === "up" ? true : false;
         const isDownVoted = vote === "down" ? true : false;
@@ -150,8 +156,8 @@ class JawBoneContent extends Component {
                                                                     </span>
                                                                     <span className="duration">
                                                                         <font className="v-align-inherit">
-                                                                            <font className="v-align-inherit">{Math.floor(duration / 60)} hr </font>
-                                                                            <font className="v-align-inherit">{duration % 60} min.</font>
+                                                                            <font className="v-align-inherit">{Math.floor(duration / 3600)} hr </font>
+                                                                            <font className="v-align-inherit">{Math.floor(duration / 60)} min.</font>
                                                                         </font>
                                                                     </span>
                                                                 </div>
@@ -176,9 +182,13 @@ class JawBoneContent extends Component {
                                                                     </font>
                                                                 </div>
                                                                 <div className="jawbone-actions">
-                                                                    <a trackid="14170209" data-uia="play-button"
+                                                                    <Link trackid="14170209" data-uia="play-button"
                                                                         aria-label="Go on" className=" playLink"
-                                                                        href="/watch/80221639?trackId=14170209&amp;tctx=0%2C0%2C72e921ec-757c-4f56-ae52-54d5292973c7-750046517%2C1c3e45e9-b6ec-492f-a729-50bcfed971d9_68896064X6XX1592938183794%2C1c3e45e9-b6ec-492f-a729-50bcfed971d9_ROOT%2C"><button
+                                                                        to={{
+                                                                            pathname: `/pr/watch/${id}`,
+                                                                            state: data
+                                                                        }}>
+                                                                        <button
                                                                             className="button-primary medium hasLabel ltr-ublg01"
                                                                             type="button">
                                                                             <div className="icon ltr-1e4713l">
@@ -198,7 +208,7 @@ class JawBoneContent extends Component {
                                                                                 </font>
                                                                             </span>
                                                                         </button>
-                                                                    </a>
+                                                                    </Link>
                                                                     <div className="ptrack-content"
                                                                         data-tracking-uuid="16208b20-1a3d-4251-870e-213f36db0a5c">
                                                                         <button className="button-secondary opacity-60 medium hasLabel ltr-17tayzw"
@@ -213,7 +223,7 @@ class JawBoneContent extends Component {
                                                                                     role="presentation">
                                                                                     {
                                                                                         isCarted ? <CheckedIcon />
-                                                                                        : <AddListIcon />
+                                                                                            : <AddListIcon />
                                                                                     }
                                                                                 </div>
                                                                             </div>

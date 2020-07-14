@@ -115,9 +115,11 @@ class Home extends Component {
                                                                     </div>
                                                                     <div
                                                                         className="billboard-links button-layer forward-leaning">
-                                                                        <a data-uia="play-button"
+                                                                        <Link data-uia="play-button"
                                                                             aria-label="play" className=" playLink"
-                                                                            href="/watch/80095193?trackId=251884370&amp;tctx=0%2C0%2C65826837-a7f4-406f-a17f-74beaf684a2e-327516955%2C1c3e45e9-b6ec-492f-a729-50bcfed971d9_68896063X20XX1592938183794%2C1c3e45e9-b6ec-492f-a729-50bcfed971d9_ROOT%2C">
+                                                                            to={{
+                                                                                pathname: `/pr/watch/1234`
+                                                                            }}>
                                                                             <button className="button-primary medium hasLabel ltr-ublg01" type="button">
                                                                                 <div className="icon ltr-1e4713l">
                                                                                     <div className="medium ltr-sar853"
@@ -137,7 +139,7 @@ class Home extends Component {
                                                                                     </span>
                                                                                 </span>
                                                                             </button>
-                                                                        </a>
+                                                                        </Link>
                                                                         <button
                                                                             className="button-secondary opacity-60 medium hasLabel ltr-17tayzw"
                                                                             data-uia="billboard-more-info"
