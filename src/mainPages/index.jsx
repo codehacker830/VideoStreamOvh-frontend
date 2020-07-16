@@ -6,7 +6,7 @@ import { getCartList, } from "../actions";
 import Home from './Home';
 import MyList from './MyList';
 import Watch from './Watch';
-import MainPage404 from '../mainPages/ManPage404';
+import MainPage404 from './ManPage404';
 import MemberFooter from '../components/MemberFooter';
 import './style.css';
 

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import VideoItem from './VideoItem';
 import { connect } from 'react-redux';
 import LoadingRow from './LoadingRow';
-import { closeJawBone } from '../actions';
 import JawBoneContent from './JawBoneContent';
 
 class SlideRow extends Component {
