@@ -53,13 +53,13 @@ class Header extends React.Component {
                                                         </font>
                                                     </Link>
                                                 </li>
-                                                <li className="sub-menu-item">
+                                                {/* <li className="sub-menu-item">
                                                     <Link to="/pr/series">
                                                         <font style={{ verticalAlign: 'inherit' }}>
                                                             <font style={{ verticalAlign: 'inherit' }}>Series</font>
                                                         </font>
                                                     </Link>
-                                                </li>
+                                                </li> */}
                                                 <li className="sub-menu-item">
                                                     <Link to="/pr/movies">
                                                         <font style={{ verticalAlign: 'inherit' }}>
@@ -93,13 +93,13 @@ class Header extends React.Component {
                                     </span>
                                 </Link>
                             </li>
-                            <li className="navigation-tab">
+                            {/* <li className="navigation-tab">
                                 <Link to="/pr/series">
                                     <span className="v-align-inherit">
                                         <span className="v-align-inherit">Series</span>
                                     </span>
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="navigation-tab">
                                 <Link to="/pr/movies">
                                     <span className="v-align-inherit">
