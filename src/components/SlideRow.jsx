@@ -18,7 +18,7 @@ class SlideRow extends Component {
         }
         this.sliderWrapperRef = React.createRef();
     }
-    resizeScreen = event => {
+    resizeScreen = () => {
         this.setState({ containerWidth: this.sliderWrapperRef.current.clientWidth });
         const screenWidth = window.innerWidth;
         if (screenWidth >= 1400) {

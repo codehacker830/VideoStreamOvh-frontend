@@ -8,6 +8,7 @@ class Header extends React.Component {
     constructor() {
         super();
         this.state = {
+            show: false,
             isOpen: false,
             searchKey: ""
         }
@@ -18,7 +19,7 @@ class Header extends React.Component {
         title = this.props.location.pathname === "/pr/movies" ? "Movies" : "";
         title = this.props.location.pathname === "/pr/latest" ? "Latest" : "";
         title = this.props.location.pathname === "/pr/my-list" ? "List" : "";
-        
+
         console.log(" this.state.isOpen : ", isOpen);
         console.log(" this.state.searchKey : ", searchKey);
         console.log("this.props ~~~~~~~~~~~", this.props);
@@ -26,16 +27,62 @@ class Header extends React.Component {
             <div className="pinning-header">
                 <div className="pinning-header-container">
                     <div className="main-header has-billboard menu-navigation" role="navigation">
-                        <Link to="/pr" aria-label="Netflix" className="logo">
-                            <img src="/assets/media/logo.svg" alt="" />
+                        <Link to="/pr" aria-label="VideoStream" className="logo">
+                            <img src="/assets/media/logo.svg" alt="logo" />
                         </Link>
                         <ul className="tabbed-primary-navigation">
-                            <li className="navigation-menu">
-                                <Link to="/pr" className="menu-trigger" role="button" aria-haspopup="true" tabIndex="0">
+                            <li className="navigation-menu"
+                                onClick={() => this.setState({ show: !this.state.show })}>
+                                <Link to="/pr" className="menu-trigger" style={{ outline: "none"}} role="button" aria-haspopup="true" tabIndex="0">
                                     <span className="v-align-inherit">
                                         <span className="v-align-inherit">Browse</span>
                                     </span>
                                 </Link>
+                                {
+                                    this.state.show ?
+                                        <div className="sub-menu theme-lakira" style={{ opacity: 1, transitionDuration: '150ms' }}  onMouseLeave={() => this.setState({ show: false })}>
+                                            <div className="callout-arrow" />
+                                            <div className="topbar" />
+                                            <ul className="sub-menu-list">
+                                                <li className="sub-menu-item">
+                                                    <Link to="/pr/">
+                                                        <font style={{ verticalAlign: 'inherit' }}>
+                                                            <font style={{ verticalAlign: 'inherit' }}>Home Page</font>
+                                                        </font>
+                                                    </Link>
+                                                </li>
+                                                <li className="sub-menu-item">
+                                                    <Link to="/pr/series">
+                                                        <font style={{ verticalAlign: 'inherit' }}>
+                                                            <font style={{ verticalAlign: 'inherit' }}>Series</font>
+                                                        </font>
+                                                    </Link>
+                                                </li>
+                                                <li className="sub-menu-item">
+                                                    <Link to="/pr/movies">
+                                                        <font style={{ verticalAlign: 'inherit' }}>
+                                                            <font style={{ verticalAlign: 'inherit' }}>Movies</font>
+                                                        </font>
+                                                    </Link>
+                                                </li>
+                                                <li className="sub-menu-item">
+                                                    <Link to="/pr/latest">
+                                                        <font style={{ verticalAlign: 'inherit' }}>
+                                                            <font style={{ verticalAlign: 'inherit' }}>Latest</font>
+                                                        </font>
+                                                    </Link>
+                                                </li>
+                                                <li className="sub-menu-item">
+                                                    <Link to="/pr/my-list">
+                                                        <font style={{ verticalAlign: 'inherit' }}>
+                                                            <font style={{ verticalAlign: 'inherit' }}>My List</font>
+                                                        </font>
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        : null
+                                }
                             </li>
                             <li className="navigation-tab">
                                 <Link to="/pr/" className="current">
@@ -101,7 +148,7 @@ class Header extends React.Component {
                             <div className="nav-element">
                                 <div className="account-menu-item">
                                     <div className="account-dropdown-button">
-                                        <span className="profile-link" role="presentation" style={{ cursor: "default"}}>
+                                        <span className="profile-link" role="presentation" style={{ cursor: "default" }}>
                                             <img className="profile-icon"
                                                 src="https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/Z-WHgqd_TeJxSuha8aZ5WpyLcX8/AAAABWYjLL1WmaA68UglG6WrAeDFzuyEjz8aH5nfgiud9DqVyj8sU0T_oiToyGiNf06N0oLKd9Qeaze4sEBU2koUnWY.png?r=8f0"
                                                 alt="" />
