@@ -31,7 +31,10 @@ export default class MainPage404 extends Component {
                                         <font style={{ verticalAlign: 'inherit' }}>
                                             <font style={{ verticalAlign: 'inherit' }}>VideoStream Homepage</font>
                                         </font>
-                                    </span></button></Link></div>
+                                    </span>
+                                </button>
+                            </Link>
+                        </div>
                         <div style={{ display: 'flex', justifyContent: 'center', fontSize: 12, margin: 12 }}>
                             <span>
                                 <font style={{ verticalAlign: 'inherit' }}>

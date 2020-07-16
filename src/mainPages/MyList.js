@@ -38,7 +38,7 @@ class MyList extends Component {
         if (this._isMounted) {
             this.setState({ isLoading: true });
             axios.get('/cart').then(({ data }) => {
-                console.error("response -- ",data);
+                console.error("response -- ", data);
                 this.setState({
                     isLoading: false,
                     cartList: data.list,
@@ -64,7 +64,7 @@ class MyList extends Component {
                 <div className="mainView" role="main">
                     <div className="gallery row-with-x-columns">
                         {
-                            isLoading ? 
+                            isLoading ?
                                 <LoadingRow />
                                 :
                                 <div className="galleryContent">
@@ -73,7 +73,8 @@ class MyList extends Component {
                                             cartList && cartList.length ?
                                                 <div className="galleryLockups">
                                                     {
-                                                        new Array(totalRows).fill("").map((item, index) => {
+                                                        cartList.map((dt, index) => {
+                                                        // new Array(totalRows).fill("").map((dt, index) => {
                                                             return (
                                                                 <div className={`rowContainer rowContainer_title_card${isJawOpen ? " jawBoneOpen" : ""}`} id={`row-${index}`} key={index}>
                                                                     <div className="ptrack-container">
@@ -82,12 +83,7 @@ class MyList extends Component {
                                                                             <div className="slider">
                                                                                 <div className="sliderMask showPeek">
                                                                                     <div className="sliderContent row-with-x-columns" style={{ WebkitTransform: '', msTransform: '', transform: '' }}>
-                                                                                        <VideoItem index={uuidv4()} />
-                                                                                        <VideoItem index={uuidv4()} />
-                                                                                        <VideoItem index={uuidv4()} />
-                                                                                        <VideoItem index={uuidv4()} />
-                                                                                        <VideoItem index={uuidv4()} />
-                                                                                        <VideoItem index={uuidv4()} />
+                                                                                        <VideoItem key={index} r_id={0} c_id={index} data={dt} />
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -310,6 +306,7 @@ class MyList extends Component {
                                                                         {/* jawBoneContent end */}
                                                                     </div>
                                                                 </div>
+                                                            
                                                             );
                                                         })
                                                     }

@@ -172,7 +172,7 @@ class JawBoneContent extends Component {
                                                                         </span>
                                                                         <span className="summary">
                                                                             <font className="v-align-inherit">
-                                                                                <font className="v-align-inherit">{watched_time || 0}/{duration} min.</font>
+                                                                                <font className="v-align-inherit">{watched_time ? (Math.floor(watched_time/3600)+" hr "+ Math.floor(watched_time%3600/60)+" min ") : 0}/{Math.floor(duration/3600)+" hr "+ Math.floor(duration%3600/60)+" min."}</font>
                                                                             </font>
                                                                         </span></div>
                                                                 </div>

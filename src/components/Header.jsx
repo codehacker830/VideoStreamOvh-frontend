@@ -35,21 +35,21 @@ class Header extends React.Component {
                                 </Link>
                             </li>
                             <li className="navigation-tab">
-                                <Link to="/Kids" className="current">
+                                <Link to="/pr/" className="current">
                                     <span className="v-align-inherit">
                                         <span className="v-align-inherit">Home page</span>
                                     </span>
                                 </Link>
                             </li>
                             <li className="navigation-tab">
-                                <Link to="/browse/genre/2496491">
+                                <Link to="/pr/series">
                                     <span className="v-align-inherit">
                                         <span className="v-align-inherit">Series</span>
                                     </span>
                                 </Link>
                             </li>
                             <li className="navigation-tab">
-                                <Link to="/browse/genre/2495600">
+                                <Link to="/pr/movies">
                                     <span className="v-align-inherit">
                                         <span className="v-align-inherit">Movies</span>
                                     </span>
