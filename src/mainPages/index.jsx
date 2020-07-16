@@ -10,6 +10,7 @@ import MainPage404 from './ManPage404';
 import MemberFooter from '../components/MemberFooter';
 import './style.css';
 import Latest from './Latest';
+import Movies from './Movies';
 
 class MainPages extends React.Component {
     componentDidMount() {
@@ -37,6 +38,7 @@ class MainPages extends React.Component {
                                 <Header />
                                 <Switch>
                                     <Route exact path={`${match.url}`} component={Home} />
+                                    <Route path={`${match.url}/movies`} component={Movies} />
                                     <Route path={`${match.url}/latest`} component={Latest} />
                                     <Route path={`${match.url}/my-list`} component={MyList} />
                                     <Route path={`${match.url}/watch/:videoId`} component={Watch} />

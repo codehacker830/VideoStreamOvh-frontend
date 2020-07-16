@@ -15,11 +15,13 @@ class Header extends React.Component {
     }
     render() {
         const { isOpen, searchKey } = this.state;
-        let title = this.props.location.pathname === "/pr/series" ? "Series" : "";
-        title = this.props.location.pathname === "/pr/movies" ? "Movies" : "";
-        title = this.props.location.pathname === "/pr/latest" ? "Latest" : "";
-        title = this.props.location.pathname === "/pr/my-list" ? "List" : "";
+        let title = "";
+        if(this.props.location.pathname === "/pr/series") title = "Series";
+        if(this.props.location.pathname === "/pr/movies") title = "Movies";
+        if(this.props.location.pathname === "/pr/latest") title = "The Latest";
+        if(this.props.location.pathname === "/pr/my-list") title = "My List";
 
+        console.log(" title ++++++++++++++++++++++++ ", title);
         console.log(" this.state.isOpen : ", isOpen);
         console.log(" this.state.searchKey : ", searchKey);
         console.log("this.props ~~~~~~~~~~~", this.props);

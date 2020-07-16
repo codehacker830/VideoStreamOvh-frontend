@@ -10,7 +10,7 @@ import CheckedIcon from '../../components/icons/CheckedIcon';
 import { uniqueId } from 'lodash';
 import { isInvoledAtCart } from '../../util';
 
-class Latest extends Component {
+class Movies extends Component {
     _isMounted = false;
     constructor() {
         super();
@@ -75,25 +75,27 @@ class Latest extends Component {
                                 <React.Fragment>
                                     <h1 className="visually-hidden">
                                         <span className="v-align-inherit">
-                                            <span className="v-align-inherit">VideoStream Latest Page</span>
+                                            <span className="v-align-inherit">Netflix Homepage</span>
                                         </span>
                                     </h1>
-                                    {/* my cart */}
+
+                                    {/* my list */}
                                     {
                                         cartList && cartList.length ?
-                                            <SlideRow r_id={2} title="My List" data={cartList} />
+                                            <SlideRow r_id={1} title="List" data={cartList} />
                                             : null
                                     }
+
                                     {/* most popular */}
                                     {
                                         trendingVideos && trendingVideos.length ?
-                                            <SlideRow r_id={2} title="New movies" data={trendingVideos} />
+                                            <SlideRow r_id={2} title="Most popular" data={trendingVideos} />
                                             : null
                                     }
                                     {/* keep watching */}
                                     {
                                         watchingVideos && watchingVideos.length ?
-                                            <SlideRow r_id={3} title="New TV series" data={watchingVideos} />
+                                            <SlideRow r_id={3} title="Keep watching..." data={watchingVideos} />
                                             : null
                                     }
                                 </React.Fragment>
@@ -110,4 +112,4 @@ const mapStateToProps = ({ video }) => {
     return { searchTitleResult, isJawOpen, cartList, trendingVideos, watchingVideos };
 }
 const mapDispatchToProps = { searchByTitle, fetchedCartList, fetchedTrendingVideos, fetchedWatchingVideos, removeFromCart, addToCart };
-export default connect(mapStateToProps, mapDispatchToProps)(Latest);
+export default connect(mapStateToProps, mapDispatchToProps)(Movies);
