@@ -79,7 +79,7 @@ class MyList extends Component {
                                                     {
                                                         new Array(totalRows).fill("").map((dt, r_id) => {
                                                             return (
-                                                                <div className={`rowContainer rowContainer_title_card${isJawOpen ? " jawBoneOpen" : ""}`} id={`row-${r_id}`} key={r_id}>
+                                                                <div className={`rowContainer rowContainer_title_card${isJawOpen && (r_id === rowId) ? " jawBoneOpen" : ""}`} id={`row-${r_id}`} key={r_id}>
                                                                     <div className="ptrack-container">
 
                                                                         <div className="rowContent slider-hover-trigger-layer">
