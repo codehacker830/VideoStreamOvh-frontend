@@ -18,7 +18,7 @@ class Header extends React.Component {
         let title = "";
         if(this.props.location.pathname === "/pr/series") title = "Series";
         if(this.props.location.pathname === "/pr/movies") title = "Movies";
-        if(this.props.location.pathname === "/pr/latest") title = "The Latest";
+        if(this.props.location.pathname === "/pr/latest") title = "The Newest";
         if(this.props.location.pathname === "/pr/my-list") title = "My List";
 
         console.log(" title ++++++++++++++++++++++++ ", title);

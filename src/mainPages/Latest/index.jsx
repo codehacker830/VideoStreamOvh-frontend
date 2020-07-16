@@ -78,12 +78,6 @@ class Latest extends Component {
                                             <span className="v-align-inherit">VideoStream Latest Page</span>
                                         </span>
                                     </h1>
-                                    {/* my cart */}
-                                    {
-                                        cartList && cartList.length ?
-                                            <SlideRow r_id={2} title="My List" data={cartList} />
-                                            : null
-                                    }
                                     {/* most popular */}
                                     {
                                         trendingVideos && trendingVideos.length ?
@@ -94,6 +88,12 @@ class Latest extends Component {
                                     {
                                         watchingVideos && watchingVideos.length ?
                                             <SlideRow r_id={3} title="New TV series" data={watchingVideos} />
+                                            : null
+                                    }
+                                    {/* my cart */}
+                                    {
+                                        cartList && cartList.length ?
+                                            <SlideRow r_id={2} title="List" data={cartList} />
                                             : null
                                     }
                                 </React.Fragment>
