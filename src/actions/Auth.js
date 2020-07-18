@@ -33,8 +33,11 @@ export const userSignUp = ({ name, email, password }) => {
             dispatch({ type: USER_TOKEN_SET, payload: data.token });
             dispatch({ type: USER_DATA, payload: data.user });
         }).catch(err => {
-            console.error("xxx userSignUp Request ERROR xxx", err);
-            dispatch({ type: FETCH_ERROR, payload: "Error during user registeration in request" });
+            console.error("xxx userSignUp Request ERROR xxx");
+            console.log(err.response.status);
+            if(err.response.status === 403) {
+                dispatch({ type: FETCH_ERROR, payload: "Error during user registeration in request" });
+            } 
         });
     }
 };

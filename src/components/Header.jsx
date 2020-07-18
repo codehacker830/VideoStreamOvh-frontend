@@ -21,10 +21,6 @@ class Header extends React.Component {
         if(this.props.location.pathname === "/pr/latest") title = "The Newest";
         if(this.props.location.pathname === "/pr/my-list") title = "My List";
 
-        console.log(" title ++++++++++++++++++++++++ ", title);
-        console.log(" this.state.isOpen : ", isOpen);
-        console.log(" this.state.searchKey : ", searchKey);
-        console.log("this.props ~~~~~~~~~~~", this.props);
         return (
             <div className="pinning-header">
                 <div className="pinning-header-container">
