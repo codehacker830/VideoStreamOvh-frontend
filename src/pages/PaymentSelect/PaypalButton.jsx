@@ -3,6 +3,10 @@ import ReactDOM from "react-dom";
 import scriptLoader from "react-async-script-loader";
 import { withRouter, Redirect } from "react-router";
 import axios from "../../util/Api";
+import { connect } from "react-redux";
+import {
+    getUser
+} from "../../actions";
 
 const CLIENT = {
     sandbox:
@@ -79,8 +83,9 @@ class PaypalButton extends React.Component {
             plan_id: this.props.planNo,
             paypal_subscription_id: data.subscriptionID
         };
-        axios.post('/paypal-subscribe', payload).then(res => {
-            this.history.push('/pr');
+        axios.post('/paypal-subscribe', payload).then(async res => {
+            console.log(" paypal subscribe response - >", res);
+            this.props.history.push('/sign-in');
         });
     };
 
@@ -129,5 +134,7 @@ class PaypalButton extends React.Component {
         );
     }
 }
+const mapDispatchToProps = { getUser };
+const DerivedPaypalButton = withRouter(connect(()=>({}), mapDispatchToProps)(PaypalButton));
 
-export default scriptLoader(`https://www.paypal.com/sdk/js?client-id=${CLIENT_ID}&vault=true`)(withRouter(PaypalButton));
+export default scriptLoader(`https://www.paypal.com/sdk/js?client-id=${CLIENT_ID}&vault=true`)(DerivedPaypalButton);

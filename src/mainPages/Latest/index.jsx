@@ -81,19 +81,13 @@ class Latest extends Component {
                                     {/* most popular */}
                                     {
                                         trendingVideos && trendingVideos.length ?
-                                            <SlideRow r_id={2} title="New movies" data={trendingVideos} />
+                                            <SlideRow r_id={1} title="New movies" data={trendingVideos} />
                                             : null
                                     }
                                     {/* keep watching */}
                                     {
                                         watchingVideos && watchingVideos.length ?
-                                            <SlideRow r_id={3} title="New TV series" data={watchingVideos} />
-                                            : null
-                                    }
-                                    {/* my cart */}
-                                    {
-                                        cartList && cartList.length ?
-                                            <SlideRow r_id={2} title="List" data={cartList} />
+                                            <SlideRow r_id={2} title="New TV series" data={watchingVideos} />
                                             : null
                                     }
                                 </React.Fragment>

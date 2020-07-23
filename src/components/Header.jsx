@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getCartList, searchByTitle, userSignOut } from "../actions";
 import { Link, withRouter } from 'react-router-dom';
 import SubHeader from './SubHeader';
+import axios from '../util/Api';
 
 class Header extends React.Component {
     constructor() {
@@ -12,6 +13,10 @@ class Header extends React.Component {
             isOpen: false,
             searchKey: ""
         }
+    }
+    onHandleSearch = (ev) => {
+        this.setState({ searchKey: ev.target.value });
+        
     }
     render() {
         const { isOpen, searchKey } = this.state;
@@ -127,12 +132,13 @@ class Header extends React.Component {
                                                 <span className="icon-search"></span>
                                                 <input type="text"
                                                     name="searchInput"
-                                                    placeholder="name, category, character"
+                                                    placeholder="Title, Category, Content"
+                                                    // placeholder="Content, Character, Genre"
                                                     data-search-input="true"
                                                     data-uia="search-box-input"
                                                     maxLength="80"
                                                     value={this.state.searchKey}
-                                                    onChange={(ev) => this.setState({ searchKey: ev.target.value })}
+                                                    onChange={this.onHandleSearch}
                                                 />
                                                 <span className="icon-close" onClick={() => this.setState({ isOpen: false })} />
                                             </div>
