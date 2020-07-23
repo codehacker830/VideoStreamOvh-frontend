@@ -13,6 +13,7 @@ import Latest from './Latest';
 import Movies from './Movies';
 
 class MainPages extends React.Component {
+    _isMounted = false;
     componentDidMount() {
         this._isMounted = true;
         if (this._isMounted) {
@@ -20,9 +21,11 @@ class MainPages extends React.Component {
         }
     }
     componentWillReceiveProps(nextProps) {
+        console.log(" NEXT PROPS => ", nextProps);
         if (nextProps.authUser) {
-            const { email_verified_at } = nextProps.authUser;
+            const { email_verified_at, plan_id } = nextProps.authUser;
             if (email_verified_at === null) this.props.history.push('/verification');
+            if (plan_id === null) this.props.history.push('/subscription');
         }
     }
     render() {

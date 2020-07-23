@@ -15,6 +15,9 @@ import {
 } from "./actions";
 import VerifiedShow from './pages/VerifiedShow';
 import Landing from './pages/Landing';
+import Subscription from './pages/Subscription';
+import PaymentSelect from './pages/PaymentSelect';
+import PaypalSuccess from './pages/PaypalSuccess';
 
 
 const RestrictedRoute = ({ component: Component, token, ...rest }) => {
@@ -76,6 +79,10 @@ class App extends Component {
                 <Route path='/landing' component={Landing} />
                 <Route path='/sign-in' component={SignIn} />
                 <Route path='/sign-up' component={SignUp} />
+
+                <Route path='/subscription' component={Subscription} />
+                <Route path='/payment' component={PaymentSelect} />
+                <Route path='/st-success/:planNo/:priceId' component={PaypalSuccess} />
 
                 {/* email verification process */}
                 <Route path='/verification' component={EmailVerification} />

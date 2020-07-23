@@ -1,0 +1,17 @@
+.paymentContainer .stepHeader-container {
+    color: black;
+}
+
+.paymentContainer .secure-server-badge--text {
+    color: black
+}
+.paymentContainer .selectionLabel {
+    font-size: 16px
+}
+#stripeButton{
+    border: none;
+    cursor: pointer;
+}
+.black {
+    color: black;
+}

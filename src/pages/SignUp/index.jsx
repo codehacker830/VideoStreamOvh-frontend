@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import './style.scoped.css';
+import './style.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userSignUp } from '../../actions';
+import SiteFooterWrapper from '../../components/SiteFooterWrapper';
+import SignUpBasicHeader from '../../components/SignUpBasicHeader';
 
 class SignUp extends Component {
     constructor(props) {
@@ -19,11 +21,14 @@ class SignUp extends Component {
     componentWillReceiveProps(nextProps) {
         console.error(" next props : ", nextProps);
         if (nextProps.authUser) {
-            const { email_verified_at } = nextProps.authUser;
+            const { email_verified_at, plan_id } = nextProps.authUser;
+            console.log(" sing up nextProps - ", nextProps);
             console.error(" next props email_verified_at : ", email_verified_at);
 
-            if (email_verified_at === null) this.props.history.push('/verification');
-            else this.props.history.push('/pr');
+
+            // if (email_verified_at === null) this.props.history.push('/verification');
+            // else this.props.history.push('/pr');
+            if(!plan_id) this.props.history.push('/subscription');
         }
     }
     render() {
@@ -31,11 +36,7 @@ class SignUp extends Component {
         return (
             <div className="netflix-sans-font-loaded">
                 <div className="basicLayout modernInApp signupSimplicity-registration simplicity" lang="en-US" dir="ltr">
-                    <div className="nfHeader noBorderHeader signupBasicHeader">
-                        <Link to="/" className="svg-nfLogo signupBasicHeader">
-                            <img className="svg-icon svg-icon-netflix-logo" src="/assets/media/logo.svg" alt="" />
-                            <span className="screen-reader-text">VideoStream</span></Link><a href="/login"
-                                className="authLinks signupBasicHeader">Sign In</a></div>
+                    <SignUpBasicHeader />
                     <div className="simpleContainer" data-transitioned-child="true">
                         <div className="centerContainer"
                             style={{ display: 'block', transform: 'none', opacity: 1, transitionDuration: '250ms' }}>
@@ -138,7 +139,7 @@ class SignUp extends Component {
                                                 ev.preventDefault();
                                                 if (this.state.password === this.state.passwordConfirm) {
                                                     this.props.userSignUp({
-                                                        name: this.state.email,
+                                                        name: this.state.name,
                                                         email: this.state.email,
                                                         password: this.state.password
                                                     });
@@ -151,37 +152,24 @@ class SignUp extends Component {
                                         CONTINUE
                                             </button>
                                 </div>
+
+                                <div style={{
+                                    margin: "10px auto",
+                                    textAlign: "center",
+                                    maxWidth: "440px",
+                                    fontSize: "14px",
+                                    color: "black"
+                                }}>
+                                    <span>{this.props.error}</span>
+                                </div>
+                                <div>
+                                </div>
                             </form>
                         </div>
                     </div>
-                    <div className="site-footer-wrapper centered" style={{ transitionDuration: '250ms', opacity: 1 }}>
-                        <div className="footer-divider" />
-                        <div className="site-footer">
-                            <p className="footer-top">Questions? Call
-                            <a className="footer-top-a"
-                                    href="tel:x-xxx-xxx-xxxx">x-xxx-xxx-xxxx</a>
-                            </p>
-                            <ul className="footer-links structural">
-                                <li className="footer-link-item" placeholder="footer_responsive_link_faq_item">
-                                    <a className="footer-link"
-                                        href="/"
-                                        placeholder="footer_responsive_link_faq">
-                                        <span>FAQ</span>
-                                    </a>
-                                </li>
-                                <li className="footer-link-item" placeholder="footer_responsive_link_terms_item">
-                                    <a className="footer-link"
-                                        href="/"
-                                        placeholder="footer_responsive_link_terms">
-                                        <span>Terms of Use</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="a11yAnnouncer" aria-live="assertive" tabIndex={-1} />
+                    <SiteFooterWrapper />
                 </div>
-            </div>
+            </div >
         );
     }
 }

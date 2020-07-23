@@ -305,7 +305,7 @@ class Landing extends Component {
                                         }}
                                         data-uia-our-story="footer"
                                         data-uia="our-story-card">
-                                        <div className="site-footer-wrapper centered dark">
+                                        <div className="site-footer-wrapper centered dark" style={{backgroundColor: "inherit"}}>
                                             <div className="footer-divider"></div>
                                             <div className="site-footer">
                                                 <p className="footer-top"

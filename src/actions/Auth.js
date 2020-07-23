@@ -35,8 +35,8 @@ export const userSignUp = ({ name, email, password }) => {
         }).catch(err => {
             console.error("xxx userSignUp Request ERROR xxx");
             console.log(err.response.status);
-            if(err.response.status === 403) {
-                dispatch({ type: FETCH_ERROR, payload: "Error during user registeration in request" });
+            if(err.response.status === 422) {
+                dispatch({ type: FETCH_ERROR, payload: "Email address was already taken. If you are owner, please proceed to login with this email." });
             } 
         });
     }
@@ -76,7 +76,7 @@ export const getUser = () => {
 
         }).catch(err => {
             console.error("xxx getUser Request ERROR xxx", err);
-            dispatch({ type: FETCH_ERROR, payload: "Error during get me request with token" });
+            dispatch({ type: FETCH_ERROR, payload: "Error during get me request with this token" });
             dispatch({ type: SIGNOUT_USER_SUCCESS });
         });
     }
