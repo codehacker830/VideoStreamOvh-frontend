@@ -11,6 +11,7 @@ import MemberFooter from '../components/MemberFooter';
 import './style.css';
 import Latest from './Latest';
 import Movies from './Movies';
+import SearchResult from './SearchResult';
 
 class MainPages extends React.Component {
     _isMounted = false;
@@ -45,6 +46,10 @@ class MainPages extends React.Component {
                                     <Route path={`${match.url}/latest`} component={Latest} />
                                     <Route path={`${match.url}/my-list`} component={MyList} />
                                     <Route path={`${match.url}/watch/:videoId`} component={Watch} />
+
+                                    {/* <Redirect exact path={`${match.url}/search`} to={`${match.url}/movies`} /> */}
+                                    {/* <Route path={`${match.url}/search/:searchKey`} component={SearchResult} /> */}
+                                    <Route path={`${match.url}/search`} component={SearchResult} />
                                     <Route component={MainPage404} />
                                 </Switch>
                                 <MemberFooter />

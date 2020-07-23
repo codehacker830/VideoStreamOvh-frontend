@@ -8,23 +8,50 @@ import axios from '../util/Api';
 class Header extends React.Component {
     constructor() {
         super();
+        this.from = '/pr';
         this.state = {
             show: false,
             isOpen: false,
             searchKey: ""
         }
     }
+    onHandleOpen = () => {
+        this.setState({ isOpen: true });
+        console.log(" this.props.location.pathname ---", this.props.location.pathname);
+        this.from = this.props.location.pathname === '/pr/search' ? '/pr' : this.props.location.pathname;
+    }
+    onHandleClose = () => {
+        this.setState({ searchKey: "", isOpen: false });
+        console.log(" this.props.location.pathname ---", this.props.location.pathname);
+        this.props.history.push(`${this.from}`);
+    }
     onHandleSearch = (ev) => {
         this.setState({ searchKey: ev.target.value });
-        
+        this.props.history.push({
+            pathname: `/pr/search`,
+            state: {
+                q: ev.target.value
+            }
+        });
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log(" befroeProps =>", this.props);
+        console.log(" HEADER nextProps =>", nextProps);
+        if(nextProps.location.pathname !== '/pr/search') {
+            if (this.props.location.pathname !== nextProps.location.pathname) {
+                this.from = "/pr";
+                this.setState({ searchKey: "", isOpen: false });
+            }
+        }
     }
     render() {
         const { isOpen, searchKey } = this.state;
         let title = "";
-        if(this.props.location.pathname === "/pr/series") title = "Series";
-        if(this.props.location.pathname === "/pr/movies") title = "Movies";
-        if(this.props.location.pathname === "/pr/latest") title = "The Newest";
-        if(this.props.location.pathname === "/pr/my-list") title = "My List";
+        if (this.props.location.pathname === "/pr/series") title = "Series";
+        if (this.props.location.pathname === "/pr/movies") title = "Movies";
+        if (this.props.location.pathname === "/pr/latest") title = "The Newest";
+        if (this.props.location.pathname === "/pr/my-list") title = "My List";
+        if (this.props.location.pathname === "/pr/search") title = "Search Result";
 
         return (
             <div className="pinning-header">
@@ -36,14 +63,14 @@ class Header extends React.Component {
                         <ul className="tabbed-primary-navigation">
                             <li className="navigation-menu"
                                 onClick={() => this.setState({ show: !this.state.show })}>
-                                <Link to="/pr" className="menu-trigger" style={{ outline: "none"}} role="button" aria-haspopup="true" tabIndex="0">
+                                <Link to="/pr" className="menu-trigger" style={{ outline: "none" }} role="button" aria-haspopup="true" tabIndex="0">
                                     <span className="v-align-inherit">
                                         <span className="v-align-inherit">Browse</span>
                                     </span>
                                 </Link>
                                 {
                                     this.state.show ?
-                                        <div className="sub-menu theme-lakira" style={{ opacity: 1, transitionDuration: '150ms' }}  onMouseLeave={() => this.setState({ show: false })}>
+                                        <div className="sub-menu theme-lakira" style={{ opacity: 1, transitionDuration: '150ms' }} onMouseLeave={() => this.setState({ show: false })}>
                                             <div className="callout-arrow" />
                                             <div className="topbar" />
                                             <ul className="sub-menu-list">
@@ -140,10 +167,10 @@ class Header extends React.Component {
                                                     value={this.state.searchKey}
                                                     onChange={this.onHandleSearch}
                                                 />
-                                                <span className="icon-close" onClick={() => this.setState({ isOpen: false })} />
+                                                <span className="icon-close" onClick={this.onHandleClose} />
                                             </div>
                                             : <button className="searchTab" tabIndex="0" aria-label="Search" data-uia="search-box-launcher"
-                                                onClick={() => this.setState({ isOpen: true })} >
+                                                onClick={this.onHandleOpen} >
                                                 <span className="icon-search"></span>
                                             </button>
                                     }

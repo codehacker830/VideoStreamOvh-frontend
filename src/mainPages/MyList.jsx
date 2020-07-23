@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import VideoItem from '../components/VideoItem';
-import { getCartList, getCategoryList, searchByTitle, closeJawBone } from "../actions";
+import { getCategoryList, searchByTitle } from "../actions";
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import axios from '../util/Api';
@@ -43,14 +43,14 @@ class MyList extends Component {
                     isLoading: false,
                     cartList: data.list
                 });
-            })
+            });
         }
     }
     componentWillUnmount() {
         window.removeEventListener('resize', this.resizeScreen);
     }
     render() {
-        const { closeJawBone, isJawOpen, rowId, videoId } = this.props;
+        const { isJawOpen, rowId, videoId } = this.props;
         const { isLoading, totalInViewport, cartList } = this.state;
         const totalInList = cartList.length;
 
@@ -131,14 +131,11 @@ class MyList extends Component {
 }
 
 const mapStateToProps = ({ video }) => {
-
     const { cartList, categoryList, isJawOpen, rowId, videoId } = video;
     return { cartList, categoryList, isJawOpen, rowId, videoId };
 }
 const mapDispatchToProps = {
-    getCartList,
     getCategoryList,
-    searchByTitle,
-    closeJawBone
+    searchByTitle
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyList);
