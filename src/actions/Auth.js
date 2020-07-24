@@ -35,9 +35,9 @@ export const userSignUp = ({ name, email, password }) => {
         }).catch(err => {
             console.error("xxx userSignUp Request ERROR xxx");
             console.log(err.response.status);
-            if(err.response.status === 422) {
+            if (err.response.status === 422) {
                 dispatch({ type: FETCH_ERROR, payload: "Email address was already taken. If you are owner, please proceed to login with this email." });
-            } 
+            }
         });
     }
 };
@@ -98,6 +98,21 @@ export const changePassword = (payload) => {
     }
 };
 
+export const cancelSubscription = () => {
+    return (dispatch) => {
+        dispatch({ type: FETCH_START });
+        axios.get('/unsubscribe').then(({ data }) => {
+            console.log(" Unsubscrieb API RES ->> ", data);
+            axios.defaults.headers.common['Authorization'] = "Bearer " + data.token;
+            dispatch({ type: FETCH_SUCCESS, payload: "Subscription was cancelled successfully." });
+            dispatch({ type: USER_TOKEN_SET, payload: data.token });
+            dispatch({ type: USER_DATA, payload: data.user });
+        }).catch(err => {
+            console.error("xxx cancel subscription Request ERROR xxx", err.response);
+            dispatch({ type: FETCH_ERROR, payload: "Error during cancel subscription request." });
+        });
+    }
+}
 export const userSignOut = () => {
     return (dispatch) => {
         dispatch({ type: FETCH_START });

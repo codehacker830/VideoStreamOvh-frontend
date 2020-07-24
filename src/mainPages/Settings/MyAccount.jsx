@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import './style.scoped.css';
 import { connect } from 'react-redux';
-import { userSignOut } from '../../actions';
+import { userSignOut, cancelSubscription } from '../../actions';
 import { Link } from 'react-router-dom';
 
 class MyAccount extends Component {
+    state = {
+
+    };
+    onHandleUnsubscribe = () => {
+
+        this.props.cancelSubscription();
+    }
     render() {
         const { authUser } = this.props.auth;
         return (
@@ -30,14 +37,15 @@ class MyAccount extends Component {
                                         <font style={{ verticalAlign: 'inherit' }}>
                                             <font style={{ verticalAlign: 'inherit' }}>MEMBERSHIP AND PAYMENTS</font>
                                         </font>
-                                        <button className="btn account-cancel-button btn-plain btn-small" type="button"
-                                            autoComplete="off" tabIndex={0} data-uia="action-cancel-plan">
+                                        {/* <button className="btn account-cancel-button btn-plain btn-small" type="button"
+                                            autoComplete="off" tabIndex={0} data-uia="action-cancel-plan" style={{ outline: "none" }}
+                                            onClick={this.onHandleUnsubscribe}>
                                             <span>
                                                 <font style={{ verticalAlign: 'inherit' }}>
                                                     <font style={{ verticalAlign: 'inherit' }}>Unsubscribe</font>
                                                 </font>
                                             </span>
-                                        </button>
+                                        </button> */}
                                     </h2>
                                 </header>
                                 <section className="collapsable-section-content account-section-content">
@@ -193,5 +201,5 @@ class MyAccount extends Component {
 }
 
 const mapStateToProps = ({ auth }) => ({ auth });
-const mapDispatchToProps = { userSignOut };
+const mapDispatchToProps = { userSignOut, cancelSubscription };
 export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);
