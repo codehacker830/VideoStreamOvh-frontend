@@ -12,6 +12,7 @@ import './style.css';
 import Latest from './Latest';
 import Movies from './Movies';
 import SearchResult from './SearchResult';
+import MyAccount from './MyAccount';
 
 class MainPages extends React.Component {
     _isMounted = false;
@@ -46,6 +47,7 @@ class MainPages extends React.Component {
                                     <Route path={`${match.url}/latest`} component={Latest} />
                                     <Route path={`${match.url}/my-list`} component={MyList} />
                                     <Route path={`${match.url}/watch/:videoId`} component={Watch} />
+                                    <Route path={`${match.url}/my-account`} component={MyAccount} />
 
                                     {/* <Redirect exact path={`${match.url}/search`} to={`${match.url}/movies`} /> */}
                                     {/* <Route path={`${match.url}/search/:searchKey`} component={SearchResult} /> */}

@@ -94,7 +94,7 @@ class SearchResult extends Component {
                                                     <div className="suggestionRailContainer">
                                                         <span className="suggestionsLabel">
                                                             <font style={{ verticalAlign: 'inherit' }}>
-                                                                <font style={{ verticalAlign: 'inherit' }}>Check out the content key:
+                                                                <font style={{ verticalAlign: 'inherit' }}>Check out the related key:
                                                         </font>
                                                             </font>
                                                         </span>

@@ -12,8 +12,10 @@ class Header extends React.Component {
         this.state = {
             show: false,
             isOpen: false,
-            searchKey: ""
+            searchKey: "",
+            isDropdown: false
         }
+        this.toggleContainer = React.createRef();
     }
     onHandleOpen = () => {
         this.setState({ isOpen: true });
@@ -34,18 +36,31 @@ class Header extends React.Component {
             }
         });
     }
+    onClickOutsideHandler = (ev) => {
+        if(this.state.isDropdown && !this.toggleContainer.current.contains(ev.target)) {
+            this.setState({ isDropdown: false });
+        }
+    }
+    componentDidMount() {
+        window.addEventListener('click', this.onClickOutsideHandler);
+    }
     componentWillReceiveProps(nextProps) {
         console.log(" befroeProps =>", this.props);
         console.log(" HEADER nextProps =>", nextProps);
-        if(nextProps.location.pathname !== '/pr/search') {
+        if (nextProps.location.pathname !== '/pr/search') {
             if (this.props.location.pathname !== nextProps.location.pathname) {
                 this.from = "/pr";
                 this.setState({ searchKey: "", isOpen: false });
             }
         }
     }
+    componentWillUnmount() {
+        window.removeEventListener('click', this.onClickOutsideHandler);
+    }
     render() {
-        const { isOpen, searchKey } = this.state;
+        const { isOpen, isDropdown } = this.state;
+        const { authUser } = this.props;
+        console.log("~~ authUser ~~", authUser);
         let title = "";
         if (this.props.location.pathname === "/pr/series") title = "Series";
         if (this.props.location.pathname === "/pr/movies") title = "Movies";
@@ -150,7 +165,7 @@ class Header extends React.Component {
                                 </Link>
                             </li>
                         </ul>
-                        <div className={`secondary-navigation search-focused`}>
+                        <div className="secondary-navigation search-focused">
                             <div className="nav-element">
                                 <div className="searchBox">
                                     {
@@ -162,14 +177,13 @@ class Header extends React.Component {
                                                     placeholder="Title, Category, Content"
                                                     // placeholder="Content, Character, Genre"
                                                     data-search-input="true"
-                                                    data-uia="search-box-input"
                                                     maxLength="80"
                                                     value={this.state.searchKey}
                                                     onChange={this.onHandleSearch}
                                                 />
                                                 <span className="icon-close" onClick={this.onHandleClose} />
                                             </div>
-                                            : <button className="searchTab" tabIndex="0" aria-label="Search" data-uia="search-box-launcher"
+                                            : <button className="searchTab" tabIndex="0" aria-label="Search"
                                                 onClick={this.onHandleOpen} >
                                                 <span className="icon-search"></span>
                                             </button>
@@ -179,16 +193,81 @@ class Header extends React.Component {
                             <div className="nav-element">
                                 <div className="account-menu-item">
                                     <div className="account-dropdown-button">
-                                        <span className="profile-link" role="presentation" style={{ cursor: "default" }}>
-                                            <img className="profile-icon"
-                                                src="https://occ-0-1009-3934.1.nflxso.net/dnm/api/v6/Z-WHgqd_TeJxSuha8aZ5WpyLcX8/AAAABWYjLL1WmaA68UglG6WrAeDFzuyEjz8aH5nfgiud9DqVyj8sU0T_oiToyGiNf06N0oLKd9Qeaze4sEBU2koUnWY.png?r=8f0"
-                                                alt="" />
-                                        </span>
                                         <div className="exit-kids" onClick={this.props.userSignOut}>
                                             <span className="v-align-inherit">
-                                                <span className="v-align-inherit">Log Out</span>
+                                                <span className="v-align-inherit">Sign Out</span>
                                             </span>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* Here is account setting dropdown nav element */}
+                            <div className="nav-element">
+                                <div className="active account-menu-item" ref={this.toggleContainer}>
+                                    <div className="account-dropdown-button">
+                                        <button role="button" tabIndex={0} aria-haspopup="true" aria-expanded="false"
+                                            style={{
+                                                outline: "none",
+                                                background: "none",
+                                                border: "none",
+                                            }}
+                                            aria-label="Ibo - Account and Settings" onClick={() => this.setState({ isDropdown: !this.state.isDropdown })}>
+                                            <span className="profile-link" role="presentation">
+                                                <img
+                                                    className="profile-icon"
+                                                    src="/assets/media/avartar/sm-avartar.png"
+                                                    alt="" />
+                                                <div className="callout-arrow" style={{ opacity: isDropdown ? 1 : 0, transitionDuration: '500ms' }}></div>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div className="account-drop-down sub-menu theme-lakira js-transition-node"
+                                        style={{ opacity: isDropdown ? 1 : 0, transitionDuration: '500ms' }}>
+                                        {
+                                            isDropdown &&
+                                            <div className="ptrack-content">
+                                                <div className="topbar" />
+                                                <ul className="sub-menu-list profiles" role="list" aria-label="profiles">
+                                                    <li className="sub-menu-item profile" role="listitem">
+                                                        <div>
+                                                            <div className="" tabIndex={0} >
+                                                                <div className="avatar-wrapper">
+                                                                    <img className="profile-icon"
+                                                                        src="/assets/media/avartar/sm-avartar.png"
+                                                                        alt="" />
+                                                                </div>
+                                                                <span className="profile-name">
+                                                                    <font style={{ verticalAlign: 'inherit' }}>
+                                                                        <font style={{ verticalAlign: 'inherit' }}>{authUser && authUser.name}</font>
+                                                                    </font>
+                                                                </span>
+                                                            </div>
+                                                            <div className="profile-children" />
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul className="account-links sub-menu-list" aria-label="Account">
+                                                    <li className="sub-menu-item">
+                                                        <Link className="sub-menu-link" to="/pr/my-account">
+                                                            <font style={{ verticalAlign: 'inherit' }}>
+                                                                <font style={{ verticalAlign: 'inherit' }}>Account</font>
+                                                            </font>
+                                                        </Link>
+                                                    </li>
+                                                    <li className="sub-menu-item">
+                                                        <div className="sub-menu-link" style={{
+                                                            textDecoration: "none",
+                                                            cursor: "pointer"
+                                                        }} onClick={this.props.userSignOut}>
+                                                            <font style={{ verticalAlign: 'inherit' }}>
+                                                                <font style={{ verticalAlign: 'inherit' }}>Sign out</font>
+                                                            </font>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +279,7 @@ class Header extends React.Component {
                     {/* end sub header */}
 
                 </div>
-            </div>
+            </div >
         );
     }
 }
