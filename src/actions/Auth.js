@@ -82,6 +82,21 @@ export const getUser = () => {
     }
 };
 
+export const changePassword = (payload) => {
+    return (dispatch) => {
+        dispatch({ type: FETCH_START });
+        axios.post('/change-password', payload).then(({ data }) => {
+            console.log(" Change Password API RES ->> ", data);
+            axios.defaults.headers.common['Authorization'] = "Bearer " + data.token;
+            dispatch({ type: FETCH_SUCCESS, payload: "Password was changed successfully." });
+            dispatch({ type: USER_TOKEN_SET, payload: data.token });
+            dispatch({ type: USER_DATA, payload: data.user });
+        }).catch(err => {
+            console.error("xxx changePassword Request ERROR xxx", err.response);
+            dispatch({ type: FETCH_ERROR, payload: "Password is not matched" });
+        });
+    }
+};
 
 export const userSignOut = () => {
     return (dispatch) => {

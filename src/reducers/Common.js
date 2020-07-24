@@ -1,10 +1,10 @@
 import { FETCH_ERROR, FETCH_START, FETCH_SUCCESS, HIDE_MESSAGE, SHOW_MESSAGE, EMAIL_VERIFICATION_MESSAGE } from '../constants/ActionTypes'
 
 const INIT_STATE = {
-    error: "",
     loading: false,
+    status: false,
     message: '',
-    status: false
+    error: "",
 };
 
 export default (state = INIT_STATE, action) => {

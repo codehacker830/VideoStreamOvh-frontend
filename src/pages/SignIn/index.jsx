@@ -64,13 +64,13 @@ class SignIn extends Component {
                                         <div className="nfInputPlacement">
                                             <div className="nfEmailPhoneControls">
                                                 <label className="input_id">
-                                                    <input type="text" data-uia="login-field" name="email" className="nfTextField"
+                                                    <input type="text" data-uia="login-field" name="email"
+                                                        className={`nfTextField${this.state.email ? " hasText" : ""}`}
                                                         id="id_userLoginId" tabIndex={0} autoComplete="email"
                                                         value={this.state.email}
                                                         onChange={(ev) => this.onInputHandle(ev)}
-                                                        placeholder="Email address"
                                                     />
-                                                    {/* <label htmlFor="id_userLoginId" className="placeLabel">Email address</label> */}
+                                                    <label htmlFor="id_userLoginId" className="placeLabel">Email address</label>
                                                 </label>
                                             </div>
                                         </div>
@@ -81,17 +81,17 @@ class SignIn extends Component {
                                                 <label className="input_id">
                                                     <input type="password"
                                                         data-uia="password-field"
-                                                        name="password" className="nfTextField"
+                                                        name="password" 
+                                                        className={`nfTextField${this.state.password ? " hasText" : ""}`}
                                                         id="id_password" tabIndex={0} autoComplete="password"
                                                         value={this.state.password}
                                                         onChange={(ev) => { this.setState({ password: ev.target.value }) }}
-                                                        placeholder="Password"
                                                     />
-                                                    {/* <label htmlFor="id_password" className="placeLabel">Password</label> */}
+                                                    <label htmlFor="id_password" className="placeLabel">Password</label>
                                                 </label>
-                                                <button data-uia="password-visibility-toggle" id="id_password_toggle" type="button"
+                                                {/* <button data-uia="password-visibility-toggle" id="id_password_toggle" type="button"
                                                     className="nfPasswordToggle" title="Show Password">SHOW
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@ class SignIn extends Component {
                                 <div className="login-signup-now" data-uia="login-signup-now">New to VideoStream?
                                     <Link to="/sign-up">Sign up now</Link>.
                                 </div>
-                                <div className="recaptcha-terms-of-use" style={{ marginBottom: "120px"}} data-uia="recaptcha-terms-of-use">
+                                <div className="recaptcha-terms-of-use" style={{ marginBottom: "120px" }} data-uia="recaptcha-terms-of-use">
                                     <p>
                                         <span>Did you forget password?</span>
                                         &nbsp;
