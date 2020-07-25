@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export const MemberFooter = (props) => {
     return (
@@ -6,19 +7,19 @@ export const MemberFooter = (props) => {
             <ul className="member-footer-links">
                 <li className="member-footer-link-wrapper">
 
-                    <a className="member-footer-link" href="https://help.netflix.com/legal/termsofuse"><span
+                    <Link className="member-footer-link" to="/term-of-use"><span
                         className="member-footer-link-content">
                         <span className="v-align-inherit">
                             <span className="v-align-inherit">Terms of Use</span>
                         </span>
-                    </span></a></li>
+                    </span></Link></li>
                 <li className="member-footer-link-wrapper">
-                    <a className="member-footer-link" href="https://help.netflix.com/contactus"><span
+                    <Link className="member-footer-link" to="/contact-us"><span
                         className="member-footer-link-content">
                         <span className="v-align-inherit">
                             <span className="v-align-inherit">Contact us</span>
                         </span>
-                    </span></a></li>
+                    </span></Link></li>
             </ul>
             <div className="member-footer-copyright"><span>
                 <span className="v-align-inherit">

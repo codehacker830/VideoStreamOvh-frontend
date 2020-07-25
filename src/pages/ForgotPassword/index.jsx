@@ -41,14 +41,14 @@ export default class ForgotPassword extends Component {
                         <div data-uia="password-reset-wrapper">
                             <h1 data-uia="password-reset-header">Forgot Email/Password</h1>
                             <div>
-                                <p style={{ fontSize: "16px"}}>We will send you an email with instructions on how to reset your password.</p>
+                                <p style={{ fontSize: "16px" }}>We will send you an email with instructions on how to reset your password.</p>
                                 <div className="contact-input-wrapper">
                                     <label className="contact-method-input ui-label ui-input-label" id="lbl-forgot_password_input"
                                         placeholder="forgot_password_input">
                                         <span className="ui-label-text" />
                                         <input type="email"
                                             data-uia="forgot_password_input"
-                                            className="ui-text-input"
+                                            className="ui-text-input hasText"
                                             name="forgot_password_input"
                                             id="forgot_password_input"
                                             placeholder="name@example.com"
@@ -75,22 +75,23 @@ export default class ForgotPassword extends Component {
                 </div>
                 <div className="site-footer-wrapper login-footer">
                     <div className="footer-divider" />
-                    <div className="site-footer">
-                        <p className="footer-top">Questions? Call <a className="footer-top-a"
-                            href="tel:1-844-505-2993">x-xxx-xxxx-xxxx</a>
+                    <div className="site-footer" style={{ fontSize: 16 }}>
+                        <p className="footer-top">Questions? Call
+                        <a className="footer-top-a"
+                                href="tel:1-844-505-2993">x-xxx-xxxx-xxxx</a>
                         </p>
                         <ul className="footer-links structural">
                             <li className="footer-link-item" placeholder="footer_responsive_link_terms_item">
-                                <a className="footer-link" data-uia="footer-link" href="https://help.netflix.com/legal/termsofuse"
+                                <Link className="footer-link" data-uia="footer-link" to="/term-of-use"
                                     placeholder="footer_responsive_link_terms">
                                     <span id data-uia="data-uia-footer-label">Terms of Use</span>
-                                </a>
+                                </Link>
                             </li>
                             <li className="footer-link-item" placeholder="footer_responsive_link_privacy_item">
-                                <a className="footer-link" data-uia="footer-link" href="https://help.netflix.com/legal/privacy"
+                                <Link className="footer-link" data-uia="footer-link" to="/privacy"
                                     placeholder="footer_responsive_link_privacy">
                                     <span id data-uia="data-uia-footer-label">Privacy Statement</span>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

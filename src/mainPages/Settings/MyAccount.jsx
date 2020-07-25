@@ -37,7 +37,7 @@ class MyAccount extends Component {
                                         <font style={{ verticalAlign: 'inherit' }}>
                                             <font style={{ verticalAlign: 'inherit' }}>MEMBERSHIP AND PAYMENTS</font>
                                         </font>
-                                        {/* <button className="btn account-cancel-button btn-plain btn-small" type="button"
+                                        <button className="btn account-cancel-button btn-plain btn-small" type="button"
                                             autoComplete="off" tabIndex={0} data-uia="action-cancel-plan" style={{ outline: "none" }}
                                             onClick={this.onHandleUnsubscribe}>
                                             <span>
@@ -45,7 +45,7 @@ class MyAccount extends Component {
                                                     <font style={{ verticalAlign: 'inherit' }}>Unsubscribe</font>
                                                 </font>
                                             </span>
-                                        </button> */}
+                                        </button>
                                     </h2>
                                 </header>
                                 <section className="collapsable-section-content account-section-content">

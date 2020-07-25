@@ -28,11 +28,12 @@ class SignUp extends Component {
 
             // if (email_verified_at === null) this.props.history.push('/verification');
             // else this.props.history.push('/pr');
-            if(!plan_id) this.props.history.push('/subscription');
+            if (!plan_id) this.props.history.push('/subscription');
         }
     }
     render() {
         console.log(" this.state !!!", this.state);
+        const { name, email, password, passwordConfirm } = this.state;
         return (
             <div className="netflix-sans-font-loaded">
                 <div className="basicLayout modernInApp signupSimplicity-registration simplicity" lang="en-US" dir="ltr">
@@ -57,13 +58,13 @@ class SignUp extends Component {
                                                     <div className="nfInputPlacement">
                                                         <label className="input_id" placeholder="name">
                                                             <input name="name"
-                                                                className="nfTextField hasText"
+                                                                className={`nfTextField${name ? " hasText" : ""}`}
                                                                 type="text"
                                                                 tabIndex={0}
                                                                 autoComplete="on"
                                                                 maxLength={50} minLength={5}
                                                                 dir="ltr"
-                                                                value={this.state.name}
+                                                                value={name}
                                                                 onChange={(ev) => this.setState({ name: ev.target.value })}
                                                             />
                                                             <label className="placeLabel">Name</label>
@@ -76,13 +77,13 @@ class SignUp extends Component {
                                                     <div className="nfInputPlacement">
                                                         <label className="input_id" placeholder="email">
                                                             <input name="email"
-                                                                className="nfTextField hasText"
+                                                                className={`nfTextField${email ? " hasText" : ""}`}
                                                                 type="email"
                                                                 tabIndex={0}
                                                                 autoComplete="on"
                                                                 maxLength={50} minLength={5}
                                                                 dir="ltr"
-                                                                value={this.state.email}
+                                                                value={email}
                                                                 onChange={(ev) => this.setState({ email: ev.target.value })}
                                                             />
                                                             <label htmlFor="id_email" className="placeLabel">Email</label>
@@ -95,14 +96,14 @@ class SignUp extends Component {
                                                     <div className="nfInputPlacement"><label className="input_id"
                                                         placeholder="password">
                                                         <input name="password"
-                                                            className="nfTextField hasText"
+                                                            className={`nfTextField${password ? " hasText" : ""}`}
                                                             type="password"
                                                             tabIndex={0}
                                                             autoComplete="off"
                                                             maxLength={68}
                                                             minLength={4}
                                                             dir="ltr"
-                                                            value={this.state.password}
+                                                            value={password}
                                                             onChange={(ev) => this.setState({ password: ev.target.value })}
                                                         />
                                                         <label htmlFor="id_password"
@@ -111,21 +112,22 @@ class SignUp extends Component {
                                             </li>
                                             <li className="nfFormSpace">
                                                 <div className="nfInput validated nfInputOversize">
-                                                    <div className="nfInputPlacement"><label className="input_id"
-                                                        placeholder="password">
-                                                        <input name="password"
-                                                            className="nfTextField hasText"
-                                                            type="password"
-                                                            tabIndex={0}
-                                                            autoComplete="off"
-                                                            maxLength={68}
-                                                            minLength={4}
-                                                            dir="ltr"
-                                                            value={this.state.passwordConfirm}
-                                                            onChange={(ev) => this.setState({ passwordConfirm: ev.target.value })}
-                                                        />
-                                                        <label htmlFor="id_password"
-                                                            className="placeLabel">Confirm password</label></label></div>
+                                                    <div className="nfInputPlacement">
+                                                        <label className="input_id" placeholder="password">
+                                                            <input name="password"
+                                                                className={`nfTextField${passwordConfirm ? " hasText" : ""}`}
+                                                                type="password"
+                                                                tabIndex={0}
+                                                                autoComplete="off"
+                                                                maxLength={68}
+                                                                minLength={4}
+                                                                dir="ltr"
+                                                                value={passwordConfirm}
+                                                                onChange={(ev) => this.setState({ passwordConfirm: ev.target.value })}
+                                                            />
+                                                            <label htmlFor="id_password" className="placeLabel">Confirm password</label>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </li>
                                         </ul>
